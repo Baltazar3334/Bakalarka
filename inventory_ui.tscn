@@ -11,7 +11,10 @@ var current_item_index: int = 0
 var grabbed_item: String = \"\"
 var grabbed_from: String = \"\"
 
+
+
 func _ready():
+	visible = false
 	print(\"inventar funguje\")
 	list.text = \"TESTING 123\"
 	print(\"RichTextLabel text: \", list.text)
@@ -46,8 +49,6 @@ func get_current_item() -> String:
 
 #render
 func render_inventory():
-	print(\"inventar sa nacital\")
-	print(\"InventoryManager.inventory: \", InventoryManager.inventory)
 	var containers = get_containers()
 	var text = \"\"
 
@@ -55,44 +56,52 @@ func render_inventory():
 		var container_name = containers[c_index]
 		text += container_name + \"/\\n\"
 		var items = get_items(container_name)
-		for i in items.size():
-			var item = items[i]
-			if c_index == current_container_index and i == current_item_index:
-				text += \" > \" + item + \"\\n\"
+		if items.size() == 0:
+
+			if c_index == current_container_index:
+				text += \" > (empty)\\n\"
 			else:
-				text += \"   \" + item + \"\\n\"
+				text += \"   (empty)\\n\"
+		else:
+			for i in range(items.size()):
+				var item = items[i]
+				if c_index == current_container_index and i == current_item_index:
+					text += \" > \" + item + \"\\n\"
+				else:
+					text += \"   \" + item + \"\\n\"
 		text += \"\\n\"
 	list.text = text
 
 
-#movement
+# Movement
 func move_up():
 	var items = get_current_items()
-	if items.size() == 0:
-		return
-	current_item_index -= 1
-	current_item_index = max(current_item_index, 0)
+	# Ak sú predmety v kontajneri, pohybuj sa, inak nechaj current_item_index na 0
+	if items.size() > 0:
+		current_item_index = max(current_item_index - 1, 0)
+	# stále renderuj, aby šípka bola viditeľná
 	render_inventory()
 
 func move_down():
 	var items = get_current_items()
-	if items.size() == 0:
-		return
-	current_item_index += 1
-	current_item_index = clamp(current_item_index, 0, items.size() - 1)
+	if items.size() > 0:
+		current_item_index = min(current_item_index + 1, items.size() - 1)
 	render_inventory()
 
 func move_left():
 	var containers = get_containers()
-	current_container_index -= 1
-	current_container_index = max(current_container_index, 0)
+	if containers.size() == 0:
+		return
+	current_container_index = max(current_container_index - 1, 0)
+	# po presune do iného kontajnera vždy ukazovať prvý predmet (alebo šípku, ak kontajner prázdny)
 	current_item_index = 0
 	render_inventory()
 
 func move_right():
 	var containers = get_containers()
-	current_container_index += 1
-	current_container_index = clamp(current_container_index, 0, containers.size() - 1)
+	if containers.size() == 0:
+		return
+	current_container_index = min(current_container_index + 1, containers.size() - 1)
 	current_item_index = 0
 	render_inventory()
 
