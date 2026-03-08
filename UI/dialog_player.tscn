@@ -1,0 +1,49 @@
+[gd_scene load_steps=5 format=3 uid="uid://cypvtkcf3kycb"]
+
+[ext_resource type="Texture2D" uid="uid://cxwwqg2004nxk" path="res://UI/Dialogue/dialog window nvim-1.png.png" id="1_8mldl"]
+[ext_resource type="FontFile" uid="uid://cxi1lqanwwgc4" path="res://UI/Fonts/JetBrainsMono-Medium.ttf" id="2_xpwk7"]
+
+[sub_resource type="GDScript" id="GDScript_ul4hf"]
+resource_name = "DialogPlayer"
+
+[sub_resource type="LabelSettings" id="LabelSettings_54tqq"]
+font = ExtResource("2_xpwk7")
+
+[node name="DialogPlayer" type="CanvasLayer"]
+layer = 10
+follow_viewport_enabled = true
+script = SubResource("GDScript_ul4hf")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.0098542, 0.95719856)
+metadata/_edit_use_anchors_ = true
+
+[node name="Background" type="TextureRect" parent="Control"]
+custom_minimum_size = Vector2(1920, 1080)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -648.0
+offset_right = 768.0
+offset_bottom = 432.0
+grow_horizontal = 2
+grow_vertical = 0
+texture = ExtResource("1_8mldl")
+expand_mode = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="TextLabel" type="Label" parent="Control"]
+layout_mode = 0
+offset_left = 48.0
+offset_top = 464.0
+offset_right = 1200.0
+offset_bottom = 672.0
+label_settings = SubResource("LabelSettings_54tqq")
+metadata/_edit_use_anchors_ = true

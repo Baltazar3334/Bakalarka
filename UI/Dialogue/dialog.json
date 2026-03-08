@@ -1,0 +1,217 @@
+{
+	"sleep": {
+	"lines": [
+	{ "speaker": "neutral", "text": "Rest in bed for a bit?" },
+	],
+	"choices": [
+	  {
+		"text": "Yes",
+		"next": "sleep_yes"
+	  },
+	  {
+		"text": "No",
+		"next": "sleep_no"
+	  }
+	]
+  },
+	"sleep_yes": {
+	"lines": [
+	{ "speaker": "jessie", "text": "Some rest never killed anybody." }
+	],
+	"on_finish": {
+		"flag": "time_of_day",
+		"toggle": ["morning", "afternoon"]
+	}
+  },
+"sleep_no": {
+	"lines": [
+	{ "speaker": "jessie", "text": "I still have stuff to do." }
+	]
+  },
+	
+	
+	
+	
+	
+	"neighbor_house": {
+	"conditions": [
+	{ "flags": { "neighbor_intro": 1, "time_of_day": "morning" }, "dialog": "neighbor_not_there" },
+	{ "flags": { "neighbor_intro": 0, "time_of_day": "afternoon" }, "dialog": "neighbor_not_there" },
+	{ "flags": { "neighbor_intro": 1, "time_of_day": "afternoon" }, "dialog": "neighbor_afternoon" },
+	{ "flags": { "neighbor_intro": 0, "time_of_day": "morning" }, "dialog": "neighbor_intro" },
+	]
+  },
+	
+  "neighbor_intro": {
+	"lines": [
+	{ "speaker": "neutral", "text": "As you walk near the house a man sitting on the porch looks at you.
+he looks old and wears camo trousers and a white tank top. You aproach cautiously." },
+  { "speaker": "neighbor", "text": "Hey. how is it going young man?" }
+	],
+	"choices": [
+	  {
+		"text": "hello. Fine...who are you?",
+		"next": "neighbor_who"
+	  },
+	  {
+		"text": "Leave me alone.",
+		"next": "neighbor_rude"
+	  }
+	]
+  },
+
+  "neighbor_who": {
+	"lines": [
+	{ "speaker": "jessie", "text": "hello. Fine...who are you?" },
+ 	{ "speaker": "neighbor", "text": "Im your new neighbor! Me and my family just moved in last week. 
+Figured id get to know the people around here." },
+ 	{ "speaker": "jessie", "text": "Well I'm Jessie. Nice to meet you." },
+	{ "speaker": "neighbor", "text": "Im Michael. I have a son around your age maybe you could get to know eachother sometime." },
+	{ "speaker": "jessie", "text": "I guess we could." },
+	{ "speaker": "neighbor", "text": "Hes at school right now. Why arent you as well by the way?" },
+	],
+	"choices": [
+	  {
+		"text": "Ummm. I have a cold? (Youre lying)",
+		"next": "neighbor_sick"
+	  },
+	  {
+		"text": "Thats confidential. *you wink at him*",
+		"next": "neighbor_wink"
+	  }
+	]
+  },
+
+"neighbor_sick": {
+	"lines": [
+ 	{ "speaker": "jessie", "text": "Ummm. I have a cold? (Youre lying)" },
+	{ "speaker": "neighbor", "text": "Oh okay. Hope you get better soon then. Bye." },
+	{ "speaker": "jessie", "text": "Thanks." }
+	],
+	"on_finish": {
+	"flag": "neighbor_intro",
+	"set": 1
+  }
+  },
+
+"neighbor_wink": {
+	"lines": [
+	{ "speaker": "neighbor", "text": "Oh haha. Well try not to get caught then. Adam already got into problems for missing one lesson because of his..." },
+	{ "speaker": "neutral", "text": "*the man shuffles slightly*" },
+	{ "speaker": "neighbor", "text": "well..us moving in. Obviously." },
+	{ "speaker": "jessie", "text": "Oh that sucks. But dont worry about me. Besides I have some important stuff to do." },
+	{ "speaker": "neighbor", "text": "Sure. Come by some time in the evening. Adam will be home by then and you can meet." },
+	{ "speaker": "jessie", "text": "Sounds good! See you later." }
+	],
+	"on_finish": {
+	"flag": "neighbor_intro",
+	"set": 1
+  }
+  },
+
+  "neighbor_rude": {
+	"lines": [
+	{ "speaker": "jessie", "text": "Leave me alone." },
+ 	{ "speaker": "neighbor", "text": "Wow. No need to be rude..." },
+	]
+  },
+
+"neighbor_not_there": {
+	"lines": [
+	{ "speaker": "neutral", "text": "You look at the porch but the neighbor seems to not be at home. Or maybe they dont want to talk to you" }
+	]
+  },
+
+"neighbor_afternoon": {
+	"lines": [
+	{ "speaker": "neutral", "text": "Its the afternoon this part of the game is work in progress." }
+	]
+  },
+
+"cigarets_cond": {
+	"conditions": [
+	{"flags": { "time_of_day": "morning" }, "requires_item": { "name": "pack of cigarets", "amount": 1 }, "dialog": "cigarets_put_back_confirm"},
+	{"flags": { "time_of_day": "afternoon" }, "requires_item": { "name": "pack of cigarets", "amount": 1 }, "dialog": "cigarets_put_back_confirm"},
+	{"flags": { "time_of_day": "morning" }, "dialog": "campfire"},
+	{"flags": { "time_of_day": "afternoon" }, "dialog": "campfire_night"},
+	]
+  },
+
+"campfire": {
+	"lines": [
+	{ "speaker": "neutral", "text": "You aproach the campfire. You remeber all the memories you had here with friends and family.
+ You look behind a particular looking log where you hide your cigarets." },
+{ "speaker": "jessie", "text": "Oh hey. Theyre still there. And olny a little soggy and moldy. Maybe I should take them?" },
+	],
+	"choices": [
+	  {
+		"text": "Yeah, maybe theyll come in handy.",
+		"next": "cigarets_take"
+	  },
+	  {
+		"text": "Nah. Dont need to get caught with them on me.",
+		"next": "cigarets_not_take"
+	  }
+	]
+  },
+
+"campfire_night": {
+	"lines": [
+	{ "speaker": "neutral", "text": "Its late and too dark to see anything here. 
+	Maybe only the scary monsters your father told you about here many years ago." }
+	]
+  },
+
+"cigarets_take": {
+	"lines": [
+	{ "speaker": "neutral", "text": "You grab the cigarets" }
+	],
+	"on_finish": {
+		"give_item": {
+			"name": "pack of cigarets",
+			"amount": 1
+		}
+	}
+  },
+"cigarets_not_take": {
+	"lines": [
+	{ "speaker": "neutral", "text": "You leave the cigarets there. You can return to take them later if you change your mind." }
+	]
+  },
+
+"cigarets_put_back_confirm": {
+	"lines": [
+	{ "speaker": "neutral", "text": "You come back to the campfire theres nothing here but your hiding spot. 
+	Do you want to put the cigarets back in the hiding spot?" }
+	],
+	"choices": [
+	  {
+		"text": "Yeah, put them back",
+		"next": "cigarets_return"
+	  },
+	  {
+		"text": "No, ill keep them on me for now.",
+		"next": "cigarets_not_return"
+	  }
+	]
+  },
+
+"cigarets_not_return": {
+	"lines": [
+	{ "speaker": "neutral", "text": "You keep the cigarets on you. Be careful not to get caught." }
+	]
+  },
+
+"cigarets_return": {
+	"lines": [
+	{ "speaker": "neutral", "text": "You leave the cigarets there. You can return to take them later if you change your mind." }
+	],
+	"on_finish": {
+		"remove_item": {
+			"name": "pack of cigarets",
+			"amount": 1
+		}
+	}
+  },
+
+}
