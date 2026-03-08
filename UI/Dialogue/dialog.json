@@ -214,4 +214,57 @@ Figured id get to know the people around here." },
 	}
   },
 
+
+
+"flower_cond": {
+	"conditions": [
+	{"requires_item": { "name": "Lucky flower Branch", "amount": 1 }, "dialog": "flower_have_already"},
+	{"dialog": "flower"}
+	
+	]
+  },
+
+"flower": {
+	"lines": [
+	{ "speaker": "neutral", "text": "The flower your mom has been watering instead of you seems like its healthy and growing." },
+	{ "speaker": "jessie", "text": "Mom always told me that in times of need i should pluck a single branch from the flower and hold on to it. Superstision i guess...unless?" },
+	{ "speaker": "neutral", "text": "Do you take a branch?" }
+	],
+	"choices": [
+	  {
+		"text": "Sure, mom knows what shes talking about.",
+		"next": "branch_take"
+	  },
+	  {
+		"text": "No, its a waste to ruin such a pretty flower.",
+		"next": "branch_leave"
+	  }
+	]
+  },
+
+"branch_leave": {
+	"lines": [
+	{ "speaker": "neutral", "text": "You leave the flower alone." }
+	]
+  },
+
+"flower_have_already": {
+	"lines": [
+	{ "speaker": "neutral", "text": "The part of the flower that you have torn the branch from seems to already be recovering." },
+	{ "speaker": "jessie", "text": "Neat. The flower isnt dead because of me." }
+	]
+  },
+
+"branch_take": {
+	"lines": [
+	{ "speaker": "neutral", "text": "You tear off a branch as carefully as possible." }
+	],
+	"on_finish": {
+		"give_item": {
+			"name": "Lucky flower Branch",
+			"amount": 1
+		}
+	}
+  },
+
 }

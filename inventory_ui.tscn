@@ -1,0 +1,159 @@
+[gd_scene load_steps=2 format=3 uid="uid://csdkfvoiv71s8"]
+
+[sub_resource type="GDScript" id="GDScript_s43p6"]
+script/source = "extends Control
+
+@onready var list: Label = $Panel/RichTextLabel
+
+var current_container_index: int = 0
+var current_item_index: int = 0
+
+var grabbed_item: String = \"\"
+var grabbed_from: String = \"\"
+
+func _ready():
+	print(\"inventar funguje\")
+	list.text = \"TESTING 123\"
+	print(\"RichTextLabel text: \", list.text)
+	InventoryManager.inventory_changed.connect(render_inventory)
+	render_inventory()
+	
+#helper functions
+func get_containers() -> Array:
+	return InventoryManager.inventory.keys()
+
+
+func get_items(container_name: String) -> Array:
+	return InventoryManager.inventory[container_name].keys()
+
+
+func get_current_container() -> String:
+	var containers = get_containers()
+	return containers[current_container_index]
+
+
+func get_current_items() -> Array:
+	return get_items(get_current_container())
+
+
+func get_current_item() -> String:
+	var items = get_current_items()
+
+	if items.size() == 0:
+		return \"\"
+
+	return items[current_item_index]
+
+#render
+func render_inventory():
+	print(\"inventar sa nacital\")
+	print(\"InventoryManager.inventory: \", InventoryManager.inventory)
+	var containers = get_containers()
+	var text = \"\"
+
+	for c_index in containers.size():
+		var container_name = containers[c_index]
+		text += container_name + \"/\\n\"
+		var items = get_items(container_name)
+		for i in items.size():
+			var item = items[i]
+			if c_index == current_container_index and i == current_item_index:
+				text += \" > \" + item + \"\\n\"
+			else:
+				text += \"   \" + item + \"\\n\"
+		text += \"\\n\"
+	list.text = text
+
+
+#movement
+func move_up():
+	var items = get_current_items()
+	if items.size() == 0:
+		return
+	current_item_index -= 1
+	current_item_index = max(current_item_index, 0)
+	render_inventory()
+
+func move_down():
+	var items = get_current_items()
+	if items.size() == 0:
+		return
+	current_item_index += 1
+	current_item_index = clamp(current_item_index, 0, items.size() - 1)
+	render_inventory()
+
+func move_left():
+	var containers = get_containers()
+	current_container_index -= 1
+	current_container_index = max(current_container_index, 0)
+	current_item_index = 0
+	render_inventory()
+
+func move_right():
+	var containers = get_containers()
+	current_container_index += 1
+	current_container_index = clamp(current_container_index, 0, containers.size() - 1)
+	current_item_index = 0
+	render_inventory()
+
+func cut_item():
+	var item = get_current_item()
+	if item == \"\":
+		return
+	grabbed_item = item
+	grabbed_from = get_current_container()
+
+func paste_item():
+	if grabbed_item == \"\":
+		return
+	var target_container = get_current_container()
+	InventoryManager.move_item(grabbed_item, grabbed_from, target_container)
+	grabbed_item = \"\"
+	grabbed_from = \"\"
+	render_inventory()
+
+#input
+func _input(event):
+	if not visible:
+		return
+
+	if event.is_action_pressed(\"ui_up\"):
+		move_up()
+
+	elif event.is_action_pressed(\"ui_down\"):
+		move_down()
+
+	elif event.is_action_pressed(\"ui_left\"):
+		move_left()
+
+	elif event.is_action_pressed(\"ui_right\"):
+		move_right()
+
+	elif event.is_action_pressed(\"inv_cut\"):
+		cut_item()
+
+	elif event.is_action_pressed(\"inv_paste\"):
+		paste_item()
+"
+
+[node name="InventoryUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = SubResource("GDScript_s43p6")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="RichTextLabel" type="Label" parent="Panel"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
