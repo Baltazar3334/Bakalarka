@@ -48,12 +48,12 @@ func save_exists(slot:int) -> bool:
 func load_game_to_scene(slot:int, scene_path:String="res://main.tscn") -> void:
 	if not save_exists(slot):
 		print("Save not found for slot ", slot)
-		return
+		return 
 
 	current_save_slot = slot
 	loaded_data = load_game(slot)
-
-	get_tree().change_scene_to_file(scene_path)
 	
 	if loaded_data.has("inventory"):
 		InventoryManager.set_loaded_inventory(loaded_data["inventory"])
+	Transitioner.change_scene(scene_path)
+	

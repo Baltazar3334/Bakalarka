@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://csr88cl7wtjph"]
 
-[ext_resource type="Script" uid="uid://bohgt6vwckg5c" path="res://UI/fade/Transitioner.tres.gd" id="1_8y0bf"]
+[ext_resource type="Script" uid="uid://0678klufu52u" path="res://TransitionerScript.gd" id="1_f1cvb"]
 
 [sub_resource type="Gradient" id="Gradient_q843w"]
 interpolation_mode = 1
@@ -101,16 +101,21 @@ _data = {
 &"fade_out": SubResource("Animation_yv4sc")
 }
 
-[node name="Transitioner" type="Control"]
+[node name="Transitioner" type="CanvasLayer"]
+script = ExtResource("1_f1cvb")
+
+[node name="TransitionerControl" type="Control" parent="."]
+z_index = 11
 layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_8y0bf")
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="TextureRect" type="TextureRect" parent="TransitionerControl"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -126,9 +131,7 @@ grow_vertical = 2
 pivot_offset = Vector2(64, 64)
 texture = SubResource("GradientTexture2D_cxp0e")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="TransitionerControl"]
 libraries = {
 &"": SubResource("AnimationLibrary_uqe1f")
 }
-
-[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
