@@ -1,4 +1,4 @@
-[gd_scene load_steps=48 format=4 uid="uid://bn4fgtbyw2s2g"]
+[gd_scene load_steps=49 format=4 uid="uid://bn4fgtbyw2s2g"]
 
 [ext_resource type="Texture2D" uid="uid://drakdotl3hqfe" path="res://assets/Player/player sprites/sprite_0.png" id="1_dg77c"]
 [ext_resource type="Texture2D" uid="uid://clmsah1vqao1d" path="res://assets/tiles/OutSide World/TilesBakalarka (3).png" id="1_ig7tw"]
@@ -21,6 +21,9 @@
 [ext_resource type="Texture2D" uid="uid://dcl2jn7bjenb3" path="res://UI/Conditions/Day.png" id="18_074og"]
 [ext_resource type="PackedScene" uid="uid://csdkfvoiv71s8" path="res://inventory_ui.tscn" id="20_82xsv"]
 
+[sub_resource type="GDScript" id="GDScript_getpj"]
+resource_name = "mainScript"
+
 [sub_resource type="GDScript" id="GDScript_0xm2m"]
 script/source = "extends CharacterBody2D
 
@@ -29,20 +32,17 @@ var flags := {
 	\"neighbor_intro\": 0,
 	\"time_of_day\": \"morning\"
 }
-#INVENTAR
-var inventory = {
-	\"hands\": {},
-	\"pockets\": {},
-	\"backpack\": {}
-}
+
 
 @export var max_speed := 150.0
 @export var acceleration := 800.0
 @export var friction := 1000.0
 
-@export var transitioner : Transitioner
 @export var morning_texture: Texture
 @export var evening_texture: Texture
+@export var transitioner: Transitioner
+
+var loaded_data: Dictionary = {}
 
 @onready var anim = $AnimatedSprite2D
 @onready var time_filter: ColorRect = $\"../TimeUI/TimeFilter\"
@@ -59,6 +59,29 @@ var inventory = {
 
 var can_move := true
 var is_teleporting := false
+
+func _ready():
+	if SaveManager.loaded_data.size() > 0:
+		loaded_data = SaveManager.loaded_data
+		_apply_loaded_data()
+		call_deferred(\"_try_find_transitioner\")
+
+
+func _try_find_transitioner():
+	transitioner = get_node_or_null(\"../LoadingScreen/Transitioner\")
+	if transitioner == null:
+		call_deferred(\"_try_find_transitioner\")
+	else:
+		_on_transitioner_ready(transitioner)
+
+func _on_transitioner_ready(transitioner):
+	print(\"Transitioner nájdený!\")
+
+func _apply_loaded_data():
+	global_position = loaded_data.get(\"player_position\", global_position)
+	flags = loaded_data.get(\"flags\", flags)
+	if \"time_of_day\" in flags:
+		set_time_of_day(flags[\"time_of_day\"])
 
 func _physics_process(delta):
 	if not can_move:
@@ -103,6 +126,9 @@ func _physics_process(delta):
 
 #handler na input \"e\"
 func _unhandled_input(event):
+	if event.is_action_pressed(\"quick_save\"):
+		SaveManager.perform_quick_save()
+	
 	if event.is_action_pressed(\"inventory\"):
 		if !inventory_ui.visible:
 			inventory_ui.visible = true
@@ -159,6 +185,10 @@ func teleport(layer, tile_data):
 	if is_teleporting:
 		return
 
+	if transitioner == null:
+		print(\"Error: Transitioner node not found!\")
+		return
+
 	is_teleporting = true
 	can_move = false
 
@@ -177,8 +207,12 @@ func teleport(layer, tile_data):
 	is_teleporting = false
 
 
-#zmena casu
+#zmena casuaw
 func set_time_of_day(time: String):
+	if transitioner == null:
+		print(\"Error: Transitioner node not found!\")
+		return
+	
 	transitioner.set_next_animation(true)
 	await get_tree().create_timer(0.9).timeout
 	if time == \"morning\":
@@ -3573,14 +3607,14 @@ script/source = "extends TextureRect
 "
 
 [node name="Main" type="Node2D"]
+script = SubResource("GDScript_getpj")
 
-[node name="player" type="CharacterBody2D" parent="." node_paths=PackedStringArray("transitioner")]
+[node name="player" type="CharacterBody2D" parent="."]
 z_index = 3
 position = Vector2(0, -1)
 collision_layer = 2
 collision_mask = 2
 script = SubResource("GDScript_0xm2m")
-transitioner = NodePath("../LoadingScreen/Transitioner")
 morning_texture = ExtResource("18_074og")
 evening_texture = ExtResource("2_cegan")
 

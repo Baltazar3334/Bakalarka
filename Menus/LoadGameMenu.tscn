@@ -1,0 +1,61 @@
+[gd_scene load_steps=2 format=3 uid="uid://b6iwurgba6nxj"]
+
+[sub_resource type="GDScript" id="GDScript_mv1g2"]
+resource_name = "LoadGameMenuScript"
+script/source = "extends Control
+
+func _on_back_pressed():
+	get_tree().change_scene_to_file(\"res://Menus/MainMenu.tscn\")
+
+func _on_slot_1_pressed():
+	SaveManager.load_game_to_scene(1)
+
+func _on_slot_2_pressed():
+	SaveManager.load_game_to_scene(2)
+
+func _on_slot_3_pressed():
+	SaveManager.load_game_to_scene(3)
+"
+
+[node name="LoadGameMenu" type="Control"]
+process_mode = 3
+z_index = 10
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = SubResource("GDScript_mv1g2")
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+
+[node name="SaveSlot1" type="Button" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Slot 1"
+
+[node name="SaveSlot2" type="Button" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Slot 2"
+
+[node name="SaveSlot3" type="Button" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Slot 3"
+
+[node name="Back" type="Button" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Back"
+
+[connection signal="pressed" from="CenterContainer/VBoxContainer/SaveSlot1" to="." method="_on_slot_1_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/SaveSlot2" to="." method="_on_slot_2_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/SaveSlot3" to="." method="_on_slot_3_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/Back" to="." method="_on_back_pressed"]

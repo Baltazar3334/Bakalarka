@@ -8,7 +8,14 @@ var inventory = {
 	"backpack": {}
 }
 
-	
+#nacitanie z dat SaveManageru
+func set_loaded_inventory(data: Dictionary) -> void:
+	inventory.clear()
+	for container_name in data.keys():
+		inventory[container_name] = data[container_name]
+	inventory_changed.emit()
+	print("Loaded inventory: ", inventory)
+
 #spravovanie inventaru
 func add_item(item_name: String, amount: int = 1):
 	var container = inventory["hands"]

@@ -15,9 +15,6 @@ var grabbed_from: String = \"\"
 
 func _ready():
 	visible = false
-	print(\"inventar funguje\")
-	list.text = \"TESTING 123\"
-	print(\"RichTextLabel text: \", list.text)
 	InventoryManager.inventory_changed.connect(render_inventory)
 	render_inventory()
 	
@@ -41,10 +38,8 @@ func get_current_items() -> Array:
 
 func get_current_item() -> String:
 	var items = get_current_items()
-
 	if items.size() == 0:
 		return \"\"
-
 	return items[current_item_index]
 
 #render
@@ -57,7 +52,6 @@ func render_inventory():
 		text += container_name + \"/\\n\"
 		var items = get_items(container_name)
 		if items.size() == 0:
-
 			if c_index == current_container_index:
 				text += \" > (empty)\\n\"
 			else:
