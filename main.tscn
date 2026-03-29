@@ -250,7 +250,7 @@ func pauseMenuPopup():
 func _on_exit_dialog_confirmed():
 	pauseMenu.close()
 	SaveManager.perform_quick_save()
-	Transitioner.change_scene(\"res://Menus/MainMenuV3.tscn\")
+	Transitioner.change_scene(\"res://Menus/MainMenuV4.tscn\")
 
 func _on_exit_dialog_cancelled():
 	pauseMenu.close()
@@ -3962,6 +3962,7 @@ offset_right = 50.0
 offset_bottom = 33.0
 
 [node name="Popups" type="CanvasLayer" parent="."]
+layer = 11
 
 [node name="PausePopup" type="Control" parent="Popups"]
 visible = false

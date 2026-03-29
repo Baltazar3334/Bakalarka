@@ -43,7 +43,7 @@ func load_game(slot:int) -> Dictionary:
 
 func save_exists(slot:int) -> bool:
 	return FileAccess.file_exists(SAVE_PATH + str(slot) + ".save")
-	
+
 
 func load_game_to_scene(slot:int, scene_path:String="res://main.tscn") -> void:
 	if not save_exists(slot):
@@ -56,4 +56,21 @@ func load_game_to_scene(slot:int, scene_path:String="res://main.tscn") -> void:
 	if loaded_data.has("inventory"):
 		InventoryManager.set_loaded_inventory(loaded_data["inventory"])
 	Transitioner.change_scene(scene_path)
+
+
+func delete_save(slot: int) -> bool:
+	var path = SAVE_PATH + str(slot) + ".save"
 	
+	if not FileAccess.file_exists(path):
+		print("trying to delete a save with a wrong path")
+		return false
+	
+	var result = DirAccess.remove_absolute(path)
+	
+	if result == OK:
+		if current_save_slot == slot:
+			current_save_slot = -1
+			loaded_data = {}
+		return true
+	
+	return false

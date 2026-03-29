@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Bakalarka1"
-run/main_scene="uid://bxtfjnqvbpsp5"
+run/main_scene="uid://bn1yaqv18s8ig"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
