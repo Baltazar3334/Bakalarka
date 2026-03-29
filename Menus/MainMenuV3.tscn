@@ -1,0 +1,931 @@
+[gd_scene load_steps=28 format=3 uid="uid://bxtfjnqvbpsp5"]
+
+[ext_resource type="FontFile" uid="uid://cxi1lqanwwgc4" path="res://UI/Fonts/JetBrainsMono-Medium.ttf" id="1_bkfo5"]
+[ext_resource type="FontFile" uid="uid://b8gyyc8nnthmp" path="res://UI/Fonts/AurulentSansMNerdFontMono-Regular.otf" id="2_p5ocy"]
+
+[sub_resource type="GDScript" id="GDScript_ppo20"]
+resource_name = "MainMenuV3Script"
+script/source = "extends Control
+
+@onready var tree: Tree = $MarginContainer/VBoxContainer/HBoxContainer/LeftPanel/VBoxContainer/Tree
+@onready var content_editor: TextEdit = $MarginContainer/VBoxContainer/HBoxContainer/RightPanel/HBoxContainer/ContentEditor
+@onready var command_output: RichTextLabel = $MarginContainer/VBoxContainer/CommandPanel/VBoxContainer/CommandOutput
+@onready var command_input: LineEdit = $MarginContainer/VBoxContainer/CommandPanel/VBoxContainer/CommandInput
+@onready var overwrite_dialog: ConfirmationDialog = $OverwriteDialog
+@onready var line_numbers: Label = $MarginContainer/VBoxContainer/HBoxContainer/RightPanel/HBoxContainer/Label
+
+
+
+# content editor variables
+var current_open_file_path: Array = []
+var is_insert_mode := false
+var file_modified := false
+
+#game load\\save variables
+var selected_slot := -1
+var pending_action := \"\"
+
+var file_system = {
+	\"saves\": {
+		\"slot_1.load\": {
+			\"type\": \"action\",
+			\"action\": \"load_slot_1\",
+			\"description\": \"Load save slot 1.\"
+		},
+		\"slot_2.load\": {
+			\"type\": \"action\",
+			\"action\": \"load_slot_2\",
+			\"description\": \"Load save slot 2.\"
+		},
+		\"slot_3.load\": {
+			\"type\": \"action\",
+			\"action\": \"load_slot_3\",
+			\"description\": \"Load save slot 3.\"
+		},
+		\"slot_1.new\": {
+			\"type\": \"action\",
+			\"action\": \"new_slot_1\",
+			\"description\": \"Start new game in slot 1.\"
+		},
+		\"slot_2.new\": {
+			\"type\": \"action\",
+			\"action\": \"new_slot_2\",
+			\"description\": \"Start new game in slot 2.\"
+		},
+		\"slot_3.new\": {
+			\"type\": \"action\",
+			\"action\": \"new_slot_3\",
+			\"description\": \"Start new game in slot 3.\"
+		}
+	},
+	\"lore\": {
+		\"world.txt\": {
+			\"type\": \"text\",
+			\"content\": \"Long ago...\"
+		},
+		\"characters.txt\": {
+			\"type\": \"text\",
+			\"content\": \"Main cast...\"
+		}
+	},
+	\"new_game.exe\": {
+		\"type\": \"action\",
+		\"action\": \"new_game\",
+		\"description\": \"Create a new game in a save slot.\"
+	},
+	\"continue.exe\": {
+		\"type\": \"action\",
+		\"action\": \"load_game\",
+		\"description\": \"Load an existing save slot.\"
+	},
+	\"settings.txt\": {
+		\"type\": \"text\",
+		\"content\": \"SETTINGS\\nnot implemented yet.\"
+	},
+	\"controls.txt\": {
+		\"type\": \"text\",
+		\"content\": \"CONTROLS\\n\\nWASD - move\\nE - interact\\nESC - pause\"
+	},
+	\"credits.txt\": {
+		\"type\": \"text\",
+		\"content\": \"Created by Michal Hlavac as a part of his Bachelors degree at the University of Zilina.
+		\\nThanks for playing.\"
+	},
+	\"exit.exe\": {
+		\"type\": \"action\",
+		\"action\": \"quit\",
+		\"description\": \"Exit the game.\"
+	}
+}
+
+
+func _ready():
+	ensure_docs_directory()
+	load_all_docs_from_disk()
+	
+	setup_tree()
+	setup_command_line()
+	setup_editor()
+	show_welcome_text()
+
+	tree.item_selected.connect(_on_tree_item_selected)
+	tree.item_activated.connect(_on_tree_item_activated)
+
+	command_input.text_submitted.connect(_on_command_submitted)
+	overwrite_dialog.confirmed.connect(_on_overwrite_dialog_confirmed)
+	
+	content_editor.add_theme_font_size_override(\"font_size\", 16)
+
+func ensure_docs_directory():
+	var dir = DirAccess.open(\"user://\")
+	if not dir.dir_exists(\"menu_docs\"):
+		dir.make_dir(\"menu_docs\")
+
+
+func load_all_docs_from_disk():
+	load_docs_recursive(\"user://menu_docs\", [])
+
+func load_docs_recursive(base_path: String, virtual_path: Array):
+	var dir = DirAccess.open(base_path)
+	if dir == null:
+		return
+	
+	dir.list_dir_begin()
+	var name = dir.get_next()
+	
+	while name != \"\":
+		if name != \".\" and name != \"..\":
+			var full_path = base_path.path_join(name)
+			var current_virtual_path = virtual_path.duplicate()
+			current_virtual_path.append(name)
+			
+			if dir.current_is_dir():
+				load_docs_recursive(full_path, current_virtual_path)
+			else:
+				var file = FileAccess.open(full_path, FileAccess.READ)
+				if file != null:
+					var content = file.get_as_text()
+					file.close()
+					
+					var data = get_data_by_path(current_virtual_path)
+					if data != null and data is Dictionary and data.has(\"type\") and data[\"type\"] == \"text\":
+						data[\"content\"] = content
+		
+		name = dir.get_next()
+	
+	dir.list_dir_end()
+
+func setup_tree():
+	tree.clear()
+	tree.hide_root = true
+	
+	var root = tree.create_item()
+	build_tree(root, file_system, [])
+
+func build_tree(parent: TreeItem, data: Dictionary, path: Array):
+	for key in data.keys():
+		var item = tree.create_item(parent)
+		
+		
+		var current_path = path.duplicate()
+		current_path.append(key)
+		item.set_metadata(0, current_path)
+		
+		var value = data[key]
+		
+		if value is Dictionary and not value.has(\"type\"):
+			#directory
+			item.set_text(0,\"\\uf07b \" + key)
+			item.set_custom_color(0, Color(\"548FA2\"))
+			item.collapsed = true
+			build_tree(item, value, current_path)
+		
+		elif value[\"type\"] == \"text\":
+			#txt
+			item.set_text(0,\"\\udb80\\udf9e \" + key)
+			item.set_custom_color(0, Color(\"8676B9\"))
+		
+		elif value[\"type\"] == \"action\":
+			#exe
+			item.set_text(0,\"\\uf013 \" + key)
+			item.set_custom_color(0, Color(\"A5A8B0\"))
+
+func setup_command_line():
+	command_output.clear()
+	command_output.append_text(\"> type 'help' for available commands\\n\")
+	command_input.placeholder_text = \"enter command...\"
+
+func setup_editor():
+	content_editor.editable = false
+	content_editor.wrap_mode = content_editor.LINE_WRAPPING_BOUNDARY
+	content_editor.text = \"\"
+	content_editor.placeholder_text = \"Open a text file to view it.\"
+	content_editor.text_changed.connect(_on_editor_text_changed)
+	content_editor.caret_blink = true
+
+func _unhandled_input(event):
+	if current_open_file_path.is_empty():
+		return
+	
+	if event is InputEventKey and event.pressed and not event.echo:
+		
+		# INSERT MODE → ESC
+		if is_insert_mode:
+			if event.keycode == KEY_ESCAPE:
+				exit_insert_mode()
+				get_viewport().set_input_as_handled()
+			return
+		
+		# NORMAL MODE → i
+		if event.keycode == KEY_I:
+			enter_insert_mode()
+			get_viewport().set_input_as_handled()
+
+func _on_editor_text_changed():
+	if is_insert_mode and current_open_file_path.size() > 0:
+		file_modified = true
+	update_line_numbers()
+
+func show_welcome_text():
+	content_editor.text = \"\"\"Nmenu V3 initialised
+
+Welcome to my game.
+
+Select a file from the tree on the left.
+Double click action files to execute them.
+Text files will open on the right.
+Type help into the command input for actions.
+You can use the command input for quick control of the menu.
+
+\"\"\"
+	content_editor.editable = false
+	current_open_file_path.clear()
+	is_insert_mode = false
+	file_modified = false
+
+
+func _on_tree_item_selected():
+	var item = tree.get_selected()
+	if item == null:
+		return
+	
+	var path = item.get_metadata(0)
+	var data = get_data_by_path(path)
+	
+	if data == null:
+		return
+	
+	#folder
+	if data is Dictionary and not data.has(\"type\"):
+		content_editor.text = \"Folder: \" + \"/\".join(path)
+		content_editor.editable = false
+		set_line_numbers_visible(false)
+		return
+	
+	#text file
+	if data[\"type\"] == \"text\":
+		open_text_file(path, data[\"content\"])
+		set_line_numbers_visible(true)
+	#executable
+	elif data[\"type\"] == \"action\":
+		content_editor.text = \"[ACTION FILE]\\n\\n\" + item.get_text(0) + \"\\n\\n\" + data[\"description\"] + \"\\n\\nDouble click to execute.\"
+		content_editor.editable = false
+		current_open_file_path.clear()
+		is_insert_mode = false
+		file_modified = false
+		set_line_numbers_visible(false)
+
+
+func _on_tree_item_activated():
+	var item = tree.get_selected()
+	if item == null:
+		return
+	
+	var path = item.get_metadata(0)
+	var data = get_data_by_path(path)
+	
+	if data == null:
+		return
+	
+	# folder
+	if data is Dictionary and not data.has(\"type\"):
+		item.collapsed = !item.collapsed
+		return
+	
+	# text file
+	if data[\"type\"] == \"text\":
+		open_text_file(path, data[\"content\"])
+		return
+	
+	# action file
+	if data[\"type\"] == \"action\":
+		run_action(data[\"action\"])
+
+
+func open_text_file(path: Array, text: String):
+	current_open_file_path = path.duplicate()
+	content_editor.text = text
+	update_line_numbers()
+	
+	content_editor.editable = false
+	is_insert_mode = false
+	file_modified = false
+	append_command_output(\"Opened: \" + \"/\".join(path))
+	append_command_output(\"-- NORMAL MODE --\")
+	command_input.grab_focus()
+
+
+func get_data_by_path(path: Array):
+	var current = file_system
+	
+	for part in path:
+		if current.has(part):
+			current = current[part]
+		else:
+			return null
+	
+	return current
+
+
+func run_action(action_name: String):
+	match action_name:
+		\"new_game\":
+			start_new_game()
+		\"load_game\":
+			load_game()
+		\"new_slot_1\":
+			start_new_game_in_slot(1)
+		\"new_slot_2\":
+			start_new_game_in_slot(2)
+		\"new_slot_3\":
+			start_new_game_in_slot(3)
+		\"load_slot_1\":
+			load_game_from_slot(1)
+		\"load_slot_2\":
+			load_game_from_slot(2)
+		\"load_slot_3\":
+			load_game_from_slot(3)
+		\"quit\":
+			quit_game()
+
+
+func start_new_game():
+	content_editor.text = \"\"\"NEW GAME
+
+Choose a save slot.
+
+You can:
+- open saves/slot_1.new
+- open saves/slot_2.new
+- open saves/slot_3.new
+
+Or use command line:
+new 1
+new 2
+new 3\"\"\"
+	content_editor.editable = false
+
+func load_game():
+	content_editor.text = \"\"\"LOAD GAME
+	Available commands:
+	load 1
+	load 2
+	load 3
+	\"\"\" + get_save_status_text()
+	content_editor.editable = false
+
+func quit_game():
+	get_tree().quit()
+
+func get_save_status_text() -> String:
+	var text = \"SAVE STATUS\\n\\n\"
+	for i in range(1, 4):
+		text += \"Slot %d: %s\\n\" % [i, \"USED\" if SaveManager.save_exists(i) else \"EMPTY\"]
+	return text
+
+
+func start_new_game_in_slot(slot: int):
+	selected_slot = slot
+	SaveManager.current_save_slot = slot
+	
+	if SaveManager.save_exists(slot):
+		pending_action = \"new_game\"
+		overwrite_dialog.dialog_text = \"Slot %d already contains a save. Overwrite?\" % slot
+		overwrite_dialog.popup_centered()
+	else:
+		create_new_save_and_start(slot)
+
+
+func create_new_save_and_start(slot: int):
+	var data = {
+		\"player_position\": Vector2(100, 100),
+		\"flags\": {
+			\"neighbor_intro\": 0,
+			\"time_of_day\": \"morning\"
+		},
+		\"inventory\": {
+			\"hands\": {},
+			\"pockets\": {},
+			\"backpack\": {}
+		}
+	}
+	
+	SaveManager.save_game(slot, data)
+	append_command_output(\"Created new game in slot %d\" % slot)
+	Transitioner.change_scene(\"res://main.tscn\")
+
+
+func load_game_from_slot(slot: int):
+	if SaveManager.save_exists(slot):
+		SaveManager.current_save_slot = slot
+		append_command_output(\"Loading slot %d\" % slot)
+		SaveManager.load_game_to_scene(slot)
+	else:
+		content_editor.text = \"Slot %d is empty.\" % slot
+		content_editor.editable = false
+		append_command_output(\"Cannot load slot %d - empty slot\" % slot)
+
+
+func _on_overwrite_dialog_confirmed():
+	if pending_action == \"new_game\" and selected_slot != -1:
+		create_new_save_and_start(selected_slot)
+	
+	pending_action = \"\"
+	selected_slot = -1
+
+
+func _on_command_submitted(command: String):
+	parse_command(command)
+	command_input.clear()
+	command_input.grab_focus()
+
+
+func parse_command(command: String):
+	var cmd = command.strip_edges()
+	if cmd.is_empty():
+		return
+	
+	append_command_output(\"> \" + cmd)
+	
+	var parts = cmd.split(\" \", false)
+	var base = parts[0].to_lower()
+	
+	match base:
+		\"help\":
+			show_help()
+		
+		\"dir\":
+			show_directory(file_system, 0)
+		
+		\"open\":
+			if parts.size() < 2:
+				append_command_output(\"Usage: open filename\")
+				return
+			
+			open_file_by_name(parts[1])
+		
+		\"run\":
+			if parts.size() < 2:
+				append_command_output(\"Usage: run file.exe\")
+				return
+			
+			run_file_by_name(parts[1])
+		
+		\"i\":
+			enter_insert_mode()
+		
+		\"esc\":
+			exit_insert_mode()
+		
+		\":w\":
+			save_current_file()
+		
+		\":q\":
+			close_current_file(false)
+		
+		\":q!\":
+			close_current_file(true)
+		
+		\":wq\":
+			save_current_file()
+			close_current_file(true)
+		
+		\":wqa\":
+			save_current_file()
+			close_current_file(true)
+		
+		\"new\":
+			if parts.size() < 2:
+				append_command_output(\"Usage: new 1|2|3\")
+				return
+			
+			var slot = int(parts[1])
+			if slot >= 1 and slot <= 3:
+				start_new_game_in_slot(slot)
+			else:
+				append_command_output(\"Invalid slot. Use 1, 2 or 3.\")
+		
+		\"load\":
+			if parts.size() < 2:
+				append_command_output(\"Usage: load 1|2|3\")
+				return
+			
+			var slot = int(parts[1])
+			if slot >= 1 and slot <= 3:
+				load_game_from_slot(slot)
+			else:
+				append_command_output(\"Invalid slot. Use 1, 2 or 3.\")
+		
+		\"quit\", \"exit\":
+			quit_game()
+		
+		\"clear\":
+			command_output.clear()
+		
+		_:
+			append_command_output(\"Unknown command. Type 'help'.\")
+
+
+func enter_insert_mode():
+	if current_open_file_path.is_empty():
+		append_command_output(\"No text file opened.\")
+		return
+	
+	var data = get_data_by_path(current_open_file_path)
+	if data == null or not (data is Dictionary and data.has(\"type\") and data[\"type\"] == \"text\"):
+		append_command_output(\"Current file is not editable.\")
+		return
+	
+	is_insert_mode = true
+	content_editor.editable = true
+	append_command_output(\"-- INSERT MODE --\")
+	
+	await get_tree().process_frame
+	content_editor.grab_focus()
+	content_editor.queue_redraw()
+
+
+func exit_insert_mode():
+	if not is_insert_mode:
+		append_command_output(\"Already in normal mode.\")
+		return
+	
+	is_insert_mode = false
+	content_editor.editable = false
+	command_input.grab_focus()
+	append_command_output(\"-- NORMAL MODE --\")
+
+
+func save_current_file():
+	if current_open_file_path.is_empty():
+		append_command_output(\"No file opened.\")
+		return
+	
+	var data = get_data_by_path(current_open_file_path)
+	if data == null:
+		append_command_output(\"Invalid file path.\")
+		return
+	
+	if data is Dictionary and data.has(\"type\") and data[\"type\"] == \"text\":
+		data[\"content\"] = content_editor.text
+		
+		var file_path = get_doc_disk_path(current_open_file_path)
+		ensure_path_for_file(file_path)
+		
+		var file = FileAccess.open(file_path, FileAccess.WRITE)
+		if file == null:
+			append_command_output(\"Failed to save file: \" + file_path)
+			return
+		
+		file.store_string(content_editor.text)
+		file.close()
+		
+		file_modified = false
+		append_command_output(\"Written: \" + \"/\".join(current_open_file_path))
+	else:
+		append_command_output(\"Current file is not writable.\")
+
+
+func close_current_file(force := false):
+	if current_open_file_path.is_empty():
+		append_command_output(\"No file opened.\")
+		return
+	
+	if is_insert_mode:
+		append_command_output(\"Leave insert mode first with 'esc'.\")
+		return
+	
+	if file_modified and not force:
+		append_command_output(\"No write since last change.\")
+		append_command_output(\"Use :w, :wq or :q!\")
+		return
+	
+	current_open_file_path.clear()
+	content_editor.text = \"\"
+	content_editor.editable = false
+	is_insert_mode = false
+	file_modified = false
+	command_input.grab_focus()
+	append_command_output(\"File closed.\")
+
+
+func show_help():
+	append_command_output(\"Available commands:\")
+	append_command_output(\"help           - show help\")
+	append_command_output(\"dir            - show file tree\")
+	append_command_output(\"open FILE      - open text file\")
+	append_command_output(\"run FILE       - run action file\")
+	append_command_output(\"i              - enter insert mode for opened text file\")
+	append_command_output(\"esc            - leave insert mode\")
+	append_command_output(\":w             - save current file\")
+	append_command_output(\":q             - close current file\")
+	append_command_output(\":q!            - force close current file\")
+	append_command_output(\":wq            - save and close current file\")
+	append_command_output(\":wqa           - save and close current file\")
+	append_command_output(\"new 1|2|3      - create new game in slot\")
+	append_command_output(\"load 1|2|3     - load game from slot\")
+	append_command_output(\"clear          - clear command output\")
+	append_command_output(\"quit           - exit game\")
+
+
+func show_directory(data: Dictionary, depth: int):
+	for key in data.keys():
+		var prefix = \"\"
+		for i in range(depth):
+			prefix += \"  \"
+		
+		append_command_output(prefix + key)
+		
+		if data[key] is Dictionary and not data[key].has(\"type\"):
+			show_directory(data[key], depth + 1)
+
+func open_file_by_name(file_name: String):
+	var path = find_item_path_by_name(file_name, file_system, [])
+	if path.is_empty():
+		append_command_output(\"File not found: \" + file_name)
+		return
+	
+	var data = get_data_by_path(path)
+	if data == null:
+		append_command_output(\"File not found: \" + file_name)
+		return
+	
+	if data is Dictionary and data.has(\"type\") and data[\"type\"] == \"text\":
+		open_text_file(path, data[\"content\"])
+	else:
+		append_command_output(file_name + \" is not a text file.\")
+
+func run_file_by_name(file_name: String):
+	var data = find_item_by_name(file_name, file_system)
+	if data == null:
+		append_command_output(\"File not found: \" + file_name)
+		return
+	
+	if data is Dictionary and data.has(\"type\") and data[\"type\"] == \"action\":
+		append_command_output(\"Executing \" + file_name)
+		run_action(data[\"action\"])
+	else:
+		append_command_output(file_name + \" is not executable.\")
+
+func find_item_by_name(item_name: String, data: Dictionary):
+	for key in data.keys():
+		if key == item_name:
+			return data[key]
+		
+		if data[key] is Dictionary and not data[key].has(\"type\"):
+			var result = find_item_by_name(item_name, data[key])
+			if result != null:
+				return result
+	
+	return null
+
+func find_item_path_by_name(item_name: String, data: Dictionary, current_path: Array) -> Array:
+	for key in data.keys():
+		var new_path = current_path.duplicate()
+		new_path.append(key)
+		
+		if key == item_name:
+			return new_path
+		
+		if data[key] is Dictionary and not data[key].has(\"type\"):
+			var result = find_item_path_by_name(item_name, data[key], new_path)
+			if not result.is_empty():
+				return result
+	
+	return []
+
+func append_command_output(text: String):
+	command_output.append_text(text + \"\\n\")
+	await get_tree().process_frame
+	command_output.scroll_to_line(command_output.get_line_count())
+
+func get_doc_disk_path(path: Array) -> String:
+	return \"user://menu_docs/\" + \"/\".join(path)
+
+func ensure_path_for_file(file_path: String):
+	var dir_path = file_path.get_base_dir()
+	DirAccess.make_dir_recursive_absolute(dir_path)
+
+func set_line_numbers_visible(visible: bool):
+	line_numbers.visible = visible
+
+func update_line_numbers():
+	line_numbers.add_theme_color_override(\"default_color\", Color(0.5, 0.5, 0.5))
+	content_editor.add_theme_font_size_override(\"font_size\", 16)
+	
+	var line_count = content_editor.get_line_count()
+	var text = \"\"
+	
+	for i in range(line_count):
+		text += str(i + 1) + \"\\n\"
+	
+	line_numbers.text = text
+"
+
+[sub_resource type="Theme" id="Theme_5nvks"]
+default_font = ExtResource("1_bkfo5")
+
+[sub_resource type="Theme" id="Theme_sxhpa"]
+default_font = ExtResource("1_bkfo5")
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_bkfo5"]
+grow_begin = 300.0
+grow_end = -300.0
+thickness = 0
+
+[sub_resource type="LabelSettings" id="LabelSettings_bkfo5"]
+font = ExtResource("2_p5ocy")
+font_color = Color(0.26666668, 0.48235294, 0.54901963, 1)
+
+[sub_resource type="Theme" id="Theme_xj041"]
+default_font = ExtResource("2_p5ocy")
+default_font_size = 20
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_sxhpa"]
+thickness = 0
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_nw238"]
+thickness = 0
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_lfoyo"]
+thickness = 0
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_w77ot"]
+thickness = 0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5nvks"]
+bg_color = Color(0.5802685, 0.56665117, 0.82665706, 0.469)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p5ocy"]
+bg_color = Color(0.5803922, 0.5647059, 0.827451, 0.47058824)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xj041"]
+bg_color = Color(0.5803922, 0.5647059, 0.827451, 0.47058824)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0is06"]
+bg_color = Color(0.5803922, 0.5647059, 0.827451, 0.47058824)
+
+[sub_resource type="Theme" id="Theme_nw238"]
+default_font = ExtResource("1_bkfo5")
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_opa1y"]
+thickness = 0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bkfo5"]
+bg_color = Color(0, 0, 0, 0)
+
+[sub_resource type="LabelSettings" id="LabelSettings_p5ocy"]
+line_spacing = 4.0
+font = ExtResource("2_p5ocy")
+
+[sub_resource type="Theme" id="Theme_bkfo5"]
+default_font = ExtResource("2_p5ocy")
+default_font_size = 12
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_p5ocy"]
+thickness = 0
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_xj041"]
+thickness = 0
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_5nvks"]
+thickness = 0
+
+[sub_resource type="Theme" id="Theme_p5ocy"]
+default_font = ExtResource("2_p5ocy")
+
+[sub_resource type="Theme" id="Theme_opa1y"]
+default_font = ExtResource("2_p5ocy")
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_ryrpk"]
+thickness = 0
+
+[node name="MainMenuV3" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = SubResource("GDScript_ppo20")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.11372549, 0.11764706, 0.14901961, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 10.0
+offset_bottom = 14.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_5nvks")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="LeftPanel" type="PanelContainer" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(225, 850)
+layout_mode = 2
+theme = SubResource("Theme_sxhpa")
+theme_override_styles/panel = SubResource("StyleBoxLine_bkfo5")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftPanel"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftPanel/VBoxContainer"]
+layout_mode = 2
+text = " ~/Bachelors/game/menu..."
+label_settings = SubResource("LabelSettings_bkfo5")
+
+[node name="Tree" type="Tree" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftPanel/VBoxContainer"]
+custom_minimum_size = Vector2(0, 850)
+layout_mode = 2
+theme = SubResource("Theme_xj041")
+theme_override_colors/font_hovered_color = Color(0.9490196, 0.9490196, 0.9490196, 0)
+theme_override_colors/font_hovered_dimmed_color = Color(0.8745098, 0.8745098, 0.8745098, 0)
+theme_override_colors/font_hovered_selected_color = Color(1, 1, 1, 0)
+theme_override_colors/font_selected_color = Color(1, 1, 1, 0)
+theme_override_colors/font_disabled_color = Color(0.8745098, 0.8745098, 0.8745098, 0)
+theme_override_colors/drop_position_color = Color(1, 1, 1, 0)
+theme_override_colors/guide_color = Color(0.7019608, 0.7019608, 0.7019608, 0)
+theme_override_colors/relationship_line_color = Color(0.27058825, 0.27058825, 0.27058825, 0)
+theme_override_colors/parent_hl_line_color = Color(0.27058825, 0.27058825, 0.27058825, 0)
+theme_override_colors/children_hl_line_color = Color(0.27058825, 0.27058825, 0.27058825, 0)
+theme_override_constants/inner_item_margin_left = 0
+theme_override_styles/panel = SubResource("StyleBoxLine_sxhpa")
+theme_override_styles/focus = SubResource("StyleBoxLine_nw238")
+theme_override_styles/hovered = SubResource("StyleBoxLine_lfoyo")
+theme_override_styles/hovered_dimmed = SubResource("StyleBoxLine_w77ot")
+theme_override_styles/hovered_selected = SubResource("StyleBoxFlat_5nvks")
+theme_override_styles/hovered_selected_focus = SubResource("StyleBoxFlat_p5ocy")
+theme_override_styles/selected = SubResource("StyleBoxFlat_xj041")
+theme_override_styles/selected_focus = SubResource("StyleBoxFlat_0is06")
+
+[node name="ColorRect" type="ColorRect" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(2, 0)
+layout_mode = 2
+color = Color(0.30588236, 0.34901962, 0.40392157, 1)
+
+[node name="RightPanel" type="PanelContainer" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(1620, 850)
+layout_mode = 2
+theme = SubResource("Theme_nw238")
+theme_override_styles/panel = SubResource("StyleBoxLine_opa1y")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/RightPanel"]
+custom_minimum_size = Vector2(0, 900)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/RightPanel/HBoxContainer"]
+custom_minimum_size = Vector2(20, 900)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_bkfo5")
+label_settings = SubResource("LabelSettings_p5ocy")
+
+[node name="ContentEditor" type="TextEdit" parent="MarginContainer/VBoxContainer/HBoxContainer/RightPanel/HBoxContainer"]
+custom_minimum_size = Vector2(1550, 850)
+layout_mode = 2
+theme = SubResource("Theme_bkfo5")
+theme_override_colors/caret_background_color = Color(0, 0, 0, 0)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0)
+theme_override_styles/normal = SubResource("StyleBoxLine_p5ocy")
+theme_override_styles/focus = SubResource("StyleBoxLine_xj041")
+theme_override_styles/read_only = SubResource("StyleBoxLine_5nvks")
+caret_blink = true
+
+[node name="ColorRect" type="ColorRect" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+color = Color(0.30588236, 0.34901962, 0.40392157, 1)
+
+[node name="CommandPanel" type="PanelContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/CommandPanel"]
+layout_mode = 2
+
+[node name="CommandOutput" type="RichTextLabel" parent="MarginContainer/VBoxContainer/CommandPanel/VBoxContainer"]
+custom_minimum_size = Vector2(0, 135)
+layout_mode = 2
+theme = SubResource("Theme_p5ocy")
+
+[node name="CommandInput" type="LineEdit" parent="MarginContainer/VBoxContainer/CommandPanel/VBoxContainer"]
+layout_mode = 2
+theme = SubResource("Theme_opa1y")
+theme_override_colors/caret_color = Color(0.9490196, 0.9490196, 0.9490196, 1)
+theme_override_styles/focus = SubResource("StyleBoxLine_ryrpk")
+
+[node name="OverwriteDialog" type="ConfirmationDialog" parent="."]
+oversampling_override = 1.0

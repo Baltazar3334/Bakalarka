@@ -267,4 +267,162 @@ Figured id get to know the people around here." },
 	}
   },
 
+
+
+"key_p_cond": {
+	"conditions": [
+	{ "requires_item": { "name": "key to parents room", "amount": 1 },"dialog": "key_p_have"},
+	{"dialog": "key_p_not_have"}
+	]
+  },
+
+"key_p_have": {
+	"lines": [
+	{ "speaker": "neutral", "text": "Do you want to hide the key in the same spot as before?" }
+	],
+	"choices": [
+	  {
+		"text": "Yes. Dont need to be caught with them.",
+		"next": "key_p_return"
+	  },
+	  {
+		"text": "No. A bit longer I still have stuff to do.",
+		"next": "key_p_not_return"
+	  }
+	]
+  },
+
+"key_p_return": {
+	"lines": [
+	{ "speaker": "neutral", "text": "You make sure to recreate the exact position and rotation that it was originaly in." },
+	{ "speaker": "jessie", "text": "Looks about right." }
+	],
+	"on_finish": {
+		"remove_item": {
+			"name": "key to parents room",
+			"amount": 1
+		}
+	}
+  },
+
+"key_p_not_return": {
+	"lines": [
+	{ "speaker": "neutral", "text": "You better make sure not to get caught with it." },
+	]
+  },
+
+"key_p_not_have": {
+	"lines": [
+	{ "speaker": "neutral", "text": "You look under the cutting board that suspiciously is always in this exact spot." },
+	{ "speaker": "neutral", "text": "You find a key. It looks similar to the one youve seen your dad lock the door to their room with." },
+	{ "speaker": "jessie", "text": "Hmmm.." },
+	{ "speaker": "jessie", "text": "The gods favour me today. Better hide that key in the deepest pocket i have." }
+	],
+	"on_finish": {
+		"give_item": {
+			"name": "key to parents room",
+			"amount": 1
+		}
+	}
+  },
+
+
+
+
+
+"parents_room_cond": {
+	"conditions": [
+	{"flags": { "time_of_day": "morning" , "parents_at_home": 0}, "requires_item": { "name": "key to parents room", "amount": 1 },"dialog": "parents_room_key_have"},
+	{"flags": { "time_of_day": "morning", "parents_at_home": 1 }, "dialog": "parents_room"},
+	{"flags": { "time_of_day": "morning", "parents_at_home": 0 }, "dialog": "parents_room_locked"},
+	{"flags": { "time_of_day": "afternoon" , "parents_at_home": 0}, "requires_item": { "name": "key to parents room", "amount": 1 },"dialog": "parents_room_key_have"},
+	{"flags": { "time_of_day": "afternoon" , "parents_at_home": 1}, "dialog": "parents_room_locked"}
+	]
+  },
+
+"parents_room_key_have": {
+	"lines": [
+	{ "speaker": "jessie", "text": "Parents arent at home. Maybe i could have a look inside?" }
+	],
+	"choices": [
+	  {
+		"text": "Yes.",
+		"next": "parents_room_enter"
+	  },
+	  {
+		"text": "No.",
+		"next": "parents_room_go_away"
+	  }
+	]
+  },
+
+"parents_room_go_away": {
+	"lines": [
+	{ "speaker": "neutral", "text": "You decide to walk away." },
+	{ "speaker": "jessie", "text": "Parents always tell me not to go there...what are they hiding?" }
+	]
+  },
+
+"parents_room_enter": {
+	"lines": [
+	{ "speaker": "neutral", "text": "You enter the one room your parents always tell you not to enter." }
+	],
+	"on_finish": {
+		"teleport": {
+			"name": "parents_room",
+			"x": -33,
+			"y": 117
+		}
+	}
+},
+
+"parents_room": {
+	"lines": [
+	{ "speaker": "neutral", "text": "The doors to your parents bedroom. Mom and dad are at home so better not even look at it." }
+	]
+},
+
+"parents_room_locked": {
+	"lines": [
+	{ "speaker": "neutral", "text": "The door to parents room is locked" },
+	{ "speaker": "jessie", "text": "What are they hiding? They never allow me in." }
+	]
+},
+
+"parents_room_leave": {
+	"lines": [
+	{ "speaker": "neutral", "text": "Do you want to leave the room?" },
+	],
+	"choices": [
+	  {
+		"text": "Yes.",
+		"next": "parents_room_exit"
+	  },
+	  {
+		"text": "No.",
+		"next": "parents_room_not_exit"
+	  }
+	]
+},
+
+"parents_room_exit": {
+	"lines": [
+	{ "speaker": "neutral", "text": "You exit the room." }
+	],
+	"on_finish": {
+		"teleport": {
+			"name": "your_house",
+			"x": -5,
+			"y": 117
+		}
+	}
+},
+
+"parents_room_not_exit": {
+	"lines": [
+	{ "speaker": "neutral", "text": "You decide to stay" },
+	{ "speaker": "jessie", "text": "I still have things to do but i need to be careful." }
+	]
+},
+
 }
