@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 InventoryManager="*res://inventory_manager.gd"
 SaveManager="*res://SaveManager.gd"
 Transitioner="*res://UI/fade/Transitioner.tscn"
+EntityManager="*res://EntityManager.gd"
 
 [display]
 

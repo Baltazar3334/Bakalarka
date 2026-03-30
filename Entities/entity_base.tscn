@@ -1,0 +1,147 @@
+[gd_scene load_steps=6 format=3 uid="uid://dnp301oc2ra7i"]
+
+[ext_resource type="Texture2D" uid="uid://c741j6mxc1i4y" path="res://assets/NPCs/neighbor.png" id="1_e67l2"]
+
+[sub_resource type="GDScript" id="GDScript_e67l2"]
+resource_name = "NPCBase"
+script/source = "extends EntityBase
+class_name NPCBase
+
+@export var dialog_key: String = \"\"
+@onready var player = $\"../../player\"
+@onready var collisionShape = $CollisionShape2D
+
+@export var required_flags = {
+	\"time_of_day\": \"morning\"
+}
+
+@export var required_items = {
+}
+
+func _ready():
+	add_to_group(\"entities\")
+	refresh_availability()
+
+func interact(interactor):
+	if not can_interact:
+		print(\"cant interact\")
+		return
+	if dialog_key.is_empty():
+		push_warning(\"NPC has no dialog_key assigned.\")
+		return
+	
+	var dialog_ui = get_node(\"../../DialogUI/TextureRect\")
+	if dialog_ui == null:
+		push_warning(\"DialogUI node not found in current scene.\")
+		return
+	
+	dialog_ui.open_dialog(dialog_key)
+
+func refresh_availability():
+	if meets_requirements():
+		enable()
+	else:
+		disable()
+
+func meets_requirements() -> bool:
+	print(\"kontroluju sa requirements\")
+	if not check_flag_requirements():
+		print(\"flags su nespravne\")
+		return false
+	
+	if not check_item_requirements():
+		print(\"items su nespravne\")
+		return false
+	print(\"su spravne\")
+	return true
+
+func check_flag_requirements() -> bool:
+	for flag_name in required_flags.keys():
+		var required_value = required_flags[flag_name]
+		var current_value = player.flags.get(flag_name)
+		
+		print(\"NPC: \", entity_id, \" | flag: \", flag_name, \" | current: \", current_value, \" | required: \", required_value)
+		if current_value != required_value:
+			return false
+	return true
+
+func check_item_requirements() -> bool:
+	for item_name in required_items.keys():
+		var required_amount = int(required_items[item_name])
+		
+		if not InventoryManager.has_item(item_name, required_amount):
+			return false
+	
+	return true
+
+func enable():
+	visible = true
+	set_can_interact(true)
+	collisionShape.disabled = false
+
+func disable():
+	visible = false
+	set_can_interact(false)
+	collisionShape.disabled = true
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_iy2mu"]
+size = Vector2(16, 8)
+
+[sub_resource type="GDScript" id="GDScript_fn5cw"]
+resource_name = "InteractionArea"
+script/source = "extends Area2D
+class_name InteractionArea
+
+var owner_entity: EntityBase
+
+func _ready():
+	owner_entity = get_parent() as EntityBase
+	
+	body_entered.connect(_on_body_entered)
+	body_exited.connect(_on_body_exited)
+
+func _on_body_entered(body):
+	if owner_entity == null:
+		return
+	
+	if body.has_method(\"register_interactable\"):
+		body.register_interactable(owner_entity)
+
+func _on_body_exited(body):
+	if owner_entity == null:
+		return
+	
+	if body.has_method(\"unregister_interactable\"):
+		body.unregister_interactable(owner_entity)
+"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_dj8yh"]
+radius = 16.0
+
+[node name="EntityBase" type="CharacterBody2D"]
+z_index = 2
+collision_layer = 4
+collision_mask = 3
+script = SubResource("GDScript_e67l2")
+dialog_key = "sleep"
+required_flags = {}
+entity_id = "NPC"
+display_name = "enpece"
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_e67l2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 4)
+shape = SubResource("RectangleShape2D_iy2mu")
+
+[node name="Marker2D" type="Marker2D" parent="."]
+
+[node name="InteractionArea" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 2
+script = SubResource("GDScript_fn5cw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea"]
+shape = SubResource("CircleShape2D_dj8yh")

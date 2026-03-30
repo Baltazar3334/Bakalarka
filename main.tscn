@@ -1,4 +1,4 @@
-[gd_scene load_steps=57 format=4 uid="uid://bn4fgtbyw2s2g"]
+[gd_scene load_steps=58 format=4 uid="uid://bn4fgtbyw2s2g"]
 
 [ext_resource type="Texture2D" uid="uid://drakdotl3hqfe" path="res://assets/Player/player sprites/sprite_0.png" id="1_dg77c"]
 [ext_resource type="Texture2D" uid="uid://clmsah1vqao1d" path="res://assets/tiles/OutSide World/TilesBakalarka (3).png" id="1_ig7tw"]
@@ -20,6 +20,7 @@
 [ext_resource type="Texture2D" uid="uid://dcl2jn7bjenb3" path="res://UI/Conditions/Day.png" id="18_074og"]
 [ext_resource type="PackedScene" uid="uid://csdkfvoiv71s8" path="res://inventory_ui.tscn" id="20_82xsv"]
 [ext_resource type="FontFile" uid="uid://b8gyyc8nnthmp" path="res://UI/Fonts/AurulentSansMNerdFontMono-Regular.otf" id="21_getpj"]
+[ext_resource type="PackedScene" uid="uid://dnp301oc2ra7i" path="res://Entities/entity_base.tscn" id="21_ryguw"]
 
 [sub_resource type="GDScript" id="GDScript_0xm2m"]
 script/source = "extends CharacterBody2D
@@ -40,6 +41,7 @@ var flags := {
 @export var evening_texture: Texture
 
 var loaded_data: Dictionary = {}
+var nearby_interactables: Array = []
 
 @onready var anim = $AnimatedSprite2D
 @onready var time_filter: ColorRect = $\"../TimeUI/TimeFilter\"
@@ -70,7 +72,6 @@ func _ready():
 
 func _apply_data():
 	global_position = loaded_data.get(\"player_position\", global_position)
-
 
 func _physics_process(delta):
 	if not can_move:
@@ -112,7 +113,6 @@ func _physics_process(delta):
 			anim.play(\"idle\")
 	move_and_slide()
 
-
 #handle: input
 func _unhandled_input(event):
 	if event.is_action_pressed(\"pause\"):
@@ -146,7 +146,12 @@ func _unhandled_input(event):
 		return
 
 	if event.is_action_pressed(\"interact\"):
-		try_teleport_or_dialog()
+		if !nearby_interactables.is_empty():
+			try_interact()
+		else:
+			try_teleport_or_dialog()
+
+
 
 #handle: teleportacia a dialog
 func try_teleport_or_dialog():
@@ -173,9 +178,6 @@ func try_teleport_or_dialog():
 			if !(tile_data.get_custom_data(\"teleport\") == Vector2i.ZERO):
 				await teleport(layer, tile_data)
 				return
-
-		
-
 
 #teleport
 func teleport(layer, target):
@@ -205,12 +207,53 @@ func teleport(layer, target):
 	var local_pos = layer.map_to_local(final_target)
 	local_pos += Vector2(layer.tile_set.tile_size) / 2.0
 	global_position = layer.to_global(local_pos)
+	EntityManager.refresh_all_entities()
 
 	await get_tree().create_timer(0.8).timeout
 	Transitioner.set_next_animation(false)
 
 	can_move = true
 	is_teleporting = false
+
+
+
+
+func register_interactable(interactable):
+	if interactable == null:
+		return
+	if not nearby_interactables.has(interactable):
+		nearby_interactables.append(interactable)
+
+func unregister_interactable(interactable):
+	if interactable == null:
+		return
+	nearby_interactables.erase(interactable)
+
+func try_interact():
+	var target = get_closest_interactable()
+	if target == null:
+		return
+	
+	if target.has_method(\"interact\"):
+		target.interact(self)
+
+func get_closest_interactable():
+	if nearby_interactables.is_empty():
+		return null
+	
+	var closest = null
+	var closest_distance := INF
+	
+	for interactable in nearby_interactables:
+		if interactable == null or not is_instance_valid(interactable):
+			continue
+		var distance = global_position.distance_to(interactable.global_position)
+		if distance < closest_distance:
+			closest_distance = distance
+			closest = interactable
+	return closest
+
+
 
 
 
@@ -495,7 +538,8 @@ texture_region_size = Vector2i(32, 32)
 
 [sub_resource type="TileSet" id="TileSet_0odxb"]
 tile_size = Vector2i(32, 32)
-physics_layer_0/collision_layer = 2
+physics_layer_0/collision_layer = 1
+physics_layer_0/collision_mask = 0
 terrain_set_0/mode = 0
 custom_data_layer_0/name = "teleport"
 custom_data_layer_0/type = 6
@@ -2904,6 +2948,7 @@ texture_region_size = Vector2i(32, 32)
 [sub_resource type="TileSet" id="TileSet_d13ii"]
 tile_size = Vector2i(32, 32)
 physics_layer_0/collision_layer = 1
+physics_layer_0/collision_mask = 0
 physics_layer_0/physics_material = SubResource("PhysicsMaterial_w48qg")
 terrain_set_0/mode = 0
 terrain_set_0/terrain_0/name = "Grass "
@@ -3218,7 +3263,8 @@ texture_region_size = Vector2i(32, 32)
 
 [sub_resource type="TileSet" id="TileSet_lswn8"]
 tile_size = Vector2i(32, 32)
-physics_layer_0/collision_layer = 2
+physics_layer_0/collision_layer = 1
+physics_layer_0/collision_mask = 0
 custom_data_layer_0/name = "teleport"
 custom_data_layer_0/type = 6
 custom_data_layer_1/name = "dialog_key"
@@ -3455,7 +3501,8 @@ texture_region_size = Vector2i(32, 32)
 
 [sub_resource type="TileSet" id="TileSet_1u8w0"]
 tile_size = Vector2i(32, 32)
-physics_layer_0/collision_layer = 2
+physics_layer_0/collision_layer = 1
+physics_layer_0/collision_mask = 0
 custom_data_layer_0/name = "dialog_key"
 custom_data_layer_0/type = 4
 custom_data_layer_1/name = "teleport"
@@ -3691,6 +3738,8 @@ func close_dialog():
 	line_index = 0
 	selected_choice = 0
 	choices_box.visible = false
+	
+	EntityManager.refresh_all_entities()
 
 func highlight_speaker_text(speaker: String, text: String) -> String:
 	var colors = {
@@ -3808,8 +3857,8 @@ thickness = 0
 [node name="player" type="CharacterBody2D" parent="."]
 z_index = 3
 position = Vector2(0, -1)
-collision_layer = 3
-collision_mask = 3
+collision_layer = 2
+collision_mask = 5
 script = SubResource("GDScript_0xm2m")
 morning_texture = ExtResource("18_074og")
 evening_texture = ExtResource("2_cegan")
@@ -4054,6 +4103,14 @@ theme_override_styles/normal = SubResource("StyleBoxLine_1u8w0")
 theme_override_styles/hover = SubResource("StyleBoxLine_0odxb")
 theme_override_styles/focus = SubResource("StyleBoxLine_lswn8")
 text = "No"
+
+[node name="Entities" type="Node2D" parent="."]
+
+[node name="NPC" parent="Entities" instance=ExtResource("21_ryguw")]
+position = Vector2(-144, -8)
+required_flags = {
+"time_of_day": "morning"
+}
 
 [connection signal="toggled" from="LoadingScreen/Transitioner/CheckButton" to="LoadingScreen/Transitioner/CheckButton" method="_on_toggled"]
 
