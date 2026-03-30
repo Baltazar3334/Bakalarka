@@ -1,4 +1,4 @@
-[gd_scene load_steps=58 format=4 uid="uid://bn4fgtbyw2s2g"]
+[gd_scene load_steps=59 format=4 uid="uid://bn4fgtbyw2s2g"]
 
 [ext_resource type="Texture2D" uid="uid://drakdotl3hqfe" path="res://assets/Player/player sprites/sprite_0.png" id="1_dg77c"]
 [ext_resource type="Texture2D" uid="uid://clmsah1vqao1d" path="res://assets/tiles/OutSide World/TilesBakalarka (3).png" id="1_ig7tw"]
@@ -21,6 +21,7 @@
 [ext_resource type="PackedScene" uid="uid://csdkfvoiv71s8" path="res://inventory_ui.tscn" id="20_82xsv"]
 [ext_resource type="FontFile" uid="uid://b8gyyc8nnthmp" path="res://UI/Fonts/AurulentSansMNerdFontMono-Regular.otf" id="21_getpj"]
 [ext_resource type="PackedScene" uid="uid://dnp301oc2ra7i" path="res://Entities/entity_base.tscn" id="21_ryguw"]
+[ext_resource type="Texture2D" uid="uid://1fhvk6galv4m" path="res://assets/NPCs/father.png" id="22_ryguw"]
 
 [sub_resource type="GDScript" id="GDScript_0xm2m"]
 script/source = "extends CharacterBody2D
@@ -29,7 +30,9 @@ script/source = "extends CharacterBody2D
 var flags := {
 	\"neighbor_intro\": 0,
 	\"time_of_day\": \"morning\",
-	\"parents_at_home\": 0
+	\"parents_at_home\": 0,
+	\"neighbor_there\": 1,
+	\"father_greeted\": 0
 }
 
 
@@ -3695,40 +3698,84 @@ func choose_choice():
 
 func close_dialog():
 	if current_dialog.has(\"on_finish\"):
-		var change = current_dialog[\"on_finish\"]
-		if change.has(\"flag\"):
-			var flag_name = change[\"flag\"]
-			print(\"Time of day after dialog:\", player.flags[flag_name])
+		var changes = current_dialog[\"on_finish\"]
+		
+		if changes is Dictionary:
+			changes = [changes]
+		
+		for change in changes:
 			
-			if change.has(\"toggle\"):
-				var options = change[\"toggle\"]
-				if player.flags[flag_name] == options[0]:
-					player.flags[flag_name] = options[1]
+			# FLAGS
+			if change.has(\"flag\"):
+				var flag_name = change[\"flag\"]
+				
+				print(\"Before:\", flag_name, player.flags.get(flag_name))
+				
+				if change.has(\"toggle\"):
+					var options = change[\"toggle\"]
+					if player.flags[flag_name] == options[0]:
+						player.flags[flag_name] = options[1]
+					else:
+						player.flags[flag_name] = options[0]
+				
+				elif change.has(\"set\"):
+					player.flags[flag_name] = change[\"set\"]
+				
+				print(\"After:\", flag_name, player.flags.get(flag_name))
+				
+				if flag_name == \"time_of_day\":
+					player.set_time_of_day(player.flags[flag_name])
+			
+			# GIVE ITEM
+			if change.has(\"give_item\"):
+				var item = change[\"give_item\"]
+				InventoryManager.add_item(item[\"name\"], item.get(\"amount\", 1))
+			
+			# REMOVE ITEM
+			if change.has(\"remove_item\"):
+				var item = change[\"remove_item\"]
+				InventoryManager.remove_item(item[\"name\"], item.get(\"amount\", 1))
+			
+			#MOVE NPC
+			if change.has(\"moveNPC\"):
+				var data = change[\"moveNPC\"]
+				var NPCid = data[\"NPCid\"]
+				var tile_x = data[\"x\"]
+				var tile_y = data[\"y\"]
+				var speed
+				if data.has(\"move_speed\"):
+					speed = data[\"move_speed\"]
 				else:
-					player.flags[flag_name] = options[0]
-					
-			elif change.has(\"set\"):
-				player.flags[flag_name] = change[\"set\"]
-			if flag_name == \"time_of_day\":
-				player.set_time_of_day(player.flags[flag_name])
-				print(\"Time of day after dialog:\", player.flags[flag_name])
-		if change.has(\"give_item\"):
-			var item = change[\"give_item\"]
-			InventoryManager.add_item(item[\"name\"], item.get(\"amount\", 1))
-		if change.has(\"remove_item\"):
-			var item = change[\"remove_item\"]
-			InventoryManager.remove_item(item[\"name\"], item.get(\"amount\", 1))
-		if change.has(\"teleport\"):
-			var coordinates = change[\"teleport\"]
+					speed = 100
+				var targetEntity = EntityManager.get_entity(NPCid)
+				
+				if targetEntity == null:
+					print(\"target npc for move not found: \" + NPCid)
+					return
+				
+				var tilemap = get_node(\"../../LayerBackground\")
+				if tilemap == null:
+					print(\"TileMap not found\")
+					return
+				
+				var cell = Vector2i(tile_x, tile_y)
+				var target_pos = tilemap.to_global(tilemap.map_to_local(cell))
+				if data.has(\"change_after_move\"):
+					var changes_after_move = data[\"change_after_move\"]
+					apply_flags_after_entity_move(targetEntity, changes_after_move)
+				targetEntity.move_to(target_pos, speed)
+				
+				
+			# TELEPORT
+			if change.has(\"teleport\"):
+				var coordinates = change[\"teleport\"]
+				
+				var x = coordinates[\"x\"]
+				var y = coordinates[\"y\"]
+				var targetCell: Vector2i = Vector2i(x, y)
+				var layer = get_node_or_null(\"../LayerInteriorColission\")
+				player.teleport(layer, targetCell)
 
-
-			var x = coordinates[\"x\"]
-			var y = coordinates[\"y\"]
-			var targetCell: Vector2i = Vector2i(x, y)
-			var layer = get_node_or_null(\"../LayerInteriorColission\")
-			player.teleport(layer, targetCell)
-
-	
 	is_open = false
 	visible = false
 	player.can_move = true
@@ -3738,14 +3785,35 @@ func close_dialog():
 	line_index = 0
 	selected_choice = 0
 	choices_box.visible = false
+	EntityManager.refresh_all_entities()
+
+
+func apply_flags_after_entity_move(targetEntity, changes_after_move: Dictionary):
+	if targetEntity == null:
+		return
+	
+	if not targetEntity.has_signal(\"move_finished\"):
+		print(\"Entity has no move_finished signal\")
+		return
+	
+	targetEntity.move_finished.connect(_on_entity_move_finished.bind(changes_after_move), CONNECT_ONE_SHOT)
+	
+func _on_entity_move_finished(changes_after_move: Dictionary):
+	for flag_name in changes_after_move.keys():
+		var new_value = changes_after_move[flag_name]
+		player.flags[flag_name] = new_value
+		print(\"Flag changed after move:\", flag_name, \"->\", new_value)
 	
 	EntityManager.refresh_all_entities()
+
+
 
 func highlight_speaker_text(speaker: String, text: String) -> String:
 	var colors = {
 		\"jessie\": \"#5A97A6\", 
 		\"neutral\": \"#FFFFFF\",    
-		\"neighbor\": \"#6A6D40\"
+		\"neighbor\": \"#6A6D40\",
+		\"father\": \"#5b08ae\"
 	}
 
 	var color: String = colors.get(speaker, \"#FFFFFF\")
@@ -4106,13 +4174,26 @@ text = "No"
 
 [node name="Entities" type="Node2D" parent="."]
 
-[node name="NPC" parent="Entities" instance=ExtResource("21_ryguw")]
-position = Vector2(-144, -8)
+[node name="neighbor" parent="Entities" instance=ExtResource("21_ryguw")]
+position = Vector2(-112, 48)
+dialog_key = "neighbor_house"
 required_flags = {
-"time_of_day": "morning"
+"neighbor_there": 1
 }
+entity_id = "neighbor_npc"
+display_name = "neighbor"
+
+[node name="father" parent="Entities" instance=ExtResource("21_ryguw")]
+position = Vector2(-40, 3616)
+dialog_key = "father_cond"
+entity_id = "father_npc"
+display_name = "father"
+
+[node name="Sprite2D" parent="Entities/father" index="0"]
+texture = ExtResource("22_ryguw")
 
 [connection signal="toggled" from="LoadingScreen/Transitioner/CheckButton" to="LoadingScreen/Transitioner/CheckButton" method="_on_toggled"]
 
 [editable path="LoadingScreen/Transitioner"]
 [editable path="InventoryUI/Inventory"]
+[editable path="Entities/father"]

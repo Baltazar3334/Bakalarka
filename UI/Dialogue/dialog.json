@@ -88,10 +88,19 @@ Figured id get to know the people around here." },
 	{ "speaker": "neighbor", "text": "Oh okay. Hope you get better soon then. Bye." },
 	{ "speaker": "jessie", "text": "Thanks." }
 	],
-	"on_finish": {
-	"flag": "neighbor_intro",
-	"set": 1
-  }
+	"on_finish": [
+		{
+			"moveNPC": {
+			"NPCid": "neighbor_npc",
+			"x": -5,
+			"y": 1,
+			"move_speed": 50,
+			"change_after_move": {
+				"neighbor_there": 0
+				}
+			}
+		}
+	]
   },
 
 "neighbor_wink": {
@@ -103,16 +112,41 @@ Figured id get to know the people around here." },
 	{ "speaker": "neighbor", "text": "Sure. Come by some time in the evening. Adam will be home by then and you can meet." },
 	{ "speaker": "jessie", "text": "Sounds good! See you later." }
 	],
-	"on_finish": {
-	"flag": "neighbor_intro",
-	"set": 1
-  }
-  },
+	"on_finish": [
+		{
+			"flag": "neighbor_intro",
+			"set": 1
+		},
+		{
+			"moveNPC": {
+			"NPCid": "neighbor_npc",
+			"x": -5,
+			"y": 1,
+			"move_speed": 50,
+			"change_after_move": {
+				"neighbor_there": 0
+				}
+			}
+		}
+	]
+	},
 
   "neighbor_rude": {
 	"lines": [
 	{ "speaker": "jessie", "text": "Leave me alone." },
  	{ "speaker": "neighbor", "text": "Wow. No need to be rude..." },
+	],
+	"on_finish": [
+		{
+			"moveNPC": {
+			"NPCid": "neighbor_npc",
+			"x": -5,
+			"y": 1,
+			"change_after_move": {
+				"neighbor_there": 0
+				}
+			}
+		}
 	]
   },
 
@@ -424,5 +458,107 @@ Figured id get to know the people around here." },
 	{ "speaker": "jessie", "text": "I still have things to do but i need to be careful." }
 	]
 },
+
+
+
+
+
+
+
+"father_cond": {
+	"conditions": [
+	{"flags": { "time_of_day": "morning", "father_greeted": 0}, "dialog": "father_greeting_morning"},
+	{"flags": { "time_of_day": "morning", "father_greeted": 1}, "dialog": "father_greeting_morning_greeted"},
+	{"flags": { "time_of_day": "afternoon", "father_greeted": 0 }, "dialog": "father_greeting_evening"},
+	{"flags": { "time_of_day": "afternoon", "father_greeted": 1, "neighbor_intro": 0 }, "dialog": "father_greeting_evening_not_met_neighbor"},
+	{"flags": { "time_of_day": "afternoon", "father_greeted": 1, "neighbor_intro": 1 }, "dialog": "father_greeting_evening_met_neighbor"}
+	]
+  },
+
+"father_greeting_morning": {
+	"lines": [
+	{ "speaker": "father", "text": "Hey kid! want me to give you a lift to school?" },
+	{ "speaker": "jessie", "text": "No ill walk. Its healthier anyways." },
+	{ "speaker": "father", "text": "Since when do you care about cardio?" },
+	{ "speaker": "jessie", "text": "Since your car didnt start last week and I had to explain to my teacher why im late." },
+	{ "speaker": "father", "text": "Fair enough..." },
+	{ "speaker": "father", "text": "It works now though." },
+	{ "speaker": "jessie", "text": "Nah Im good." },
+	{ "speaker": "father", "text": "Suit yourself. Just dont be late or Ill throw you to the wolves." },
+	{ "speaker": "jessie", "text": "The wolves would probably be better parrents to me than you two." },
+	{ "speaker": "jessie", "text": "Shut up smartass and go get dressed." },
+	{ "speaker": "jessie", "text": "Yessir." }
+	],
+	"on_finish": {
+		"flag": "father_greeted",
+		"set": 1 
+	}
+},
+
+"father_greeting_morning_greeted": {
+	"lines": [
+	{ "speaker": "father", "text": "Go get dressed and dont forget to eat something." },
+	{ "speaker": "father", "text": "Mom coming home in a week so better get used to making your own breakfast." },
+	]
+},
+
+
+
+"father_greeting_evening": {
+	"lines": [
+	{ "speaker": "father", "text": "Hey we didnt get to speak in the morning. I would have taken you to school if you asked." },
+	{ "speaker": "jessie", "text": "Sorry. I was in a hurry" },
+	{ "speaker": "father", "text": "Could have given you a lift to school if you bothered to talk to me." },
+	{ "speaker": "jessie", "text": "Yeah like last time? pass.." },
+	{ "speaker": "father", "text": "That was one time and it not my fault somebody left the key in the ignition." },
+	{ "speaker": "jessie", "text": "Its your car! Nobody else drives it but you!" },
+	{ "speaker": "father", "text": "Okay, Okay. Cut me some slack, I am old man." },
+	{ "speaker": "jessie", "text": "Okay old man. Try to not debilitate our only mode of transportation while moms away." },
+	{ "speaker": "father", "text": "Sure and you go fry ants with a magnifying glass or whatever you do in your free time." }
+	],
+	"on_finish": {
+		"flag": "father_greeted",
+		"set": 1 
+	}
+},
+
+"father_greeting_evening_not_met_neighbor": {
+	"lines": [
+	{ "speaker": "father", "text": "Anyway have you met the new neighbors?" },
+	{ "speaker": "jessie", "text": "We have new neighbors?" },
+	{ "speaker": "father", "text": "Oh my god you really do live under a rock." },
+	{ "speaker": "jessie", "text": "Dude if I live under a rock so do you! WE LIVE IN THE SAME HOUSE!" },
+	{ "speaker": "jessie", "text": "Okay that wasnt as funny as I imagined in my head." },
+	{ "speaker": "father", "text": "...So you planning on visiting them?" },
+	{ "speaker": "jessie", "text": "Maybe. How long are they in town?" },
+	{ "speaker": "father", "text": "A few days. Maybe you could make a new friend. " },
+	{ "speaker": "jessie", "text": "I mean-" },
+	{ "speaker": "father", "text": "Maybe he wont catch onto how weird you are for couple minutes so you can feel like a human." },
+	{ "speaker": "jessie", "text": "Ok thats just mean." },
+	{ "speaker": "father", "text": "Oh So its okay to give ME a hard time for forgetting my keys but its wrong for ME to make fun of YOU?" },
+	{ "speaker": "jessie", "text": "It actually is because Im your special only child and you should cherrish me." },
+	{ "speaker": "father", "text": "The day ill start cherrishing you is the day you start providing for this household." },
+	{ "speaker": "neutral", "text": "You sigh in annoyance" },
+	{ "speaker": "jessie", "text": "Im fourteen." },
+	{ "speaker": "father", "text": "So is the neighbors kid. Go meet him he seems like a good kid." },
+	]
+},
+
+"father_greeting_evening_met_neighbor": {
+	"lines": [
+	{ "speaker": "jessie", "text": "I met the new neighbors." },
+	{ "speaker": "father", "text": "And? how was it? Is the boy even weirder than you?" },
+	{ "speaker": "jessie", "text": "Yes somehow he manages to beat me on that." },
+	{ "speaker": "jessie", "text": "And one thing i noticed. He must have some sort of a condition or something." },
+	{ "speaker": "father", "text": "What sort?" },
+	{ "speaker": "jessie", "text": "I dont know. I havent noticed anything. Its just that-" },
+	{ "speaker": "jessie", "text": "His father mentioned something about him missing school for a reason." },
+	{ "speaker": "jessie", "text": "But he didnt finish it so im not sure. He didnt seem like there was something wrong with him." },
+	{ "speaker": "jessie", "text": "Well apart from not getting like any of my jokes." },
+	{ "speaker": "father", "text": "Well whatever it is I hope I dont have to tell you to be respectfull and accepting." },
+	{ "speaker": "jessie", "text": "Dont worry." }
+	]
+},
+
 
 }

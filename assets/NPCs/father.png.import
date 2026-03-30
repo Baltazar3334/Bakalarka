@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://be6gicoltbg0r"
-path="res://.godot/imported/neighbor.png-cc4efc4e26499a30a0349707be67b335.ctex"
+uid="uid://1fhvk6galv4m"
+path="res://.godot/imported/father.png-6404517587ed7ac8cf3d2c5bc49bce74.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/NPCs/neighbor.png"
-dest_files=["res://.godot/imported/neighbor.png-cc4efc4e26499a30a0349707be67b335.ctex"]
+source_file="res://assets/NPCs/father.png"
+dest_files=["res://.godot/imported/father.png-6404517587ed7ac8cf3d2c5bc49bce74.ctex"]
 
 [params]
 

@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://dnp301oc2ra7i"]
 
-[ext_resource type="Texture2D" uid="uid://c741j6mxc1i4y" path="res://assets/NPCs/neighbor.png" id="1_e67l2"]
+[ext_resource type="Texture2D" uid="uid://be6gicoltbg0r" path="res://assets/NPCs/neighbor.png" id="1_e67l2"]
 
 [sub_resource type="GDScript" id="GDScript_e67l2"]
 resource_name = "NPCBase"
@@ -17,6 +17,8 @@ class_name NPCBase
 
 @export var required_items = {
 }
+
+
 
 func _ready():
 	add_to_group(\"entities\")
@@ -44,23 +46,16 @@ func refresh_availability():
 		disable()
 
 func meets_requirements() -> bool:
-	print(\"kontroluju sa requirements\")
 	if not check_flag_requirements():
-		print(\"flags su nespravne\")
 		return false
-	
 	if not check_item_requirements():
-		print(\"items su nespravne\")
 		return false
-	print(\"su spravne\")
 	return true
 
 func check_flag_requirements() -> bool:
 	for flag_name in required_flags.keys():
 		var required_value = required_flags[flag_name]
 		var current_value = player.flags.get(flag_name)
-		
-		print(\"NPC: \", entity_id, \" | flag: \", flag_name, \" | current: \", current_value, \" | required: \", required_value)
 		if current_value != required_value:
 			return false
 	return true
