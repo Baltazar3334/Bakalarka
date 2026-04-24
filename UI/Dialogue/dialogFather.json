@@ -1,0 +1,475 @@
+{
+	
+	"comment_ignore_father": {
+	"lines": [
+	{ "speaker": "neutral", "text": "father_story = 0 - nothing special, 1 - talked to neighbor, 2 - hinted at secret, 3 - told him the secret" },
+	],
+  	},
+
+
+	
+"father_cond": {
+	"conditions": [
+	{"flags": { "father_story": 1, "neighbor_visit_story": 1 }, "dialog": "father_the_news"},
+	{"flags": { "father_story": 0, "time_of_day": "morning", "father_greeted": 0}, "dialog": "father_greeting_morning"},
+	{"flags": { "father_story": 0, "time_of_day": "afternoon", "father_greeted": 0 }, "dialog": "father_greeting_evening"},
+	{"flags": { "father_story": 0, "time_of_day": "morning", "father_greeted": 1}, "dialog": "father_greeting_morning"},
+	{"flags": { "father_story": 0, "time_of_day": "afternoon", "father_greeted": 1, "neighbor_story": 0 }, "dialog": "father_greeting_evening_not_met_neighbor"},
+	{"flags": { "father_story": 0,"time_of_day": "afternoon", "father_greeted": 1, "neighbor_story": 1 }, "dialog": "father_greeting_evening_met_neighbor"},
+	{"flags": { "father_story": 0,"time_of_day": "afternoon", "father_greeted": 1, "neighbor_story": 2 }, "dialog": "father_greeting_evening_met_neighbor"},
+	{"flags": { "father_story": 0,"time_of_day": "afternoon", "father_greeted": 1, "neighbor_story": 3 }, "dialog": "father_greeting_evening_met_neighbor_gave_medicine"},
+	]
+  },
+
+"father_greeting_morning": {
+	"lines": [
+	{ "speaker": "father", "text": "Hey kid! want me to give you a lift to school?" },
+	{ "speaker": "jessie", "text": "No ill walk. Its healthier anyways." },
+	{ "speaker": "father", "text": "Since when do you care about cardio?" },
+	{ "speaker": "jessie", "text": "Since your car didnt start last week and I had to explain to my teacher why im late." },
+	{ "speaker": "father", "text": "Fair enough..." },
+	{ "speaker": "father", "text": "It works now though." },
+	{ "speaker": "jessie", "text": "Nah Im good." },
+	{ "speaker": "father", "text": "Suit yourself. Just dont be late or Ill throw you to the wolves." },
+	{ "speaker": "jessie", "text": "The wolves would probably be better parrents to me than you two." },
+	{ "speaker": "jessie", "text": "Shut up smartass and go get dressed. And eat something. I have to go like right now." },
+	{ "speaker": "jessie", "text": "Yessir." }
+	],
+	"on_finish": [
+			{
+				"flag": "father_greeted",
+				"set": 1 
+			},
+			{
+				"moveNPC": {
+				"NPCid": "father_npc",
+				"x": 1,
+				"y": 118,
+				"move_speed": 50,
+				"change_after_move": {
+					"father_there": 0
+					}
+				}	
+			}
+		]
+	},
+
+"father_greeting_morning_greeted": {
+	"lines": [
+	{ "speaker": "father", "text": "Go get dressed and dont forget to eat something." },
+	{ "speaker": "father", "text": "Mom coming home in a week so better get used to making your own breakfast." },
+	]
+	},
+
+
+
+"father_greeting_evening": {
+	"lines": [
+	{ "speaker": "father", "text": "Hey we didnt get to speak in the morning. I would have taken you to school if you asked." },
+	{ "speaker": "jessie", "text": "Sorry. I was in a hurry" },
+	{ "speaker": "father", "text": "Could have given you a lift to school if you bothered to talk to me." },
+	{ "speaker": "jessie", "text": "Yeah like last time? pass.." },
+	{ "speaker": "father", "text": "That was one time and it not my fault somebody left the key in the ignition." },
+	{ "speaker": "jessie", "text": "Its your car! Nobody else drives it but you!" },
+	{ "speaker": "father", "text": "Okay, Okay. Cut me some slack, I am old man." },
+	{ "speaker": "jessie", "text": "Okay old man. Try to not debilitate our only mode of transportation while moms away." },
+	{ "speaker": "father", "text": "Sure and you go fry ants with a magnifying glass or whatever you do in your free time." }
+	],
+	"on_finish": {
+		"flag": "father_greeted",
+		"set": 1 
+	}
+	},
+
+"father_greeting_evening_not_met_neighbor": {
+	"lines": [
+	{ "speaker": "father", "text": "Anyway have you met the new neighbors?" },
+	{ "speaker": "jessie", "text": "We have new neighbors?" },
+	{ "speaker": "father", "text": "Oh my god you really do live under a rock." },
+	{ "speaker": "jessie", "text": "Dude if I live under a rock so do you! WE LIVE IN THE SAME HOUSE!" },
+	{ "speaker": "jessie", "text": "Okay that wasnt as funny as I imagined in my head." },
+	{ "speaker": "father", "text": "...So you planning on visiting them?" },
+	{ "speaker": "jessie", "text": "Maybe. How long are they in town?" },
+	{ "speaker": "father", "text": "A few days. Maybe you could make a new friend. " },
+	{ "speaker": "jessie", "text": "I mean-" },
+	{ "speaker": "father", "text": "Maybe he wont catch onto how weird you are for couple minutes so you can feel like a human." },
+	{ "speaker": "jessie", "text": "Ok thats just mean." },
+	{ "speaker": "father", "text": "Oh So its okay to give ME a hard time for forgetting my keys but its wrong for ME to make fun of YOU?" },
+	{ "speaker": "jessie", "text": "It actually is because Im your special only child and you should cherrish me." },
+	{ "speaker": "father", "text": "The day ill start cherrishing you is the day you start providing for this household." },
+	{ "speaker": "neutral", "text": "You sigh in annoyance" },
+	{ "speaker": "jessie", "text": "Im fourteen." },
+	{ "speaker": "father", "text": "So is the neighbors kid. Go meet him he seems like a good kid." },
+	]
+	},
+
+"father_greeting_evening_met_neighbor": {
+	"lines": [
+	{ "speaker": "jessie", "text": "I met the new neighbors." },
+	{ "speaker": "father", "text": "And? how was it?" },
+	{ "speaker": "jessie", "text": "They seem nice." },
+	{ "speaker": "jessie", "text": "And one thing i noticed. Their son must have some sort of a condition or something." },
+	{ "speaker": "father", "text": "What sort?" },
+	{ "speaker": "jessie", "text": "I dont know. I havent noticed anything. Its just that-" },
+	{ "speaker": "jessie", "text": "The father mentioned something about him missing school for a reason." },
+	{ "speaker": "jessie", "text": "But he didnt finish it so im not sure." },
+	{ "speaker": "father", "text": "Well whatever it is I hope I dont have to tell you to be respectfull and accepting." },
+	{ "speaker": "jessie", "text": "Dont worry." }
+	],
+	"on_finish": {
+			"flag": "father_story",
+			"set": 1
+		}
+	},
+
+
+
+"father_greeting_evening_met_neighbor_gave_medicine": {
+	"conditions": [
+	{"flags": { "neighbor_gave_money": 0, "neighbor_opinion": 0}, "dialog": "father_money_descision_dont_have_money_neighbor_hates"},
+	{"flags": { "neighbor_gave_money": 1, "neighbor_opinion": 0}, "dialog": "father_money_descision_have_money_neighbor_hates"},
+	{"flags": { "neighbor_gave_money": 0, "neighbor_opinion": 1}, "dialog": "father_money_descision_dont_have_money_neighbor_likes"},
+	{"flags": { "neighbor_gave_money": 1, "neighbor_opinion": 1}, "dialog": "father_money_descision_have_money_neighbor_likes"},
+	]
+	},
+
+
+"father_money_descision_dont_have_money_neighbor_hates": {
+	"lines": [
+	{ "speaker": "jessie", "text": "The new neighbors." },
+	{ "speaker": "father", "text": "Yeah, what about him?" },
+	{ "speaker": "jessie", "text": "Did a favour for him." },
+	{ "speaker": "jessie", "text": "And one thing i noticed. Their son must have some sort of a condition or something." },
+	{ "speaker": "father", "text": "Yeah?" },
+	{ "speaker": "jessie", "text": "I dont know. I havent noticed anything. Its just that-" },
+	{ "speaker": "jessie", "text": "The father mentioned something about him missing school for a reason." },
+	{ "speaker": "jessie", "text": "But he didnt finish it so im not sure." },
+	{ "speaker": "father", "text": "Well whatever it is I hope I dont have to tell you to be respectfull and accepting." },
+	{ "speaker": "jessie", "text": "Dont worry. He asked me for a favour actually." },
+	{ "speaker": "father", "text": "What was it?" },
+	{ "speaker": "jessie", "text": "He sent me to the hospital to get some medicine. I wonder if it is for something serious because its the hospital." },
+	{ "speaker": "father", "text": "Could be. You better not be asking dumb questions though." },
+	{ "speaker": "jessie", "text": "Who do you take me for? I know human decency." },
+	{ "speaker": "neutral", "text": "Youre lying" },
+	{ "speaker": "father", "text": "Did he give you any money? Theres this new legislation that allows hospitals to charge money for providing meds." },
+	{ "speaker": "jessie", "text": "He didnt actually and I didnt know they did that." },
+	{ "speaker": "father", "text": "Well you go ask him for some, dont use your own!" },
+	],
+	"choices": [
+	  {
+		"text": "Couldnt you just give me some?",
+		"next": "father_asking_for_money"
+	  },
+	  {
+		"text": "Yeah, thats a good idea.",
+		"next": "father_ask_neighbor_for_money"
+	  }
+	]
+	},
+
+"father_money_descision_have_money_neighbor_hates": {
+	"lines": [
+	{ "speaker": "jessie", "text": "The new neighbors." },
+	{ "speaker": "father", "text": "Yeah, what about him?" },
+	{ "speaker": "jessie", "text": "Did a favour for him." },
+	{ "speaker": "jessie", "text": "And one thing i noticed. Their son must have some sort of a condition or something." },
+	{ "speaker": "father", "text": "Yeah?" },
+	{ "speaker": "jessie", "text": "I dont know. I havent noticed anything. Its just that-" },
+	{ "speaker": "jessie", "text": "The father mentioned something about him missing school for a reason." },
+	{ "speaker": "jessie", "text": "But he didnt finish it so im not sure." },
+	{ "speaker": "father", "text": "Well whatever it is I hope I dont have to tell you to be respectfull and accepting." },
+	{ "speaker": "jessie", "text": "Dont worry. He asked me for a favour actually." },
+	{ "speaker": "father", "text": "What was it?" },
+	{ "speaker": "jessie", "text": "He sent me to the hospital to get some medicine. I wonder if it is for something serious because its the hospital." },
+	{ "speaker": "father", "text": "Could be. You better not be asking dumb questions though." },
+	{ "speaker": "jessie", "text": "Who do you take me for? I know human decency." },
+	{ "speaker": "neutral", "text": "Youre lying" },
+	{ "speaker": "father", "text": "Did he give you any money? Theres this new legislation that allows hospitals to charge money for providing meds." },
+	{ "speaker": "jessie", "text": "Yeah I asked for some. He bitched and moaned about it but gave me exactly 11 dollars..." },
+	{ "speaker": "jessie", "text": "Just enough to buy it, not even a cent more." },
+	{ "speaker": "father", "text": "Well thats what you get for helping old men, haha. And language young man!" },
+	{ "speaker": "father", "text": "But no really, Im proud of you for helping him." },
+	],
+	"choices": [
+	  {
+		"text": "Gee, thanks dad. I love praise. Its the best immaterial form of reward",
+		"next": "father_mocking"
+	  },
+	  {
+		"text": "Though",
+		"next": "father_ask_neighbor_for_money"
+	  }
+	]
+	},
+
+"father_money_descision_dont_have_money_neighbor_likes": {
+	"lines": [
+	{ "speaker": "jessie", "text": "The new neighbors." },
+	{ "speaker": "father", "text": "Yeah, what about him?" },
+	{ "speaker": "jessie", "text": "Did a favour for him." },
+	{ "speaker": "jessie", "text": "And one thing i noticed. Their son must have some sort of a condition or something." },
+	{ "speaker": "father", "text": "Yeah?" },
+	{ "speaker": "jessie", "text": "I dont know. I havent noticed anything. Its just that-" },
+	{ "speaker": "jessie", "text": "The father mentioned something about him missing school for a reason." },
+	{ "speaker": "jessie", "text": "But he didnt finish it so im not sure." },
+	{ "speaker": "father", "text": "Well whatever it is I hope I dont have to tell you to be respectfull and accepting." },
+	{ "speaker": "jessie", "text": "Dont worry. He asked me for a favour actually." },
+	{ "speaker": "father", "text": "What was it?" },
+	{ "speaker": "jessie", "text": "He sent me to the hospital to get some medicine. I wonder if it is for something serious because its the hospital." },
+	{ "speaker": "father", "text": "Could be. You better not be asking dumb questions though." },
+	{ "speaker": "jessie", "text": "Who do you take me for? I know human decency." },
+	{ "speaker": "father", "text": "Did he give you any money? Theres this new legislation that allows hospitals to charge money for providing meds." },
+	{ "speaker": "jessie", "text": "He didnt actually and I didnt know they did that." },
+	{ "speaker": "father", "text": "Well you go ask him for some, dont use your own!" },
+	],
+	"choices": [
+	  {
+		"text": "Couldnt you just give me some?",
+		"next": "father_asking_for_money"
+	  },
+	  {
+		"text": "Yeah, thats a good idea.",
+		"next": "father_ask_neighbor_for_money"
+	  }
+	]
+	},
+
+"father_money_descision_have_money_neighbor_hates": {
+	"lines": [
+	{ "speaker": "jessie", "text": "The new neighbors." },
+	{ "speaker": "father", "text": "Yeah, what about him?" },
+	{ "speaker": "jessie", "text": "Did a favour for him." },
+	{ "speaker": "jessie", "text": "And one thing i noticed. Their son must have some sort of a condition or something." },
+	{ "speaker": "father", "text": "Yeah?" },
+	{ "speaker": "jessie", "text": "I dont know. I havent noticed anything. Its just that-" },
+	{ "speaker": "jessie", "text": "The father mentioned something about him missing school for a reason." },
+	{ "speaker": "jessie", "text": "But he didnt finish it so im not sure." },
+	{ "speaker": "father", "text": "Well whatever it is I hope I dont have to tell you to be respectfull and accepting." },
+	{ "speaker": "jessie", "text": "Dont worry. He asked me for a favour actually." },
+	{ "speaker": "father", "text": "What was it?" },
+	{ "speaker": "jessie", "text": "He sent me to the hospital to get some medicine. I wonder if it is for something serious because its the hospital." },
+	{ "speaker": "father", "text": "Could be. You better not be asking dumb questions though." },
+	{ "speaker": "jessie", "text": "Who do you take me for? I know human decency." },
+	{ "speaker": "father", "text": "Did he give you any money? Theres this new legislation that allows hospitals to charge money for providing meds." },
+	{ "speaker": "jessie", "text": "Yeah I asked for some. He bitched and moaned about it but gave me exactly 11 dollars..." },
+	{ "speaker": "jessie", "text": "Just enough to buy it, not even a cent more." },
+	{ "speaker": "father", "text": "Well thats what you get for helping old men, haha. And language young man!" },
+	{ "speaker": "father", "text": "But no really, Im proud of you for helping him." },
+	],
+	"choices": [
+	  {
+		"text": "Gee, thanks dad. I love praise. Its the best immaterial form of reward",
+		"next": "father_mocking"
+	  },
+	  {
+		"text": "Im doing it for the connections.",
+		"next": "father_connections"
+	  },
+	{
+		"text": "Yeah, I mean its nice to help people from time to time.",
+		"next": "father_goodness"
+		
+	}
+	]
+	},
+
+
+"father_mocking": {
+	"lines": [
+	{ "speaker": "father", "text": "Your birthday is coming up maybe ill use some immaterial reward as well instead of you know, money." },
+	{ "speaker": "jessie", "text": "Haha, so funny. You are like a slow cooker for jokes. They take years to come out and when they do they are flawed but loveable." },
+	{ "speaker": "neutral", "text": "You somehow manage to make yourself laugh with your own joke." },
+	{ "speaker": "father", "text": "On the other hand we have you laughing at your own jokes like a psycho." },
+	{ "speaker": "jessie", "text": "Dont be jaelous of me for having some happiness in my life." },
+	],
+	"on_finish": {
+			"flag": "father_story",
+			"set": 1
+		}
+	},
+
+"father_connections": {
+	"lines": [
+	{ "speaker": "father", "text": "Im not sure if Im proud of you for being smart enough to plan into the future for once or dissapointed because my son is a schemer." },
+	{ "speaker": "jessie", "text": "Try both." },
+	],
+	"on_finish": {
+			"flag": "father_story",
+			"set": 1
+		}
+	},
+
+"father_goodness": {
+	"lines": [
+	{ "speaker": "father", "text": "Yeah. It is a good feeling isnt it?" },
+	{ "speaker": "jessie", "text": "For sure. If only somebody did a favour for me.." },
+	{ "speaker": "father", "text": "Im not giving you money." },
+	{ "speaker": "jessie", "text": "Oh cmon-" },
+	{ "speaker": "jessie", "text": "I mean..I was gonna ask for....uuhhhh." },
+	{ "speaker": "father", "text": "Im not giving you money." },
+	{ "speaker": "jessie", "text": "Fine, Scrooge. Keep your freakin money, go bathe in it or something." },
+	],
+	"on_finish": {
+			"flag": "father_story",
+			"set": 1
+		}
+	},
+
+
+"father_asking_for_money": {
+	"lines": [
+	{ "speaker": "father", "text": "No." },
+	{ "speaker": "jessie", "text": "Why?" },
+	{ "speaker": "father", "text": "Go ask him. Its his medicine." },
+	{ "speaker": "father", "text": "He seems like a reasonable guy, and the legislative was just created so the most probable option is he just doesnt know about it." },
+	{ "speaker": "jessie", "text": "Oh cmon!" },
+	{ "speaker": "father", "text": "Hey! Its not my problem youre anti-social" },
+	{ "speaker": "jessie", "text": "You are anti-" },
+	{ "speaker": "jessie", "text": "anti-normal" },
+	{ "speaker": "father", "text": "Wow. You surprise me with your wits everyday." },
+	{ "speaker": "jessie", "text": "Shut up." },
+	{ "speaker": "father", "text": "Where are you going?"},
+	{ "speaker": "jessie", "text": "To ask him for money!" },
+	{ "speaker": "neutral", "text": "You storm away from your father red in the face like a baloon(a red one)" },
+	],
+	"on_finish": {
+			"flag": "father_story",
+			"set": 1
+		}
+	},
+
+"father_ask_neighbor_for_money": {
+	"lines": [
+	{ "speaker": "father", "text": "Good luck." }
+	],
+	"on_finish": {
+			"flag": "father_story",
+			"set": 1
+		}
+	},
+
+
+
+
+
+"father_the_news": {
+	"lines": [
+	{ "speaker": "jessie", "text": "Dad?" },
+	{ "speaker": "jessie", "text": "Oh hey Jessie, whats up?" },
+	],
+	"choices": [
+	  {
+		"text": "The neighbor is drugging his wife so she keeps silent and does what he wants.",
+		"next": "father_spill_the_beans"
+	  },
+	  {
+		"text": "If the neighbor asks you to get some medicine for him just make up an excuse please.",
+		"next": "father_hint"
+	  },
+	  {
+		"text": "Just...I love you. Thats all I wanted to say.",
+		"next": "father_keep_the_secret"
+	  }
+	]
+	},
+
+
+"father_hint": {
+	"lines": [
+	{ "speaker": "father", "text": "What? Is this a joke?" },
+	{ "speaker": "jessie", "text": "I wish it was. I cant tell you any more, but its absolutely serious." },
+	{ "speaker": "father", "text": "You know you can tell me anything. Did he hurt you or something?" },
+	{ "speaker": "father", "text": "If he did anything to you ill kill him." },
+	],
+	"choices": [
+	  {
+		"text": "No, no..jesus. He didnt do anything to me. Just stay away from him and dont bring him the medicine.",
+		"next": "father_hint_finish"
+	  },
+	  {
+		"text": "The neighbor is drugging his wife so she keeps silent and does what he wants.",
+		"next": "father_spill_the_beans"
+	  },
+	  {
+		"text": "Just...I love you. Thats all I wanted to say.",
+		"next": "father_keep_the_secret"
+	  }
+	]
+	},
+
+
+"father_keep_the_secret": {
+	"lines": [
+	{ "speaker": "father", "text": "What is this random moment of compasion about?" },
+	{ "speaker": "jessie", "text": "Nothing. I just want you to know that." },
+	{ "speaker": "jessie", "text": "Youre a great dad." },
+	]
+	},
+
+
+"father_hint_finish": {
+	"lines": [
+	{ "speaker": "father", "text": "Okay..He seems like a stand up guy but ill keep an eye out." },
+	{ "speaker": "jessie", "text": "Id tell you but I swore I wouldnt tell anybody." },
+	{ "speaker": "father", "text": "Was that vow made to their son?" },
+	{ "speaker": "jessie", "text": "Yes..please dont hint at that or anything to the father." },
+	{ "speaker": "jessie", "text": "It would really freak up the dude life." },
+	{ "speaker": "father", "text": "Dont worry...but whatever it is, be careful." },
+	{ "speaker": "jessie", "text": "Dont worry dad, Ill be alright." },
+	],
+	"on_finish": [
+			{
+				"flag": "father_story",
+				"set": 2
+			}
+		]
+	},
+
+
+
+"father_spill_the_beans": {
+	"lines": [
+	{ "speaker": "father", "text": "What?" },
+	{ "speaker": "jessie", "text": "Nervine sedative" },
+	{ "speaker": "jessie", "text": "Thats what its called apparently." },
+	{ "speaker": "father", "text": "Wait, say that again." },
+	{ "speaker": "father", "text": "He is drugging his wife?" },
+	{ "speaker": "father", "text": "Where in the world did you come to this conclusion?" },
+	{ "speaker": "jessie", "text": "Their son told me. I went to their place in the evening and he told me." },
+	{ "speaker": "father", "text": "Son..not to discredit you or him but-" },
+	{ "speaker": "jessie", "text": "Its the truth!" },
+	{ "speaker": "jessie", "text": "I saw it on his face. He wasnt joking!" },
+	{ "speaker": "father", "text": "Okay. Okay. I believe you...Who knows?" },
+	{ "speaker": "jessie", "text": "Nobody. And he told me not to tell anybody, so dont tell anybody!" },
+	{ "speaker": "father", "text": "Dont worry. But these are some dangerous accusations you know that right?" },
+	{ "speaker": "jessie", "text": "Yeah and I didnt know what to do so I told you." },
+	{ "speaker": "father", "text": "Good descision. Im glad you did this." },
+	],
+  	"next_dialog": "father_spill_the_beans_finish"
+	},
+	
+"father_spill_the_beans_finish": {
+	"lines": [
+	{ "speaker": "father", "text": "But before I do or say anything I need more evidence." },
+	{ "speaker": "father", "text": "Because I do believe you BUT" },
+	{ "speaker": "father", "text": "These kind of things need concrete without a shadow of a doubt evidence." },
+	{ "speaker": "jessie", "text": "Yeah..so what do we do." },
+	{ "speaker": "father", "text": "We? You dont do anything. Or better yet. Stay away from that guy and his whole family." },
+	{ "speaker": "jessie", "text": "What? No way!" },
+	{ "speaker": "father", "text": "That is not a question. That is a decision. Dont talk to them. Dont look at them. Dont stand near them." },
+	{ "speaker": "father", "text": "Last thing I need is for you to get drugged or worse." },
+	{ "speaker": "father", "text": "What would I tell your mother? That a bad guy came into town and abducted our son?" },
+	{ "speaker": "father", "text": "Dont touch this or youre done, undestand?" },
+	{ "speaker": "jessie", "text": "Yes.." },
+	],
+	"on_finish": [
+			{
+				"flag": "father_story",
+				"set": 3
+			}
+		]
+	}
+
+
+
+}

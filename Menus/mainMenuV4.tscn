@@ -897,11 +897,8 @@ func start_new_game_in_slot(slot: int):
 
 func create_new_save_and_start(slot: int):
 	var data = {
-		\"player_position\": Vector2(100, 100),
-		\"flags\": {
-			\"neighbor_intro\": 0,
-			\"time_of_day\": \"morning\"
-		},
+		\"player_position\": Vector2(612.6969, 3712.808),
+		\"flags\": Global.DEFAULT_FLAGS.duplicate(),
 		\"inventory\": {
 			\"hands\": {},
 			\"pockets\": {},

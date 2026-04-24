@@ -8,7 +8,7 @@ var inventory = {
 	"backpack": {}
 }
 
-#nacitanie z dat SaveManageru
+#LOAD DATA FROM SAVEMANAGER
 func set_loaded_inventory(data: Dictionary) -> void:
 	inventory.clear()
 	for container_name in data.keys():
@@ -16,7 +16,7 @@ func set_loaded_inventory(data: Dictionary) -> void:
 	inventory_changed.emit()
 	print("Loaded inventory: ", inventory)
 
-#spravovanie inventaru
+#INTERACTIONS WITH INVENTORY
 func add_item(item_name: String, amount: int = 1):
 	var container = inventory["hands"]
 	if container.has(item_name):
@@ -38,6 +38,14 @@ func remove_item(item_name: String, amount: int = 1):
 	
 	emit_signal("inventory_changed")
 	print_inventory()
+
+
+
+func container_index_for_item(item_name: String) -> int:
+	for i in range(inventory.size()):
+		if inventory.keys()[i] == item_name:
+			return i
+	return -1
 
 func has_item(item_name: String, amount: int = 1) -> bool:
 	var total = 0

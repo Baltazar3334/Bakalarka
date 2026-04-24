@@ -25,6 +25,7 @@ func _ready():
 	refresh_availability()
 
 func interact(interactor):
+	print(\"ENTITY dialog_key =\", dialog_key)
 	if not can_interact:
 		print(\"cant interact\")
 		return

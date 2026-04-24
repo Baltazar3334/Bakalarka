@@ -1,0 +1,809 @@
+{
+	
+"comment_ignore": {
+	"lines": [
+	{ "speaker": "neutral", "text": "neighbor_story = 0 - havent talked to, 1 - first greeting finished, 
+	2 - asked for medicine, 3 - medicine given by doctor, 4 - medicine given to neighbor" },
+	
+	{ "speaker": "neutral", "text": "neighbor_visit_story = 0 - havent visited, 1 - visited neighbors first time" },
+	{ "speaker": "neutral", "text": "neighbor_opinion = 0 - doesnt like you particularly, 1 - likes you somewhat, 2 - real fan" }
+	],
+  	},
+	
+	
+"neighbor_cond": {
+	"conditions": [
+	{ "flags": { "neighbor_story": 0, "time_of_day": "morning" }, "dialog": "neighbor_intro" },
+	{ "flags": { "neighbor_story": 1,"neighbor_opinion": 0 ,"time_of_day": "morning" }, "dialog": "neighbor_intro_repair" },
+	{ "flags": { "neighbor_story": 1,"neighbor_opinion": 1 ,"time_of_day": "morning" }, "dialog": "neighbor_favour" },
+	{ "flags": { "neighbor_story": 2,"time_of_day": "morning" }, "dialog": "neighbor_giving_medicine" },
+	{ "flags": { "neighbor_story": 3,"time_of_day": "morning" }, "dialog": "neighbor_giving_medicine" },
+	
+	{ "flags": { "neighbor_opinion": 1 ,"time_of_day": "afternoon" }, "dialog": "neighbor_evening_visit" },
+	{ "flags": { "neighbor_opinion": 0 ,"time_of_day": "afternoon" }, "dialog": "neighbor_evening_visit_dont_like_you" },
+	
+	]
+  },
+
+
+"neighbor_intro_repair": {
+	"lines": [
+	{ "speaker": "neutral", "text": "Once Again you see the man sitting on the porch this time with a smile on his face." },
+  { "speaker": "neighbor", "text": "Ready to meet your neighbor?" }
+	],
+	"choices": [
+	  {
+		"text": "hello. Sure...?",
+		"next": "neighbor_who_quote"
+	  },
+	  {
+		"text": "Leave me alone.",
+		"next": "neighbor_rude"
+	  }
+	]
+  },
+
+"neighbor_who_quote": {
+	"lines": [
+ 	{ "speaker": "neighbor", "text": "Did you catch that?" },
+ 	{ "speaker": "jessie", "text": "Catch what?" },
+	{ "speaker": "neighbor", "text": "Me asking if youre ready to meet your neighbor." },
+	{ "speaker": "jessie", "text": "Im not deaf." },
+	{ "speaker": "neighbor", "text": "Its a funny play on the saying: Ready to meet your maker." },
+	{ "speaker": "jessie", "text": "I also caught that." },
+	{ "speaker": "neighbor", "text": "Winston Churchills epitaph is: Im ready to meet my maker but Im not sure hes ready to meet me." },
+	{ "speaker": "neighbor", "text": "I could have the same written on MY tombstone with how rude you were last time. With you know-" },
+	{ "speaker": "neighbor", "text": "the word maker replaced with neighbor..." },
+	{ "speaker": "jessie", "text": "You know your way around words Ill give you that and yeah sorry about last time. I had a bad morning." },
+	{ "speaker": "neighbor", "text": "Its okay. Why arent you at school anyway?" },
+	],
+	"choices": [
+	  {
+		"text": "Ummm. I have a cold? (Youre lying)",
+		"next": "neighbor_sick"
+	  },
+	  {
+		"text": "Thats confidential. *you wink at him*",
+		"next": "neighbor_wink"
+	  }
+	]
+  },
+
+"neighbor_intro": {
+	"lines": [
+	{ "speaker": "neutral", "text": "As you walk near the house a man sitting on the porch looks at you. he looks old and wears camo trousers and a white tank top. You aproach cautiously." },
+  { "speaker": "neighbor", "text": "Hey. how is it going young man?" }
+	],
+	"choices": [
+	  {
+		"text": "hello. Fine...who are you?",
+		"next": "neighbor_who"
+	  },
+	  {
+		"text": "Leave me alone.",
+		"next": "neighbor_rude"
+	  }
+	]
+  },
+
+"neighbor_who": {
+	"lines": [
+ 	{ "speaker": "neighbor", "text": "Im your new neighbor! Me and my family just moved in last week. 
+	Figured id get to know the people around here." },
+ 	{ "speaker": "jessie", "text": "Well I'm Jessie. Nice to meet you." },
+	{ "speaker": "neighbor", "text": "Im Michael. I have a son around your age maybe you could get to know eachother sometime." },
+	{ "speaker": "jessie", "text": "I guess we could." },
+	{ "speaker": "neighbor", "text": "Hes at school right now. Why arent you as well by the way?" },
+	],
+	"choices": [
+	  {
+		"text": "Ummm. I have a cold? (Youre lying)",
+		"next": "neighbor_sick"
+	  },
+	  {
+		"text": "Thats confidential. *you wink at him*",
+		"next": "neighbor_wink"
+	  }
+	]
+  },
+
+"neighbor_sick": {
+	"lines": [
+ 	{ "speaker": "jessie", "text": "Ummm. I have a cold? (Youre lying)" },
+	{ "speaker": "neighbor", "text": "Oh okay. Hope you get better soon then. Bye." },
+	{ "speaker": "jessie", "text": "Thanks." }
+	],
+	"on_finish": [
+		{
+			"flag": "neighbor_story",
+			"set": 1
+		},
+		{
+			"flag": "neighbor_opinion",
+			"set": 0
+		},
+		{
+			"moveNPC": {
+			"NPCid": "neighbor_npc",
+			"x": -5,
+			"y": 1,
+			"move_speed": 50,
+			"change_after_move": {
+				"neighbor_there": 0
+				}
+			}
+		}
+	]
+  },
+
+"neighbor_wink": {
+	"lines": [
+	{ "speaker": "neighbor", "text": "Oh haha. Well try not to get caught then. Adam already got into problems for missing one lesson because of his..." },
+	{ "speaker": "neutral", "text": "*the man shuffles slightly*" },
+	{ "speaker": "neighbor", "text": "well..us moving in. Obviously." },
+	{ "speaker": "jessie", "text": "Oh that sucks. But dont worry about me. Besides I have some important stuff to do." },
+	{ "speaker": "neighbor", "text": "Sure. Come by some time in the evening. Adam will be home by then and you can meet." },
+	{ "speaker": "jessie", "text": "Sounds good! See you later." },
+	{ "speaker": "neutral", "text": "The neighbor slowly shuffles to the door, holding his lower back while doing so." },
+	],
+	"on_finish": [
+		{
+			"flag": "neighbor_story",
+			"set": 1
+		},
+		{
+			"flag": "neighbor_opinion",
+			"set": 1
+		},
+		{
+			"moveNPC": {
+			"NPCid": "neighbor_npc",
+			"x": -5,
+			"y": 1,
+			"move_speed": 50,
+			"change_after_move": {
+				"neighbor_there": 0
+				}
+			}
+		}
+	]
+	},
+
+"neighbor_rude": {
+	"lines": [
+	{ "speaker": "jessie", "text": "Leave me alone." },
+ 	{ "speaker": "neighbor", "text": "Wow. No need to be rude..." },
+	],
+	"on_finish": [
+		{
+			"flag": "neighbor_story",
+			"set": 1
+		},
+		{
+			"flag": "neighbor_opinion",
+			"set": 0
+		},
+	]
+  },
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	"neighbor_house": {
+	"conditions": [
+	{ "flags": { "neighbor_story": 1, "neighbor_asking_for_medicine": 0, "time_of_day": "morning" }, "dialog": "neighbor_asking_favour" },
+	{ "flags": { "neighbor_story": 1, "neighbor_asking_for_medicine": 2, "time_of_day": "morning" }, "dialog": "neighbor_giving_medicine" },
+	{ "flags": { "neighbor_story": 1, "time_of_day": "morning" }, "dialog": "neighbor_asking_favour" },
+	{ "flags": { "neighbor_story": 0, "time_of_day": "afternoon" }, "dialog": "neighbor_not_there" },
+	{ "flags": { "neighbor_story": 1, "time_of_day": "afternoon" }, "dialog": "neighbor_afternoon" },
+	{ "flags": { "neighbor_story": 0, "time_of_day": "morning" }, "dialog": "neighbor_intro" }
+	
+	
+	]
+  },
+
+  
+
+"neighbor_favour": {
+	"lines": [
+	{ "speaker": "neighbor", "text": "Hey kid. Hows it going today?" },
+	{ "speaker": "jessie", "text": "Cant complain. You seem in a good mood." },
+	{ "speaker": "neighbor", "text": "No reason to be sad today so Im smiling." },
+	{ "speaker": "jessie", "text": "Seems like a good way of thinking about life." },
+	{ "speaker": "neighbor", "text": "Heh well.." },
+	{ "speaker": "neighbor", "text": "Listen, are you free today?" },
+	{ "speaker": "jessie", "text": "Sure, why?" },
+	{ "speaker": "neighbor", "text": "I need my medicine from the hospital, but my back is really hurting so I cant go myself." },
+	{ "speaker": "neighbor", "text": "If you could go take it for me Id be really greatful." },
+	{ "speaker": "jessie", "text": "Sure, I can go." },
+	{ "speaker": "neighbor", "text": "Thank you. Id send my boy but hes already left for school. Just take this prescription here and the lady at the hospital will give you the meds." },
+	{ "speaker": "jessie", "text": "Okay dont worry Ill go take them." },
+	],
+	"on_finish": [
+		{
+			"flag": "neighbor_story",
+			"set": 2
+		}
+	]
+	
+  },
+
+
+
+"neighbor_giving_medicine": {
+	"lines": [
+	{ "speaker": "neighbor", "text": "Hey son." },
+	{ "speaker": "neighbor", "text": "What do you need?" }
+	],
+	"choices": [
+	  {
+		"text": "talk about the medicine",
+		"next": "neighbor_give_medicine_cond"
+	  },
+	  {
+		"text": "Could you lend me some money?",
+		"next": "neighbor_ask_for_money_cond"
+	  },
+		{
+		"text": "Ask about their son",
+		"next": "neighbor_ask_about_son_cond"
+	  },
+	]
+	},
+
+"neighbor_give_medicine_cond": {
+	"conditions": [
+	{"requires_item": { "name": "neighbors medicine", "amount": 1 }, "dialog": "neighbor_medicine_give"},
+	{ "dialog": "neighbor_ask_about_the_medicine"}
+	]
+  },
+
+"neighbor_medicine_give": {
+	"lines": [
+	{ "speaker": "jessie", "text": "I got the medicine you asked for." },
+	{ "speaker": "neighbor", "text": "Oh thank you! You cant even understand how much I owe you." }
+	],
+	"on_finish": [
+		{
+			"remove_item": {
+				"name": "neighbors medicine",
+				"amount": 1
+			}	
+		},
+		{
+			"flag": "neighbor_story",
+			"set": 4
+		},
+		{
+			"flag": "neighbor_opinion",
+			"set": 1
+		},
+		{
+			"moveNPC": {
+			"NPCid": "neighbor_npc",
+			"x": -5,
+			"y": 1,
+			"move_speed": 50,
+			"change_after_move": {
+				"neighbor_there": 0
+				}
+			}
+		}
+	]
+	},
+
+"neighbor_ask_about_the_medicine": {
+	"lines": [
+	{ "speaker": "jessie", "text": "Where did you say I should go get the medicine from?" },
+	{ "speaker": "neighbor", "text": "Oh..from the hospital." },
+	{ "speaker": "jessie", "text": "The hospital?" },
+	{ "speaker": "neighbor", "text": "Yeah. Anything wrong?" },
+	{ "speaker": "jessie", "text": "No, no. Just that it must be some special medicine that you have to go to the hospital for it." },
+	{ "speaker": "neighbor", "text": "Well. Dont bother about what it is. Id really appreciate it if you just went to get it for me. My back is really hurting right now." },
+	{ "speaker": "jessie", "text": "Sure, dont worry about it." },
+	],
+	"on_finish": {
+		"flag": "neighbor_asked_about_son",
+		"set": 1 
+		}
+	},
+
+
+"neighbor_ask_about_son_cond": {
+	"conditions": [
+	{"flags": { "neighbor_asked_about_son": 1}, "dialog": "neighbor_son_inquire"},
+	{"flags": { "neighbor_asked_about_son": 0}, "dialog": "neighbor_son_simple"}
+	]
+  },
+
+"neighbor_son_simple": {
+	"lines": [
+	{ "speaker": "jessie", "text": "So. How is your son? You said we could meet?" },
+	{ "speaker": "neighbor", "text": "Oh youre still interested?" },
+	{ "speaker": "jessie", "text": "Sure. The more connections the better. Haha." },
+	{ "speaker": "neighbor", "text": "Well come around one of these evenings and you can meet. Hes home almost every day." },
+	]
+	},
+
+"neighbor_son_inquire": {
+	"lines": [
+	{ "speaker": "jessie", "text": "Can I ask you something?" },
+	{ "speaker": "neighbor", "text": "What is it?" },
+	{ "speaker": "jessie", "text": "Is the medicine for your son?" },
+	{ "speaker": "neighbor", "text": "Kid.." },
+	{ "speaker": "neighbor", "text": "I like you but youre threading on thin ice here." },
+	{ "speaker": "neighbor", "text": "The answer is that it is none of your business. I asked you for a favour not a to be nosey." },
+	{ "speaker": "jessie", "text": "Im not trying to be nosey..." }
+	],
+	"choices": [
+	  {
+		"text": "I was just curious I wont push anymore. Sorry if I offended you.",
+		"next": "neighor_son_inquire_nice"
+	  },
+	  {
+		"text": "Im sorry and I wont judge but I think I deserve an answer.",
+		"next": "neighor_son_inquire_rude_cond"
+	  }
+	]
+	},
+
+"neighor_son_inquire_rude_cond": {
+	"conditions": [
+	{"flags": { "neighbor_gave_money": 1 }, "dialog": "neighor_son_inquire_rude_money"},
+	{"flags": { "neighbor_gave_money": 0 }, "dialog": "neighor_son_inquire_rude_no_money"},
+	
+	]
+  },
+
+"neighor_son_inquire_nice": {
+	"lines": [
+	{ "speaker": "neighbor", "text": "Youre damn right you wont." },
+	{ "speaker": "neighbor", "text": "I know youre just a kid but you really should think before you ask rude questions." },
+	{ "speaker": "neighbor", "text": "If youre not careful youll get punched in the face a lot when you grow up." }
+	]
+	},
+
+"neighor_son_inquire_rude_money": {
+	"lines": [
+	{ "speaker": "neighbor", "text": "You think you deserve-" },
+	{ "speaker": "neighbor", "text": "Listen here you little shit. Either go get the medicine or leave. You dont 'deserve' anything."},
+	{ "speaker": "neighbor", "text": "I dont need people gossiping about my son."},
+	{ "speaker": "neighbor", "text": "And MOST OF ALL I dont need nosey half-whits spreading lies about my family."},
+	{ "speaker": "jessie", "text": "I would never do such thing. And more importantly-"},
+	{ "speaker": "neighbor", "text": "Sure. We will not speak about this anymore."},
+	{ "speaker": "neighbor", "text": "I gave you the money so go get my medicine."},
+	],
+	"on_finish": [
+		{
+			"flag": "neighbor_opinion",
+			"set": 0
+		},
+	]
+	},
+
+"neighor_son_inquire_rude_no_money": {
+	"lines": [
+	{ "speaker": "neighbor", "text": "You think you deserve-" },
+	{ "speaker": "neighbor", "text": "Listen here you little shit. Either go get the medicine or leave. You dont 'deserve' anything."},
+	{ "speaker": "neighbor", "text": "I dont need people gossiping about my son."},
+	{ "speaker": "neighbor", "text": "And MOST OF ALL I dont need nosey half-whits spreading lies about my family."},
+	{ "speaker": "jessie", "text": "I would never do such thing. And more importantly-"},
+	{ "speaker": "neighbor", "text": "Sure. We will not speak about this anymore."},
+	{ "speaker": "neighbor", "text": "Either go get my medicine or dont."},
+	]
+	},
+
+
+"neighbor_ask_for_money_cond": {
+	"conditions": [
+	{"flags": { "neighbor_gave_money": 0}, "dialog": "neighbor_ask_for_money"},
+	{ "dialog": "neighbor_money_already_gave"}
+	]
+  },
+
+"neighbor_ask_for_money": {
+	"lines": [
+	{ "speaker": "jessie", "text": "Ummm. Could you lend me some money?" },
+	{ "speaker": "neighbor", "text": "What for?" },
+	{ "speaker": "jessie", "text": "Well the medicine. Turns out its not free. Actually its 11 dollars." },
+	{ "speaker": "neighbor", "text": "Are they for real? Every year they are just milking us more and more." },
+	{ "speaker": "neighbor", "text": "Soon we wont even have any money to live." },
+	{ "speaker": "jessie", "text": "It is what it is. I dont have any money to spare so..." },
+	{ "speaker": "neighbor", "text": "Ugh. Im sorry for rambling. Sure, heres the money. And thank you for doing this." },
+	{ "speaker": "jessie", "text": "Sure no problem" },
+	{ "speaker": "neutral", "text": "That went better thank expected." }
+	],
+	"on_finish": [
+		{
+			"flag": "neighbor_gave_money",
+			"set": 1
+		},
+		{
+				"give_item": {
+				"name": "money",
+				"amount": 11
+			}
+		}
+	]
+	},
+
+"neighbor_money_already_gave": {
+	"lines": [
+	{ "speaker": "jessie", "text": "Ummm. Could you lend me some money?" },
+	{ "speaker": "neighbor", "text": "What do you mean? I already gave you money for the medicine." },
+	{ "speaker": "jessie", "text": "Oh yeah I forgot. Sorry.." },
+	]
+	},
+
+
+
+
+"neighbor_evening_visit_dont_like_you": {
+	"lines": [
+	{ "speaker": "neutral", "text": "Looks like the neighbors arent welcoming any visitors at this time. Or maybe its just you..." },
+	{ "speaker": "jessie", "text": "Well...If i want to meet that kid I should get on better terms with his father." },
+	{ "speaker": "jessie", "text": "Meeting him in school is a no no. Hes too weird to risk being seen with him." },
+	{ "speaker": "jessie", "text": "I should catch up with Michael - the weid military style neighbor. He definitely has a MAGA hat hidden somewhere." }
+	]
+  },
+
+
+
+"neighbor_evening_visit": {
+	"lines": [
+	{ "speaker": "neutral", "text": "You knock on the door." },
+	{ "speaker": "jessie", "text": "Hello?" },
+	{ "speaker": "neutral", "text": "You hear somebody shuffling to the door." },
+	{ "speaker": "neighbor", "text": "Hey kid. You here to see Adam right?" },
+	{ "speaker": "jessie", "text": "Yeah. I told you id stop by. So Im here." },
+	{ "speaker": "neighbor", "text": "Hold on hes right upstairs. Let me hollar at im." },
+	{ "speaker": "neighbor", "text": "Adaaaaam!!" },
+	{ "speaker": "neutral", "text": "The sound of his voice is so loud youd swear you just got a tinnitus from it" },
+	{ "speaker": "neutral", "text": "Nonetheless nobody comes..." },
+	{ "speaker": "jessie", "text": "Maybe hes sleeping?" },
+	{ "speaker": "neighbor", "text": "No hes must be doing something important. Wait here for a bit, would ya?" },
+	{ "speaker": "neutral", "text": "The man turns around to walk away and you see a pistol behind his belt" },
+	{ "speaker": "jessie", "text": "*just what I need*" },
+	{ "speaker": "janette", "text": "Oh hello sweetie.*" },
+	{ "speaker": "jessie", "text": "Oh, good evening. Your Adams mom I presume?" },
+	{ "speaker": "janette", "text": "Step mom actually. But yes, youre correct. Ive raised him from 2 years old so basically you can call me his mom." },
+	{ "speaker": "janette", "text": "But sometimes I feel like his doorman, waitress and detail crew with how much I do around here." },
+	{ "speaker": "janette", "text": "Not to say he isnt a good boy. Hes the best boy. Thats why hes so good." },
+	{ "speaker": "janette", "text": "...And Michael as well!" },
+	{ "speaker": "jessie", "text": "Okay..." },
+	{ "speaker": "neutral", "text": "an awkward silence fills the room" },
+	{ "speaker": "neutral", "text": "..." },
+	{ "speaker": "neutral", "text": "..." },
+	{ "speaker": "janette", "text": "Did my husband..." },
+	{ "speaker": "janette", "text": "...well..say something about me?" },
+	],
+	"choices": [
+	  {
+		"text": "Not really.",
+		"next": "neighbors_wife_tell_truth"
+	  },
+	  {
+		"text": "He mentioned how much you take care of your son. (lie)",
+		"next": "neighbors_wife_lie"
+	  },
+		{
+		"text": "He actaully mentioned some medicine that he needed for me to pick up. He couldnt do it himself at the time.",
+		"next": "neighbors_wife_ask_about_medicine",
+  		"requires_flag": {
+		"neighbor_story": 4
+  		}
+	  },
+	]
+  },
+
+"neighbors_wife_tell_truth": {
+	"lines": [
+	{ "speaker": "janette", "text": "He is a man of few words right?" },
+	{ "speaker": "jessie", "text": "sur-" },
+	{ "speaker": "janette", "text": "He really is." },
+	{ "speaker": "janette", "text": "Adam is gonna be just as stoic and caring as he is." },
+	{ "speaker": "neutral", "text": "You hear walking from upstair" },
+	{ "speaker": "janette", "text": "IN A GOOD WAY. Stoic as in logical and deliberate!" },
+	{ "speaker": "jessie", "text": "..." },
+	],
+  	"next_dialog": "neighbor_after_son_comes"
+	},
+
+"neighbors_wife_lie": {
+	"lines": [
+	{ "speaker": "janette", "text": "Did he?" },
+	{ "speaker": "janette", "text": "Like...in a what way?" },
+	{ "speaker": "jessie", "text": "Like praise kind of way. That hes lucky to have you." },
+	{ "speaker": "janette", "text": "..." },
+	{ "speaker": "neutral", "text": "The lady seems to have noticed the weird posture she has been maintaining for the whole conversation and relaxes a little." },
+	{ "speaker": "jessie", "text": "..." },
+	{ "speaker": "neutral", "text": "You hear walking from upstair" },
+	],
+  	"next_dialog": "neighbor_after_son_comes"
+	},
+
+"neighbors_wife_ask_about_medicine": {
+	"lines": [
+	{ "speaker": "janette", "text": "What? What medicine?" },
+	{ "speaker": "janette", "text": "Oh I know! Its his back. Hes been working so hard to get all the furniture in order. Poor man." },
+	{ "speaker": "janette", "text": "We just moved into the city and I told him not to but he had to and he said he must." },
+	{ "speaker": "jessie", "text": "Must what?" },
+	{ "speaker": "janette", "text": "Move the furniture in!" },
+	{ "speaker": "janette", "text": "Why didnt he tell me I know just the person for that..." },
+	{ "speaker": "janette", "text": "Its the Marry girl in town. Her massages are to die for. Have you tried them?" },
+	{ "speaker": "jessie", "text": "Not really. I dont-" },
+	{ "speaker": "janette", "text": "You definitely should. Last time I went there I felt like I was reborn." },
+	{ "speaker": "neutral", "text": "The lady seems to have noticed the weird posture she has been maintaining for the whole conversation and relaxes a little." },
+	{ "speaker": "jessie", "text": "So its for his back? The packaging didnt seem like just some pain meds. And neither was the place I picked them up from." },
+	{ "speaker": "neutral", "text": "She slowly return to her original posture as she speaks.." },
+	{ "speaker": "janette", "text": "Oh they definitely are. Its the doctors, they make it so hard to stay healthy in this day and age. Just last week I-" },
+	{ "speaker": "neutral", "text": "You hear walking from upstair" },
+	
+	],
+  	"next_dialog": "neighbor_after_son_comes"
+	
+	},
+
+"neighbor_after_son_comes": {
+	"lines": [
+	{ "speaker": "neighbor", "text": "Stop talking his ear off Jane. I told you to keep it down when theres people around." },
+	{ "speaker": "neutral", "text": "The wife steps back in embarassment" },
+	{ "speaker": "david", "text": "So hi..." },
+	{ "speaker": "jessie", "text": "Hey." },
+	{ "speaker": "david", "text": "So uhhh.." },
+	{ "speaker": "david", "text": "Wanna come upstairs?" },
+	{ "speaker": "jessie", "text": "Sure." },
+	{ "speaker": "neutral", "text": "You finally leave the awkward situation" },
+	{ "speaker": "neutral", "text": "you feel like the balance of awkwardness has shifted in this room tonight"},
+	{ "speaker": "david", "text": "Weird family huh?" },
+	{ "speaker": "jessie", "text": "Glad Im not the only one that has noticed haha." },
+	{ "speaker": "david", "text": "Father sent you for the medicine right?" },
+	],
+	"choices": [
+	  {
+		"text": "Yep.",
+		"next": "neighor_son_delivered_medicine",
+		"requires_flag": {
+			"neighbor_story": 4
+		}
+	  },
+	  {
+		"text": "He asked but I havent got around to doing it yet. (lie)",
+		"next": "neighor_son_has_yet_to_deliver_medicine",
+		"requires_flag": {
+			"neighbor_story": 4
+		}
+	},
+	  {
+		"text": "He asked but I havent got around to doing it yet.",
+		"next": "neighor_son_has_yet_to_deliver_medicine",
+		"requires_flag": {
+			"neighbor_story": 3
+		}
+	},
+	  {
+		"text": "Medicine? He never mentioned any meds..",
+		"next": "neighor_son_father_didnt_ask_yet",
+		"requires_flag": {
+			"neighbor_story": 3
+		}
+	  },
+	  {
+		"text": "Medicine? He never mentioned any meds.. (lie)",
+		"next": "neighor_son_father_didnt_ask_yet",
+		"requires_flag": {
+			"neighbor_story": 4
+		}
+	  },
+	  {
+		"text": "Medicine? He never mentioned any meds..",
+		"next": "neighor_son_father_didnt_ask_yet",
+		"requires_flag": {
+			"neighbor_story": 1
+		}
+	  }
+	],
+	"on_finish": [
+		{
+			"flag": "neighbor_visit_story",
+			"set": 1
+		}
+	]
+	},
+
+
+
+
+
+"neighor_son_delivered_medicine": {
+	"lines": [
+	{ "speaker": "david", "text": "Thought so.." },
+	{ "speaker": "david", "text": "He never sends me..as if i didnt know." },
+	{ "speaker": "jessie", "text": "Know about what?" },
+	{ "speaker": "david", "text": "Nothing." },
+	{ "speaker": "jessie", "text": "Cmon, now you have to tell me..." },
+	{ "speaker": "david", "text": "..." },
+	{ "speaker": "jessie", "text": "Cmon! Spill the beans!" },
+	{ "speaker": "david", "text": "Okay..I guess theres no hiding the problem my family has." },
+	{ "speaker": "david", "text": "But you gotta swear you wont tell anybody" },
+	{ "speaker": "jessie", "text": "I swear I wont tell anybody." },
+	],
+	"on_finish": [
+		{
+			"flag": "david_opinion",
+			"set": 1
+		},
+	],
+  	"next_dialog": "neighbor_son_confession"
+	},
+
+"neighor_son_has_yet_to_deliver_medicine": {
+	"lines": [
+	{ "speaker": "david", "text": "I dont blame you. My father is..." },
+	{ "speaker": "david", "text": "difficult." },
+	{ "speaker": "david", "text": "He never sends me..as if i didnt know." },
+	{ "speaker": "jessie", "text": "Know about what?" },
+	{ "speaker": "david", "text": "Nothing." },
+	{ "speaker": "jessie", "text": "Cmon, now you have to tell me..." },
+	{ "speaker": "david", "text": "..." },
+	{ "speaker": "jessie", "text": "Cmon! Spill the beans!" },
+	{ "speaker": "david", "text": "Okay..I guess theres no hiding the problem my family has." },
+	{ "speaker": "david", "text": "But you gotta swear you wont tell anybody" },
+	{ "speaker": "jessie", "text": "I swear I wont tell anybody." },
+	],
+	"on_finish": [
+		{
+			"flag": "david_opinion",
+			"set": 1
+		},
+	],
+  	"next_dialog": "neighbor_son_confession"
+	},
+
+"neighor_son_father_didnt_ask_yet": {
+	"lines": [
+	{ "speaker": "david", "text": "Really?" },
+	{ "speaker": "david", "text": "Normally he asks anybody for help as long as they are as much of a stranger to the family as possible." },
+	{ "speaker": "jessie", "text": "He didnt exaclty didnt want to get to know me better." },
+	{ "speaker": "david", "text": "You must have made quite an impression on him then." },
+	{ "speaker": "jessie", "text": "I have that effect on people i guess." },
+	{ "speaker": "david", "text": "Well hes gonna ask Id guess. As long as its not me or god forbid mother." },
+	{ "speaker": "jessie", "text": "Can I ask you whats the medicine?" },
+	{ "speaker": "david", "text": "I shouldnt spread the secret. If father finds out..." },
+	{ "speaker": "jessie", "text": "Cmon! Spill the beans!" },
+	{ "speaker": "david", "text": "I dont know.." },
+	{ "speaker": "david", "text": "But you gotta swear you wont tell anybody" },
+	{ "speaker": "jessie", "text": "I swear I wont tell anybody." },
+	],
+	"on_finish": [
+		{
+			"flag": "david_opinion",
+			"set": 1
+		},
+	],
+  	"next_dialog": "neighbor_son_confession"
+	},
+
+"neighbor_son_confession": {
+	"lines": [
+	{ "speaker": "david", "text": "Its Nervine sedative" },
+	{ "speaker": "jessie", "text": "Whats that?" },
+	{ "speaker": "david", "text": "A sort of calm down medication for histerical women" },
+	{ "speaker": "david", "text": "horribly ddictive and not healthy." },
+	{ "speaker": "jessie", "text": "What? Why does she take it?" },
+	{ "speaker": "david", "text": "Are you living under a rock?" },
+	{ "speaker": "jessie", "text": "Funny. My father tells me that all the time." },
+	{ "speaker": "david", "text": "Theres absolutely nothing funny about this." },
+	{ "speaker": "jessie", "text": "I feel like Patrick Star over here. What is this Nervine sedative deal about?" },
+	{ "speaker": "neutral", "text": "you try to lighten up the mood unsucessfuly" },
+	{ "speaker": "david", "text": "Dude you asked about it so either listen or just stop." },
+	{ "speaker": "jessie", "text": "Sorry Im listening" },
+	{ "speaker": "david", "text": "Its the so called state of the art medicine for histerical woman." },
+	{ "speaker": "david", "text": "But its anything but medicine." },
+	{ "speaker": "david", "text": "It makes my mom all..." },
+	{ "speaker": "david", "text": "Well youve seen how she is." },
+	{ "speaker": "david", "text": "When I was little my parents used to argue and fight a lot. But now.." },
+	{ "speaker": "david", "text": "whenever my father desnt like something he tells her to take the medicine." },
+	{ "speaker": "david", "text": "She just takes it and then shes like this." },
+	{ "speaker": "david", "text": "Its a drug. Like heroin or something you know?" },
+	{ "speaker": "jessie", "text": "Wow..thats some heavy stuff." },
+	{ "speaker": "jessie", "text": "Why dont you tell her?" },
+	{ "speaker": "david", "text": "Like she...or they..would ever listen." },
+	{ "speaker": "david", "text": "My father would go crazy anyway if I argued anything." },
+	{ "speaker": "david", "text": "Even if he like..knew I knew?" },
+	{ "speaker": "david", "text": "I dont know what hed do about it." },
+	{ "speaker": "david", "text": "And honestly Im surprised you didnt know about the tablets.." },
+	{ "speaker": "jessie", "text": "Never heard about it. But Im really sorry for all this happening to you." },
+	{ "speaker": "david", "text": "Its my mom you should be worrying about not me. But we all have to play the cards we get right?" },
+	{ "speaker": "jessie", "text": "..." },
+	{ "speaker": "david", "text": "You can keep bringing the medicine for her. Not like you can change much." },
+	],
+	"choices": [
+	  {
+		"text": "No chance.",
+		"next": "neighor_son_delivering_deny"
+	  },
+	  {
+		"text": "Hell probably find somebody else to do it or hell do it himself.",
+		"next": "neighor_son_delivering_redirect"
+	  }
+	]
+},
+	
+"neighor_son_delivering_deny": {
+	"lines": [
+	{ "speaker": "david", "text": "Well that is honorable from you but as I said theres nothing we can do about it." },
+	{ "speaker": "david", "text": "But as I said..Dont tell anybody or Ill be in deep trouble. So would mom." },
+	{ "speaker": "jessie", "text": "Trust me. I wont." },
+	],
+  	"next_dialog": "neighbor_son_finish"
+	},
+
+"neighor_son_delivering_redirect": {
+	"lines": [
+	{ "speaker": "david", "text": "Exaclty. Before we moved here my uncle used to do it. But now..he needs a new mule" },
+	{ "speaker": "david", "text": "But as I said..Dont tell anybody or Ill be in deep trouble. So would mom." },
+	{ "speaker": "jessie", "text": "Trust me. I wont." },
+	],
+  	"next_dialog": "neighbor_son_finish"
+	},
+
+"neighbor_son_finish": {
+	"lines": [
+	{ "speaker": "neutral", "text": "Theres a long silence only broken up by davids mother deciding to start vacuuming in the middle of the night" },
+	{ "speaker": "neutral", "text": "David looks at you. Sadness in his eyes is now clearly visible where it was hidden before" },
+	{ "speaker": "david", "text": "I think you should get going now." },
+	{ "speaker": "jessie", "text": "Sure." },
+	{ "speaker": "david", "text": "We can meet in school if youd like to." },
+	{ "speaker": "jessie", "text": "Sure." },
+	{ "speaker": "jessie", "text": "*What did I just get into*" },
+	{ "speaker": "jessie", "text": "Yeah, I dont visit it much lately but if you see me we can talk." },
+	{ "speaker": "neutral", "text": "As you exit the neighbors residence you greet Davids mom and silently leave" },
+	{ "speaker": "jessie", "text": "This has been one hell of an evening." },
+	{ "speaker": "jessie", "text": "I have to tell dad...or?" },
+	],
+	"on_finish": [
+		{
+			"flag": "neighbor_visit_story",
+			"set": 1
+		},
+	],
+	
+}
+
+
+}

@@ -1,9 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://csdkfvoiv71s8"]
+[gd_scene load_steps=4 format=3 uid="uid://csdkfvoiv71s8"]
+
+[ext_resource type="FontFile" uid="uid://tijcrm3xso4f" path="res://UI/Fonts/AurulentSansMono-Regular.otf" id="1_5v8q7"]
 
 [sub_resource type="GDScript" id="GDScript_s43p6"]
 script/source = "extends Control
 
-@onready var list: Label = $Panel/RichTextLabel
+@onready var list: RichTextLabel = $OuterPanel/InnerPanel/RichTextLabel
+@onready var outer_panel: Panel = $OuterPanel
+@onready var inner_panel: Panel = $OuterPanel/InnerPanel
 
 var current_container_index: int = 0
 var current_item_index: int = 0
@@ -11,14 +15,66 @@ var current_item_index: int = 0
 var grabbed_item: String = \"\"
 var grabbed_from: String = \"\"
 
+const OUTER_BG := Color(\"#000000\")
+const OUTER_BORDER := Color(\"#000000\")
+const INNER_BG := Color(\"#000000\")
+const INNER_BORDER := Color(\"#3E656E\")
+
+const BG_COLOR := Color(\"#000000\")
+const TEXT_COLOR := Color(\"#ffffff\")
+const MUTED_COLOR := Color(\"#3E656E\")
+const ACCENT_COLOR := Color(\"#3E656E\")
+const SELECT_BG := Color(\"#111111\")
+const YELLOW_COLOR := Color(\"#d8c66d\")
+const GREEN_COLOR := Color(\"#8fbf8f\")
+const RED_COLOR := Color(\"#c46b6b\")
 
 
 func _ready():
 	visible = false
+	setup_panel_style()
+	setup_label_style()
 	InventoryManager.inventory_changed.connect(render_inventory)
 	render_inventory()
-	
-#helper functions
+
+
+func setup_panel_style():
+	var outer_style := StyleBoxFlat.new()
+	outer_style.bg_color = OUTER_BG
+	outer_style.border_width_left = 2
+	outer_style.border_width_top = 2
+	outer_style.border_width_right = 2
+	outer_style.border_width_bottom = 2
+	outer_style.border_color = OUTER_BORDER
+	outer_style.content_margin_left = 4
+	outer_style.content_margin_top = 4
+	outer_style.content_margin_right = 4
+	outer_style.content_margin_bottom = 4
+	outer_panel.add_theme_stylebox_override(\"panel\", outer_style)
+
+	var inner_style := StyleBoxFlat.new()
+	inner_style.bg_color = INNER_BG
+	inner_style.border_width_left = 2
+	inner_style.border_width_top = 2
+	inner_style.border_width_right = 2
+	inner_style.border_width_bottom = 2
+	inner_style.border_color = INNER_BORDER
+	inner_style.content_margin_left = 10
+	inner_style.content_margin_top = 10
+	inner_style.content_margin_right = 10
+	inner_style.content_margin_bottom = 10
+	inner_panel.add_theme_stylebox_override(\"panel\", inner_style)
+
+
+func setup_label_style():
+	list.bbcode_enabled = true
+	list.fit_content = true
+	list.scroll_active = false
+	list.autowrap_mode = TextServer.AUTOWRAP_OFF
+	list.add_theme_color_override(\"default_color\", TEXT_COLOR)
+
+
+# helper functions
 func get_containers() -> Array:
 	return InventoryManager.inventory.keys()
 
@@ -29,11 +85,16 @@ func get_items(container_name: String) -> Array:
 
 func get_current_container() -> String:
 	var containers = get_containers()
+	if containers.size() == 0:
+		return \"\"
 	return containers[current_container_index]
 
 
 func get_current_items() -> Array:
-	return get_items(get_current_container())
+	var container = get_current_container()
+	if container == \"\":
+		return []
+	return get_items(container)
 
 
 func get_current_item() -> String:
@@ -42,39 +103,160 @@ func get_current_item() -> String:
 		return \"\"
 	return items[current_item_index]
 
-#render
-func render_inventory():
-	var containers = get_containers()
-	var text = \"\"
 
-	for c_index in containers.size():
-		var container_name = containers[c_index]
-		text += container_name + \"/\\n\"
+func clamp_selection():
+	var containers = get_containers()
+
+	if containers.size() == 0:
+		current_container_index = 0
+		current_item_index = 0
+		return
+
+	current_container_index = clamp(current_container_index, 0, containers.size() - 1)
+
+	var items = get_current_items()
+	if items.size() == 0:
+		current_item_index = 0
+	else:
+		current_item_index = clamp(current_item_index, 0, items.size() - 1)
+
+
+
+func drop_current_item():
+	var item_name = get_current_item()
+	if item_name == \"\":
+		return
+	var container = get_current_container()
+
+	spawn_world_item(item_name, 1)
+
+	InventoryManager.remove_item(item_name, 1)
+	render_inventory()
+
+func spawn_world_item(item_name: String, amount: int):
+	var scene = load(\"res://world_item.tscn\")
+	var item_instance = scene.instantiate()
+
+	item_instance.item_name = item_name
+	item_instance.amount = amount
+
+	item_instance.global_position = get_player_position()
+
+	get_tree().current_scene.add_child(item_instance)
+
+func get_player_position() -> Vector2:
+	return get_node(\"../../player\").global_position
+
+
+
+
+
+# render
+func render_inventory():
+	clamp_selection()
+
+	var containers = get_containers()
+	var text := \"\"
+
+	text += \"[bgcolor=%s][color=%s] INVENTORY [/color][/bgcolor]\\n\\n\" % [
+		ACCENT_COLOR.to_html(),
+		BG_COLOR.to_html()
+	]
+
+	if containers.size() == 0:
+		text += \"[color=%s]No containers found.[/color]\\n\\n\" % RED_COLOR.to_html()
+		text += build_statusline()
+		list.text = text
+		return
+
+	for c_index in range(containers.size()):
+		var container_name = str(containers[c_index])
+		var is_current_container = c_index == current_container_index
+
+		if is_current_container:
+			text += \"[color=%s]%s/[/color]\\n\" % [ACCENT_COLOR.to_html(), container_name]
+		else:
+			text += \"[color=%s]%s/[/color]\\n\" % [MUTED_COLOR.to_html(), container_name]
+
 		var items = get_items(container_name)
+
 		if items.size() == 0:
-			if c_index == current_container_index:
-				text += \" > (empty)\\n\"
+			if is_current_container:
+				text += \"[bgcolor=%s][color=%s] > (empty) [/color][/bgcolor]\\n\" % [
+					SELECT_BG.to_html(),
+					TEXT_COLOR.to_html()
+				]
 			else:
-				text += \"   (empty)\\n\"
+				text += \"[color=%s]   (empty)[/color]\\n\" % MUTED_COLOR.to_html()
 		else:
 			for i in range(items.size()):
-				var item = items[i]
-				if c_index == current_container_index and i == current_item_index:
-					text += \" > \" + item + \"\\n\"
+				var item = str(items[i])
+				var is_selected = is_current_container and i == current_item_index
+				var is_cut = grabbed_item == item and grabbed_from == container_name
+
+				if is_selected:
+					if is_cut:
+						text += \"[bgcolor=%s][color=%s] > %s [CUT][/color][/bgcolor]\\n\" % [
+							SELECT_BG.to_html(),
+							YELLOW_COLOR.to_html(),
+							item
+						]
+					else:
+						text += \"[bgcolor=%s][color=%s] > %s[/color][/bgcolor]\\n\" % [
+							SELECT_BG.to_html(),
+							TEXT_COLOR.to_html(),
+							item
+						]
 				else:
-					text += \"   \" + item + \"\\n\"
+					if is_cut:
+						text += \"[color=%s]   %s [CUT][/color]\\n\" % [
+							YELLOW_COLOR.to_html(),
+							item
+						]
+					else:
+						text += \"[color=%s]   %s[/color]\\n\" % [
+							TEXT_COLOR.to_html(),
+							item
+						]
+
 		text += \"\\n\"
+
+	text += build_statusline()
 	list.text = text
+
+
+func build_statusline() -> String:
+	var container_name = get_current_container()
+	var item_name = get_current_item()
+	var item_amount = get_current_item_amount()
+
+	var mode_text := \"NORMAL\"
+	if grabbed_item != \"\":
+		mode_text = \"CUT\"
+
+	var right_info := \"%s\" % container_name
+
+	if item_name != \"\":
+		right_info += \" | %s\" % item_name
+		if item_amount > 1:
+			right_info += \" x%d\" % item_amount
+
+	return \"[bgcolor=%s][color=%s] %s [/color][color=%s] %s [/color][/bgcolor]\" % [
+		ACCENT_COLOR.to_html(),
+		BG_COLOR.to_html(),
+		mode_text,
+		BG_COLOR.to_html(),
+		right_info
+	]
 
 
 # Movement
 func move_up():
 	var items = get_current_items()
-	# Ak sú predmety v kontajneri, pohybuj sa, inak nechaj current_item_index na 0
 	if items.size() > 0:
 		current_item_index = max(current_item_index - 1, 0)
-	# stále renderuj, aby šípka bola viditeľná
 	render_inventory()
+
 
 func move_down():
 	var items = get_current_items()
@@ -82,73 +264,97 @@ func move_down():
 		current_item_index = min(current_item_index + 1, items.size() - 1)
 	render_inventory()
 
+
 func move_left():
 	var containers = get_containers()
 	if containers.size() == 0:
 		return
+
 	current_container_index = max(current_container_index - 1, 0)
-	# po presune do iného kontajnera vždy ukazovať prvý predmet (alebo šípku, ak kontajner prázdny)
 	current_item_index = 0
 	render_inventory()
+
 
 func move_right():
 	var containers = get_containers()
 	if containers.size() == 0:
 		return
+
 	current_container_index = min(current_container_index + 1, containers.size() - 1)
 	current_item_index = 0
 	render_inventory()
+
 
 func cut_item():
 	var item = get_current_item()
 	if item == \"\":
 		return
+
 	grabbed_item = item
 	grabbed_from = get_current_container()
+	render_inventory()
+
 
 func paste_item():
 	if grabbed_item == \"\":
 		return
+
 	var target_container = get_current_container()
 	InventoryManager.move_item(grabbed_item, grabbed_from, target_container)
+
 	grabbed_item = \"\"
 	grabbed_from = \"\"
 	render_inventory()
 
-#input
+
+func get_current_item_amount() -> int:
+	var container_name = get_current_container()
+	var item_name = get_current_item()
+
+	if container_name == \"\" or item_name == \"\":
+		return 0
+
+	if not InventoryManager.inventory.has(container_name):
+		return 0
+
+	var container = InventoryManager.inventory[container_name]
+	return container.get(item_name, 0)
+
+# input
 func _input(event):
 	if not visible:
 		return
 
 	if event.is_action_pressed(\"ui_up\"):
 		move_up()
-
 	elif event.is_action_pressed(\"ui_down\"):
 		move_down()
-
 	elif event.is_action_pressed(\"ui_left\"):
 		move_left()
-
 	elif event.is_action_pressed(\"ui_right\"):
 		move_right()
-
 	elif event.is_action_pressed(\"inv_cut\"):
 		cut_item()
-
 	elif event.is_action_pressed(\"inv_paste\"):
 		paste_item()
+	elif event.is_action_pressed(\"inv_drop\"):
+		drop_current_item()
 "
+
+[sub_resource type="Theme" id="Theme_gf3dx"]
+default_font = ExtResource("1_5v8q7")
 
 [node name="InventoryUI" type="Control"]
 layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchor_left = 0.01
+anchor_top = 0.15
+anchor_right = 0.25
+anchor_bottom = 0.99
 grow_horizontal = 2
 grow_vertical = 2
 script = SubResource("GDScript_s43p6")
 
-[node name="Panel" type="Panel" parent="."]
+[node name="OuterPanel" type="Panel" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -156,7 +362,20 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="RichTextLabel" type="Label" parent="Panel"]
+[node name="InnerPanel" type="Panel" parent="OuterPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.01
+anchor_top = 0.005
+anchor_right = 0.99
+anchor_bottom = 0.995
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="OuterPanel/InnerPanel"]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 45.0
+offset_bottom = 28.0
+theme = SubResource("Theme_gf3dx")

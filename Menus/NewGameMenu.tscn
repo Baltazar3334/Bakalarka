@@ -39,8 +39,23 @@ func start_new_game(slot:int):
 	var data = {
 		\"player_position\": Vector2(100,100),
 		\"flags\": {
-			\"neighbor_intro\": 0,
-			\"time_of_day\": \"morning\"
+			\"neighbor_story\": 0,
+			\"neighbor_opinion\": 0,
+			\"neighbor_gave_money\": 0,
+			\"neighbor_asked_about_son\": 0,
+			\"neighbor_there\": 1,
+			\"neighbor_asking_for_medicine\": 0,
+			
+			\"parents_at_home\": 1,
+			\"father_greeted\": 0,
+			\"father_there\": 1,
+			
+			\"med_lady_friendly\": 0,
+			
+			\"day_of_the_week\": 1,
+			\"money_6_taken\": 0,
+			\"money_5_taken\": 0,
+			\"time_of_day\": \"morning\",
 		},
 		\"inventory\": {
 			\"hands\": {},
@@ -51,7 +66,7 @@ func start_new_game(slot:int):
 
 	SaveManager.save_game(slot, data)
 
-	Transitioner.change_scene(\"res://main.tscn\")
+	SaveManager.load_game_to_scene(slot, \"res://main.tscn\")
 "
 
 [node name="NewGameMenu" type="Control"]

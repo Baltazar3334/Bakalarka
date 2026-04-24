@@ -1,0 +1,229 @@
+{
+	
+	
+	"medicine_lady_cond": {
+	"conditions": [
+	{"flags": { "time_of_day": "afternoon"}, "dialog": "medicine_lady_not_there"},
+	{"flags": { "time_of_day": "morning", "med_lady_friendly": 0}, "dialog": "medicine_lady_neutral"},
+	{"flags": { "time_of_day": "morning", "neighbor_story": 2}, "dialog": "medicine_lady_asking"},
+	{"flags": { "time_of_day": "morning"}, "dialog": "medicine_lady_stop"}
+	]
+  },
+
+"medicine_lady_not_there": {
+	"lines": [
+	{ "speaker": "neutral", "text": "The medicine store is already closed at this hour." }
+	]
+},
+
+"medicine_lady_stop": {
+	"lines": [
+	{ "speaker": "neutral", "text": "Theres nothing you need to do here yet." }
+	]
+},
+
+"medicine_lady_neutral": {
+	"lines": [
+	{ "speaker": "jessie", "text": "Hello." },
+ 	{ "speaker": "med_lady", "text": "Hi sweetie what do you need?" },
+ 	{ "speaker": "jessie", "text": "Hmmm. Nothing really." },
+	{ "speaker": "med_lady", "text": "Are you lost?" },
+	{ "speaker": "jessie", "text": "What? No! Im old enough to know how to get home!" },
+	{ "speaker": "med_lady", "text": "Alright, alright, Im just asking." },
+	],
+	"choices": [
+	  {
+		"text": "Sorry. I didnt mean to lash out like that.",
+		"next": "medicine_lady_friendly",
+	  },
+	  {
+		"text": "Im 14 lady. I kow I dont look like it but im not dumb.",
+		"next": "medicine_lady_unfriendly"
+	  },
+		{
+		"text": "Are you lost? Do you need help getting back to the nursing home?",
+		"next": "medicine_lady_unfriendly"
+	  },
+	]
+  },
+
+"medicine_lady_friendly": {
+	"lines": [
+	{ "speaker": "med_lady", "text": "Its okay. We all have bad days. Ive certainly had plenty recently." },
+	{ "speaker": "jessie", "text": "Yeah? what happened?" },
+	{ "speaker": "med_lady", "text": "Im not sure you need to hear this." },
+	{ "speaker": "jessie", "text": "Sometimes its good to talk abou things with strangers no? Gives you more freedom without caring about what theyre gonna think about you." },
+	{ "speaker": "med_lady", "text": "Youre definitely right its just that youre pretty young for my kind of problems you know." },
+	{ "speaker": "neutral", "text": "The lady laughs nervously" },
+	{ "speaker": "jessie", "text": "Well you dont have to tell me. Just hang in there, we all go through tough times." },
+	{ "speaker": "med_lady", "text": "Thank you sweetie. I definitely will." },
+	{ "speaker": "neutral", "text": "She smiles at you" }
+	],
+	"on_finish": {
+		"flag": "med_lady_friendly",
+		"set": 1 
+	}
+},
+
+"medicine_lady_unfriendly": {
+	"lines": [
+	{ "speaker": "med_lady", "text": "Wow. You young people are all the same." },
+	{ "speaker": "jessie", "text": "At least we mind our own damn business." },
+	],
+	"on_finish": {
+		"flag": "med_lady_friendly",
+		"set": 2 
+	}
+},
+
+
+
+
+
+"medicine_lady_asking": {
+	"conditions": [
+	{"flags": {"med_lady_friendly": 2}, "dialog": "medicine_lady_asking_rude"},
+	{"flags": {"med_lady_friendly": 1}, "dialog": "medicine_lady_asking"},
+	]
+  },
+
+"medicine_lady_asking": {
+	"lines": [
+	{ "speaker": "jessie", "text": "Excuse me. My neighbor sent me to pick up his medicine. I have the recipe here." },
+ 	{ "speaker": "med_lady", "text": "Let me see..." },
+ 	{ "speaker": "neutral", "text": "She smiles as you hand her the recipe" },
+	{ "speaker": "med_lady", "text": "Okay, wait here a second honey." },
+	{ "speaker": "neutral", "text": "The lady walks away for a minute and comes back with the medicine" },
+	{ "speaker": "med_lady", "text": "That will be 11$ please." },
+	],
+	"choices": [
+	  {
+		"text": "Here (You lose 11$)",
+		"next": "medicine_lady_finish",
+		"requires_item": {
+		"name": "money",
+		"amount": 11
+	  }
+	  },
+	  {
+		"text": "I dont have that money...",
+		"next": "medicine_lady_not_enough_money"
+	  },
+		{
+		"text": "Would you be willing to trade something for that?",
+		"next": "medicine_lady_trade"
+	  },
+	]
+  },
+
+"medicine_lady_finish": {
+	"lines": [
+	{ "speaker": "neutral", "text": "You hand her the money" },
+	{ "speaker": "med_lady", "text": "Thank you young man." },
+	{ "speaker": "neutral", "text": "You thank her as well as you start walking away." },
+	{ "speaker": "neutral", "text": "Suddenly she stops you" },
+	{ "speaker": "med_lady", "text": "Wait a second. Are you still interested in hearing about-" },
+	{ "speaker": "med_lady", "text": "well..about what you asked earlier?" },
+	{ "speaker": "neutral", "text": "This part of the game is not finished yet." },
+	],
+	"on_finish": {
+		"give_item": {
+			"name": "neighbors medicine",
+			"amount": 1
+		},
+		"remove_item": {
+			"name": "money",
+			"amount": 11
+		},
+		"flag": "neighbor_story",
+		"set": 3
+	}
+},
+
+"medicine_lady_not_enough_money": {
+	"lines": [
+	{ "speaker": "med_lady", "text": "Well then sorry honey but I cant give you the medicine." },
+	{ "speaker": "med_lady", "text": "Did your neighbor not give you the money upfront?" },
+	{ "speaker": "jessie", "text": "Uuuh...Its kinda complicated." },
+	{ "speaker": "med_lady", "text": "He didnt give you any?!" },
+	{ "speaker": "med_lady", "text": "What kind of a man sends a boy to fetch him his medicine and doesnt even give him the money?" },
+	{ "speaker": "jessie", "text": "Cant I just take the medicine and tell him to come and pay?" },
+	{ "speaker": "med_lady", "text": "Im sorry but no. Go back to him and tell him to come himself and with money next time." },
+	{ "speaker": "neutral", "text": "Yeah, save to say that wont work." },
+	{ "speaker": "jessie", "text": "Yeah ill definitely do that." },
+	{ "speaker": "neutral", "text": "You walk away cursing to yourself." }
+	]
+},
+
+"medicine_lady_trade": {
+	"lines": [
+	{ "speaker": "med_lady", "text": "Sweet boy.." },
+	{ "speaker": "med_lady", "text": "I really cant help you here Im sorry. If you dont have the money go back to your neigbor and ask it. Its reasonable that he should give you it." },
+	{ "speaker": "neutral", "text": "Yeah, save to say that wont work." },
+	{ "speaker": "jessie", "text": "Yeah ill definitely do that." },
+	{ "speaker": "neutral", "text": "You walk away cursing to yourself." }
+	]
+},
+
+
+"medicine_lady_asking_rude": {
+	"lines": [
+	{ "speaker": "jessie", "text": "Excuse me. My neighbor sent me to pick up his medicine. I have the recipe here." },
+	{ "speaker": "neutral", "text": "The lady gives you a look that makes you shiver a bit" },
+ 	{ "speaker": "med_lady", "text": "Let me see..." },
+ 	{ "speaker": "neutral", "text": "You hand her the recipe" },
+	{ "speaker": "med_lady", "text": "Okay, wait here a second." },
+	{ "speaker": "neutral", "text": "The lady walks away for a minute and comes back with the medicine" },
+	{ "speaker": "med_lady", "text": "That will be 11$." },
+	],
+	"choices": [
+	  {
+		"text": "Here (You lose 11$)",
+		"next": "medicine_lady_finish_rude",
+		"requires_item": {
+		"name": "money",
+		"amount": 11
+	  }
+	  },
+	  {
+		"text": "I dont have that money...",
+		"next": "medicine_lady_trade_rude"
+	  },
+		{
+		"text": "Would you be willing to trade something for that?",
+		"next": "medicine_lady_trade_rude"
+	  },
+	]
+  },
+
+"medicine_lady_finish_rude": {
+	"lines": [
+	{ "speaker": "neutral", "text": "You hand her the money" },
+	{ "speaker": "med_lady", "text": "..." },
+	{ "speaker": "neutral", "text": "You awkwardly thank her as you start walking away." }
+	],
+	"on_finish": {
+		"give_item": {
+			"name": "neighbors medicine",
+			"amount": 1
+		},
+		"remove_item": {
+			"name": "money",
+			"amount": 11
+		},
+		"flag": "neighbor_asking_for_medicine",
+		"set": 0 
+		}
+},
+
+"medicine_lady_trade_rude": {
+	"lines": [
+	{ "speaker": "med_lady", "text": "boy.." },
+	{ "speaker": "neutral", "text": "You can feel that her patience is running out." },
+	{ "speaker": "med_lady", "text": "I dont have time for games. If you dont have the money go get some." },
+	{ "speaker": "jessie", "text": "..." },
+	{ "speaker": "med_lady", "text": "And stop wasting my time." }
+	]
+},
+
+}
