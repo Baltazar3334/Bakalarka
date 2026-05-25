@@ -154,7 +154,7 @@ func _unhandled_input(event):
 		else:
 			inventory_ui.visible = false
 			can_move = true
-	
+
 	if dialog_ui.is_open:
 		if dialog_ui.player_choosing:
 			if event.is_action_pressed(\"ui_up\"):

@@ -126,14 +126,14 @@ func _unhandled_input(event):
 	
 	if event is InputEventKey and event.pressed and not event.echo:
 		
-		# INSERT MODE → ESC
+		# INSERT MODE ESC
 		if is_insert_mode:
 			if event.keycode == KEY_ESCAPE:
 				exit_insert_mode()
 				get_viewport().set_input_as_handled()
 			return
 		
-		# NORMAL MODE → i
+		# NORMAL MODE i
 		if event.keycode == KEY_I:
 			enter_insert_mode()
 			get_viewport().set_input_as_handled()
@@ -142,7 +142,6 @@ func _unhandled_input(event):
 
 
 #READ AND BUILD FUNCTIONS
-#******************************************************
 func load_or_create_player_file_system():
 	if FileAccess.file_exists(PLAYER_FILESYSTEM_PATH):
 		var file = FileAccess.open(PLAYER_FILESYSTEM_PATH, FileAccess.READ)
@@ -279,10 +278,9 @@ Dont forget to have fun while playing!
 	current_open_file_path.clear()
 	is_insert_mode = false
 	file_modified = false
-#******************************************************
+
 
 #DIRECTORY MANAGEMENT FUNCTIONS
-#******************************************************
 #query
 func get_data_by_path(path: Array):
 	var current = file_system
@@ -568,12 +566,12 @@ func remap_open_path_after_move(source_path: Array, destination_path: Array):
 	if current_open_file_path.is_empty():
 		return
 	
-	# presne ten istý item
+	
 	if current_open_file_path == source_path:
 		current_open_file_path = destination_path.duplicate()
 		return
 	
-	# ak sa presúval priečinok a otvorený súbor bol v ňom
+	
 	if is_subpath(source_path, current_open_file_path):
 		var suffix = current_open_file_path.slice(source_path.size())
 		current_open_file_path = destination_path.duplicate()
@@ -666,7 +664,7 @@ func delete_target(parts: Array):
 		delete_save_slot(slot)
 		return
 	
-	# delete lore/file.txt alebo delete file.txt
+	
 	var path_text = parts[1]
 	delete_virtual_file(path_text)
 
@@ -689,7 +687,7 @@ func delete_virtual_file(path_text: String):
 		append_command_output(\"File not found: \" + path_text)
 		return
 	
-	# folder
+	
 	if data is Dictionary and not data.has(\"type\"):
 		if delete_directory(path):
 			append_command_output(\"Deleted directory: \" + path_text)
@@ -818,12 +816,11 @@ func run_file_by_name(file_name: String):
 		run_action(data[\"action\"])
 	else:
 		append_command_output(file_name + \" is not executable.\")
-#******************************************************
+
 
 
 
 #EXE RUN HANDLERS
-#******************************************************
 func run_action(action_name: String):
 	match action_name:
 		\"new_game\":
@@ -873,12 +870,10 @@ func load_game():
 
 func quit_game():
 	get_tree().quit()
-#******************************************************
 
 
 
 #EVERYTHING SAVE AND LOAD OF .save FILES (SaveManager utilisation not local saves)
-#******************************************************
 func get_save_status_text() -> String:
 	var text = \"SAVE STATUS\\n\\n\"
 	for i in range(1, 4):
@@ -931,12 +926,10 @@ func delete_all_saves():
 		SaveManager.delete_save(slot)
 	
 	append_command_output(\"All save slots deleted.\")
-#******************************************************
 
 
 
 #TEXT EDITOR FUNCTIONS
-#******************************************************
 func _on_editor_text_changed():
 	if is_insert_mode and current_open_file_path.size() > 0:
 		file_modified = true
@@ -984,12 +977,11 @@ func update_line_numbers():
 		text += str(i + 1) + \"\\n\"
 	
 	line_numbers.text = text
-#******************************************************
+
 
 
 
 #COMMAND LINE FUNCTIONS
-#******************************************************
 func _on_command_submitted(command: String):
 	parse_command(command)
 	command_input.clear()
@@ -1213,12 +1205,9 @@ func append_command_output(text: String):
 	await get_tree().process_frame
 	command_output.scroll_to_line(command_output.get_line_count())
 	command_input.grab_focus()
-#******************************************************
-
 
 
 #POPUP FUNCTIONS
-#******************************************************
 func overwriteDialogPopup():
 	popupDialog.open(\"Overwrite selected save slot?\")
 	
@@ -1252,7 +1241,6 @@ func request_reset_tree():
 func request_reset_all():
 	pending_action = \"reset_all\"
 	popupDialog.open(\"Reset menu file system and delete all saves?\")
-#******************************************************
 "
 
 [sub_resource type="Theme" id="Theme_5nvks"]
