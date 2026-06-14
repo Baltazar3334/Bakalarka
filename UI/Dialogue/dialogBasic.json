@@ -61,16 +61,32 @@
 	"conditions": [
 	{"flags": { "time_of_day": "morning" }, "requires_item": { "name": "pack of cigarets", "amount": 1 }, "dialog": "cigarets_put_back_confirm"},
 	{"flags": { "time_of_day": "afternoon" }, "requires_item": { "name": "pack of cigarets", "amount": 1 }, "dialog": "cigarets_put_back_confirm"},
+	{"flags": {"time_of_day": "morning" ,"took_cigarets_from_campfire": 1 }, "dialog": "campfire_took_cigarets_dont_have_them"},
+	{"flags": {"time_of_day": "afternoon" ,"took_cigarets_from_campfire": 1 }, "dialog": "campfire_took_cigarets_dont_have_them_afternoon"},
 	{"flags": { "time_of_day": "morning" }, "dialog": "campfire"},
 	{"flags": { "time_of_day": "afternoon" }, "dialog": "campfire_night"},
 	]
   },
 
+"campfire_took_cigarets_dont_have_them": {
+	"lines": [
+	{ "speaker": "neutral", "text": "Nothing else to do here yet." }
+	]
+  },
+
+"campfire_took_cigarets_dont_have_them_afternoon": {
+	"lines": [
+	{ "speaker": "neutral", "text": "Its late and too dark to see anything here. 
+	Maybe only the scary monsters your father told you about here many years ago." }
+	]
+  },
+
+
 "campfire": {
 	"lines": [
 	{ "speaker": "neutral", "text": "You aproach the campfire. You remeber all the memories you had here with friends and family.
- You look behind a particular looking log where you hide your cigarets." },
-{ "speaker": "jessie", "text": "Oh hey. Theyre still there. And olny a little soggy and moldy. Maybe I should take them?" },
+ 	You look behind a particular looking log where you hide your cigarets." },
+	{ "speaker": "jessie", "text": "Oh hey. Theyre still there. And olny a little soggy and moldy. Maybe I should take them?" },
 	],
 	"choices": [
 	  {
@@ -95,12 +111,18 @@
 	"lines": [
 	{ "speaker": "neutral", "text": "You grab the cigarets" }
 	],
-	"on_finish": {
-		"give_item": {
+	"on_finish": [
+		{
+				"flag": "took_cigarets_from_campfire",
+				"set": 1 
+		},
+		{
+			"give_item": {
 			"name": "pack of cigarets",
 			"amount": 1
+			}
 		}
-	}
+	]
   },
 "cigarets_not_take": {
 	"lines": [
@@ -135,12 +157,18 @@
 	"lines": [
 	{ "speaker": "neutral", "text": "You leave the cigarets there. You can return to take them later if you change your mind." }
 	],
-	"on_finish": {
-		"remove_item": {
-			"name": "pack of cigarets",
-			"amount": 1
+	"on_finish": [
+		{
+			"remove_item": {
+				"name": "pack of cigarets",
+				"amount": 1
+			}
+		},
+		{
+				"flag": "took_cigarets_from_campfire",
+				"set": 0
 		}
-	}
+	]
   },
 
 

@@ -62,16 +62,6 @@ var default_file_system = {
 			\"description\": \"Start new game in slot 3.\"
 		}
 	},
-	\"lore\": {
-		\"world.txt\": {
-			\"type\": \"text\",
-			\"content\": \"Long ago...\"
-		},
-		\"characters.txt\": {
-			\"type\": \"text\",
-			\"content\": \"Main cast...\"
-		}
-	},
 	\"new_game.exe\": {
 		\"type\": \"action\",
 		\"action\": \"new_game\",
@@ -88,11 +78,17 @@ var default_file_system = {
 	},
 	\"controls.txt\": {
 		\"type\": \"text\",
-		\"content\": \"CONTROLS\\n\\nWASD - move\\nE - interact\\nESC - pause\"
+		\"content\": \"CONTROLS\\n
+		\\nWASD - move
+		\\nE - interact
+		\\nESC - pause
+		\\n I - inventory
+		\\n
+		\\n use help in the CLI for a list of usable commands in the state of the art VMenu\"
 	},
 	\"credits.txt\": {
 		\"type\": \"text\",
-		\"content\": \"Created by Michal Hlavac as a part of his Bachelors degree at the University of Zilina.
+		\"content\": \"Created by Michal Hlavac as a part of his Bachelors degree at the University of Zilina. Game is not completed expect unfinished mechanics and story.
 		\\nThanks for playing.\"
 	},
 	\"exit.exe\": {
@@ -264,14 +260,15 @@ func setup_editor():
 func show_welcome_text():
 	content_editor.text = \"\"\"Nmenu V4 initialised
 
-Welcome to my launcher.
+System ready. Welcome!
 
-Select a file from the tree on the left.
-Double click action files to execute them.
-Text files will open on the right.
-Type help into the command input for actions.
-You can use the command input for quick control of the menu.
-Dont forget to have fun while playing!
+Available actions:
+- Browse files using the tree view
+- Open text documents
+- Execute action files
+- Use command line shortcuts
+
+
 
 \"\"\"
 	content_editor.editable = false
@@ -1149,6 +1146,44 @@ func create_text_file_command(parts: Array):
 	else:
 		append_command_output(\"Failed to create file: \" + parts[1])
 
+func append_to_text_file(path: Array, text: String) -> bool:
+	var data = get_data_by_path(path)
+
+	if data == null:
+		return false
+
+	if not (data is Dictionary):
+		return false
+
+	if not data.has(\"type\"):
+		return false
+
+	if data[\"type\"] != \"text\":
+		return false
+
+	data[\"content\"] += text
+
+	save_player_file_system()
+	return true
+
+func replace_text_file(path: Array, text: String) -> bool:
+	var data = get_data_by_path(path)
+
+	if data == null:
+		return false
+
+	if not (data is Dictionary):
+		return false
+
+	if data[\"type\"] != \"text\":
+		return false
+
+	data[\"content\"] = text
+
+	save_player_file_system()
+	return true
+
+
 func move_command(parts: Array):
 	if parts.size() < 3:
 		append_command_output(\"Usage: move source_path destination_path\")
@@ -1220,11 +1255,13 @@ func _on_overwrite_dialog_confirmed():
 		
 		\"reset_tree\":
 			popupDialog.close()
+			MenuFileManager.reset_unlocked_entries()
 			reset_player_file_system()
 		
 		\"reset_all\":
 			popupDialog.close()
 			delete_all_saves()
+			MenuFileManager.reset_unlocked_entries()
 			reset_player_file_system()
 	
 	pending_action = \"\"
@@ -1450,7 +1487,7 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftPanel/VBoxContainer"]
 layout_mode = 2
-text = " ~/Bachelors/game/menu..."
+text = " ~/BcGame/NMenu/.."
 label_settings = SubResource("LabelSettings_bkfo5")
 
 [node name="Tree" type="Tree" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftPanel/VBoxContainer"]

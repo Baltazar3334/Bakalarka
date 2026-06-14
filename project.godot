@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Bakalarka1"
-run/main_scene="uid://bn1yaqv18s8ig"
+run/main_scene="uid://d21iafvtd5yx5"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -22,6 +22,7 @@ SaveManager="*res://SaveManager.gd"
 Transitioner="*res://UI/fade/Transitioner.tscn"
 EntityManager="*res://EntityManager.gd"
 Global="*res://Global.gd"
+MenuFileManager="*res://MenuFileManager.gd"
 
 [display]
 

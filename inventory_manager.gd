@@ -86,6 +86,24 @@ func get_container_items(container_name: String) -> Array:
 		return []
 	return inventory[container_name].keys()
 
+func is_item_in_container(item_name: String, container_name: String) -> bool:
+	if not inventory.has(container_name):
+		print("Container does not exist:", container_name)
+		return false
+
+	if not has_item(item_name):
+		print("Item not found in inventory:", item_name)
+		return false
+
+	var container = inventory[container_name]
+
+	if container.has(item_name):
+		return true
+
+	return false
+
+
+
 func print_inventory():
 	print("----- INVENTORY -----")
 	for container_name in inventory:

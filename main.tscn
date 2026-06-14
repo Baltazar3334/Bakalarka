@@ -1,4 +1,4 @@
-[gd_scene load_steps=60 format=4 uid="uid://bn4fgtbyw2s2g"]
+[gd_scene load_steps=65 format=4 uid="uid://bn4fgtbyw2s2g"]
 
 [ext_resource type="Texture2D" uid="uid://drakdotl3hqfe" path="res://assets/Player/player sprites/sprite_0.png" id="1_dg77c"]
 [ext_resource type="Texture2D" uid="uid://clmsah1vqao1d" path="res://assets/tiles/OutSide World/TilesBakalarka (3).png" id="1_ig7tw"]
@@ -19,6 +19,7 @@
 [ext_resource type="PackedScene" uid="uid://csr88cl7wtjph" path="res://UI/fade/Transitioner.tscn" id="16_2cqfq"]
 [ext_resource type="Texture2D" uid="uid://dcl2jn7bjenb3" path="res://UI/Conditions/Day.png" id="18_074og"]
 [ext_resource type="PackedScene" uid="uid://csdkfvoiv71s8" path="res://inventory_ui.tscn" id="20_82xsv"]
+[ext_resource type="Texture2D" uid="uid://c2253q6f1gwbr" path="res://UI/Dialogue/notification Popup.png" id="21_d13ii"]
 [ext_resource type="FontFile" uid="uid://b8gyyc8nnthmp" path="res://UI/Fonts/AurulentSansMNerdFontMono-Regular.otf" id="21_getpj"]
 [ext_resource type="PackedScene" uid="uid://dnp301oc2ra7i" path="res://Entities/entity_base.tscn" id="21_ryguw"]
 [ext_resource type="Texture2D" uid="uid://1fhvk6galv4m" path="res://assets/NPCs/father.png" id="22_ryguw"]
@@ -41,6 +42,9 @@ var flags := {
 	\"father_story\": 0,
 	\"father_greeted\": 0,
 	\"father_there\": 1,
+	\"father_caught_cigarets\": 0,
+	
+	\"took_cigarets_from_campfire\": 0,
 	
 	\"med_lady_friendly\": 0,
 	
@@ -3700,6 +3704,14 @@ func open_dialog(key: String):
 				var amount = item_data.get(\"amount\", 1)
 				if not InventoryManager.has_item(item_name, amount):
 					all_match = false
+			if condition.has(\"container_items\"):
+				for item_data in condition[\"container_items\"]:
+					if not InventoryManager.is_item_in_container(
+						item_data[\"item\"],
+						item_data[\"container\"]
+					):
+						all_match = false
+						break
 			#final check for conditions
 			if all_match:
 					selected_dialog_key = condition.get(\"dialog\", \"\")
@@ -3760,6 +3772,11 @@ func show_choices():
 			choices.append(choice)
 
 	var labels = choices_box.get_children()
+	
+	for child in labels:
+		if child is Label and child.label_settings:
+			child.label_settings.font_color = Color.WHITE
+	
 	player_choosing = true
 	selected_choice = 0
 
@@ -3937,6 +3954,17 @@ func close_dialog():
 				var targetCell: Vector2i = Vector2i(x, y)
 				var layer = get_node_or_null(\"../LayerInteriorColission\")
 				player.teleport(layer, targetCell)
+			
+			#MENU ENTRIES
+			if change.has(\"menu_entry\"):
+				var data = change[\"menu_entry\"]
+
+				MenuFileManager.unlock_menu_entry(
+					data[\"id\"],
+					data[\"path\"],
+					data[\"text\"]
+				)
+			
 				
 	if current_dialog.has(\"next_dialog\"):
 		var next_key = current_dialog[\"next_dialog\"]
@@ -4006,6 +4034,14 @@ font = ExtResource("21_getpj")
 font_size = 24
 
 [sub_resource type="LabelSettings" id="LabelSettings_cegan"]
+font = ExtResource("21_getpj")
+font_size = 24
+
+[sub_resource type="LabelSettings" id="LabelSettings_ryguw"]
+font = ExtResource("21_getpj")
+font_size = 24
+
+[sub_resource type="LabelSettings" id="LabelSettings_d13ii"]
 font = ExtResource("21_getpj")
 font_size = 24
 
@@ -4095,6 +4131,65 @@ thickness = 0
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_lswn8"]
 thickness = 0
+
+[sub_resource type="GDScript" id="GDScript_1u8w0"]
+resource_name = "NotificationPopup"
+script/source = "extends Control
+
+@onready var notification_rect = $notificationRect
+@onready var notification_label = $notification
+
+func _ready():
+	visible = false
+	
+	await get_tree().create_timer(1.0).timeout
+
+
+
+func show_notification(text: String):
+	notification_label.text = text
+
+	visible = true
+	modulate.a = 0.0
+
+	var tween = create_tween()
+
+	tween.tween_property(
+		self,
+		\"modulate:a\",
+		1.0,
+		0.25
+	)
+
+	await get_tree().create_timer(5.0).timeout
+
+	tween = create_tween()
+
+	tween.tween_property(
+		self,
+		\"modulate:a\",
+		0.0,
+		0.25
+	)
+
+	await tween.finished
+
+	visible = false
+
+
+func file_created(path: String):
+	show_notification(
+		\"[ NEW FILE ] \" + path
+	)
+
+func file_updated(path: String):
+	show_notification(
+		\"[ FILE UPDATED ] \" + path
+	)
+"
+
+[sub_resource type="LabelSettings" id="LabelSettings_0odxb"]
+font = ExtResource("21_getpj")
 
 [node name="Main" type="Node2D"]
 
@@ -4226,6 +4321,14 @@ label_settings = SubResource("LabelSettings_074og")
 layout_mode = 2
 label_settings = SubResource("LabelSettings_cegan")
 
+[node name="Label4" type="Label" parent="DialogUI/TextureRect/Choices"]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_ryguw")
+
+[node name="Label5" type="Label" parent="DialogUI/TextureRect/Choices"]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_d13ii")
+
 [node name="TimeUI" type="CanvasLayer" parent="."]
 process_mode = 3
 layer = 10
@@ -4348,6 +4451,29 @@ theme_override_styles/normal = SubResource("StyleBoxLine_1u8w0")
 theme_override_styles/hover = SubResource("StyleBoxLine_0odxb")
 theme_override_styles/focus = SubResource("StyleBoxLine_lswn8")
 text = "No"
+
+[node name="FileNotificationPopup" type="Control" parent="Popups"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = SubResource("GDScript_1u8w0")
+
+[node name="notificationRect" type="TextureRect" parent="Popups/FileNotificationPopup"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("21_d13ii")
+
+[node name="notification" type="Label" parent="Popups/FileNotificationPopup"]
+layout_mode = 0
+offset_left = 160.0
+offset_top = 48.0
+offset_right = 432.0
+offset_bottom = 72.0
+label_settings = SubResource("LabelSettings_0odxb")
 
 [node name="Entities" type="Node2D" parent="."]
 

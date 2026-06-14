@@ -10,6 +10,7 @@
 	
 "father_cond": {
 	"conditions": [
+	{"container_items": [{ "item": "pack of cigarets", "container": "hands" }], "dialog": "father_why_are_you_holding_a_pack_of_cigarets"},
 	{"flags": { "father_story": 1, "neighbor_visit_story": 1 }, "dialog": "father_the_news"},
 	{"flags": { "father_story": 0, "time_of_day": "morning", "father_greeted": 0}, "dialog": "father_greeting_morning"},
 	{"flags": { "father_story": 0, "time_of_day": "afternoon", "father_greeted": 0 }, "dialog": "father_greeting_evening"},
@@ -20,6 +21,179 @@
 	{"flags": { "father_story": 0,"time_of_day": "afternoon", "father_greeted": 1, "neighbor_story": 3 }, "dialog": "father_greeting_evening_met_neighbor_gave_medicine"},
 	]
   },
+
+
+
+
+"father_why_are_you_holding_a_pack_of_cigarets": {
+	"lines": [
+	{ "speaker": "father", "text": "Why are you holding a pack of cigarets?" },
+	{ "speaker": "jessie", "text": "What?" },
+	{ "speaker": "father", "text": "The pack of cigarets in your right hand. Why are you holding them?" },
+	{ "speaker": "jessie", "text": "uuhm..." },
+	],
+	"choices": [
+	  {
+		"text": "I thought you would like some?",
+		"next": "father_cigarets_caught_like_some"
+	  },
+	  {
+		"text": "Oh thats what they are!(lie)",
+		"next": "father_cigarets_caught_oblivious"
+	  },
+	  {
+		"text": "My friend gave them to me to hold on to them for him.(lie)",
+		"next": "father_cigarets_caught_blatant_lie"
+	  },
+	  {
+		"text": "I found them in the backyard near the campfire. Somebody must have dropped them there.(lie)",
+		"next": "father_cigarets_caught_perfect_lie"
+	  },
+	  {
+		"text": "Im sorry, I was just curious.",
+		"next": "father_cigarets_caught_apologise"
+	  }
+	]
+},
+
+"father_cigarets_caught_like_some": {
+	"lines": [
+	{ "speaker": "father", "text": "Oh yeah?" },
+	{ "speaker": "jessie", "text": "Sure..so.." },
+	{ "speaker": "jessie", "text": "Do you?" },
+	{ "speaker": "father", "text": "Sure Ill take the whole pack." },
+	{ "speaker": "jessie", "text": "Wait-" },
+	{ "speaker": "neutral", "text": "He snatches them right out of your hand" },
+	{ "speaker": "father", "text": "Real nice of you to bring me some." },
+	{ "speaker": "jessie", "text": "..." },
+	{ "speaker": "father", "text": "You can go now." },
+	{ "speaker": "neutral", "text": "You awkwardly shuffle away" },
+	{ "speaker": "father", "text": "I better not catch you with one of these again." },
+	],
+	"on_finish": [
+			{
+				"flag": "father_caught_cigarets",
+				"set": 1 
+			},
+			{
+			"remove_item": {
+				"name": "pack of cigarets",
+				"amount": 1
+			},
+			"menu_entry": {
+			"id": "inventory_tutorial",
+			"path": ["tutorials", "inventory.txt"],
+			"text": "|You can move your items inside of your inventory using 'c' and 'p' keys. You can also drop them with 'q'. Use these so that your father doesnt chatch you holding cigarets in your hands like a moron.|\n"
+			}
+			
+		}
+		]
+},
+	
+"father_cigarets_caught_oblivious": {
+	"lines": [
+	{ "speaker": "father", "text": "Im dissapointed jessie." },
+	{ "speaker": "jessie", "text": "But-" },
+	{ "speaker": "father", "text": "Not becuse you smoke, but because youre dumb enough to think Im that stupid." },
+	{ "speaker": "jessie", "text": "It was more of a desparation move than trying your inteligence..and Im just an idiot." },
+	{ "speaker": "father", "text": "..give them to me." },
+	],
+	"choices": [
+	  {
+		"text": "My friend game them to me to hold on to them for him.(lie)",
+		"next": "father_cigarets_caught_blatant_lie"
+	  },
+	  {
+		"text": "Im sorry, I was just curious.",
+		"next": "father_cigarets_caught_apologise"
+	  }
+	]
+},
+
+"father_cigarets_caught_perfect_lie": {
+	"lines": [
+	{ "speaker": "father", "text": "Oh yeah? And you felt the need to walk around with them in your hand?" },
+	{ "speaker": "jessie", "text": "Do you think that if i was hiding cigarets from you Id walk around the house holding them like an idiot?" },
+	{ "speaker": "father", "text": "Youve done dumber things in your life." },
+	{ "speaker": "jessie", "text": "That may be true. BUT.." },
+	{ "speaker": "jessie", "text": "Im giving them to you for the exact reason to not be a suspect if you ever found them." },
+	{ "speaker": "jessie", "text": "They were just lying there!" },
+	{ "speaker": "jessie", "text": "Somebody put them there maybe even you or mom. I dont know!" },
+	{ "speaker": "father", "text": "Ill keep my eye on you boy.." },
+	{ "speaker": "neutral", "text": "he takes the cigarets" },
+	],
+	"on_finish": [
+			{
+			"remove_item": {
+				"name": "pack of cigarets",
+				"amount": 1
+			}	
+		},
+		{"menu_entry": {
+			"id": "inventory_tutorial",
+			"path": ["tutorials", "inventory.txt"],
+			"text": "Items stored in different containers may affect the story.\n"
+			}
+		}
+	]
+},
+
+"father_cigarets_caught_blatant_lie": {
+	"lines": [
+	{ "speaker": "father", "text": "Oh yeah? Which friend? Because of course you have so many." },
+	{ "speaker": "jessie", "text": "Jerry?" },
+	{ "speaker": "father", "text": "Jerry?" },
+	{ "speaker": "jessie", "text": "Yes?" },
+	{ "speaker": "father", "text": "Are you asking me or telling me?" },
+	{ "speaker": "jessie", "text": "Telling you." },
+	{ "speaker": "father", "text": ".." },
+	{ "speaker": "father", "text": "There has never been a Jerry in this town!" },
+	{ "speaker": "jessie", "text": "Oh come on! You dont know that!" },
+	{ "speaker": "father", "text": "Is lying to me really worth it for a pack of cigarets?" },
+	{ "speaker": "jessie", "text": "..." },
+	{ "speaker": "jessie", "text": "Im sorry I was curious." },
+	],
+  	"next_dialog": "father_cigarets_caught_apologise"
+},
+
+"father_cigarets_caught_apologise": {
+	"lines": [
+	{ "speaker": "father", "text": "Curious about what?" },
+	{ "speaker": "father", "text": "Having an addiction you cant get rid of for your whole life?" },
+	{ "speaker": "father", "text": "Or curious about spending money on something that is actively killing you?" },
+	{ "speaker": "jessie", "text": "Neither." },
+	{ "speaker": "father", "text": "What then?" },
+	{ "speaker": "jessie", "text": "I dont know.." },
+	{ "speaker": "jessie", "text": "Just wanted to know what it feels like." },
+	{ "speaker": "father", "text": "Well now you know. And now you can give them to me." },
+	{ "speaker": "neutral", "text": "You give them to him" },
+	{ "speaker": "father", "text": "I hope I dont have to tell you that mom is gonna hear about this when she comes back.." },
+	{ "speaker": "jessie", "text": "*great. I might just be the biggest idiot on this planet.*" },
+	],
+	"on_finish": [
+			{
+				"flag": "father_caught_cigarets",
+				"set": 1 
+			},
+			{
+			"remove_item": {
+				"name": "pack of cigarets",
+				"amount": 1
+				}
+			},
+			{
+				"menu_entry": {
+				"id": "inventory_tutorial",
+				"path": ["tutorials", "inventory.txt"],
+				"text": "Items stored in different containers may affect the story.\n"
+				}
+			}	
+	]
+},
+
+
+
+
 
 "father_greeting_morning": {
 	"lines": [
@@ -50,7 +224,15 @@
 					"father_there": 0
 					}
 				}	
-			}
+			},
+			{
+				"menu_entry": {
+				"id": "father_bio_init",
+				"path": ["lore", "Journal.txt"],
+				"text": "I met father in the morning. He was his goofy self as always. Say whatever you want about him but he really does make your day a bit brither everytime..
+Shame mom is still away. \n"
+				}
+			}	
 		]
 	},
 
@@ -71,14 +253,23 @@
 	{ "speaker": "jessie", "text": "Yeah like last time? pass.." },
 	{ "speaker": "father", "text": "That was one time and it not my fault somebody left the key in the ignition." },
 	{ "speaker": "jessie", "text": "Its your car! Nobody else drives it but you!" },
-	{ "speaker": "father", "text": "Okay, Okay. Cut me some slack, I am old man." },
+	{ "speaker": "father", "text": "Okay, Okay. Cut me some slack, I am an old man." },
 	{ "speaker": "jessie", "text": "Okay old man. Try to not debilitate our only mode of transportation while moms away." },
 	{ "speaker": "father", "text": "Sure and you go fry ants with a magnifying glass or whatever you do in your free time." }
 	],
-	"on_finish": {
+	"on_finish": [
+		{
 		"flag": "father_greeted",
 		"set": 1 
-	}
+		},
+		{
+				"menu_entry": {
+				"id": "father_bio_init",
+				"path": ["lore", "Journal.txt"],
+				"text": "Father was already home in the evening. Didnt have the chance to speak to him when I woke up I had things to do..NOTE TO SELF do not get in tha jalopy\n"
+				}
+			}	
+	]
 	},
 
 "father_greeting_evening_not_met_neighbor": {
@@ -100,7 +291,14 @@
 	{ "speaker": "neutral", "text": "You sigh in annoyance" },
 	{ "speaker": "jessie", "text": "Im fourteen." },
 	{ "speaker": "father", "text": "So is the neighbors kid. Go meet him he seems like a good kid." },
-	]
+	],
+	"on_finish": {
+				"menu_entry": {
+				"id": "father_bio_not_met_neighbor",
+				"path": ["lore", "Journal.txt"],
+				"text": "Father told me to pay a visit to the new neighbors. They live right next to us so maybe its not a bad idea.. Ill think about it.\n"
+				}
+		}
 	},
 
 "father_greeting_evening_met_neighbor": {
@@ -116,10 +314,19 @@
 	{ "speaker": "father", "text": "Well whatever it is I hope I dont have to tell you to be respectfull and accepting." },
 	{ "speaker": "jessie", "text": "Dont worry." }
 	],
-	"on_finish": {
+	"on_finish": [
+		{
 			"flag": "father_story",
 			"set": 1
+		},
+		{
+			"menu_entry": {
+			"id": "father_bio_met_neighbor",
+			"path": ["lore", "Journal.txt"],
+			"text": "Talked to father about the new neighbor. Two seconds and even I saw how weird he is..I bet his son is sick or something. Gotta find out more about him in school or something.\n"
+			}
 		}
+		]
 	},
 
 
@@ -277,15 +484,26 @@
 "father_mocking": {
 	"lines": [
 	{ "speaker": "father", "text": "Your birthday is coming up maybe ill use some immaterial reward as well instead of you know, money." },
-	{ "speaker": "jessie", "text": "Haha, so funny. You are like a slow cooker for jokes. They take years to come out and when they do they are flawed but loveable." },
+	{ "speaker": "jessie", "text": "Haha, so funny. You are like a slow cooker for jokes. They take years to come out and when they do they are never good enough to justify the wait." },
 	{ "speaker": "neutral", "text": "You somehow manage to make yourself laugh with your own joke." },
 	{ "speaker": "father", "text": "On the other hand we have you laughing at your own jokes like a psycho." },
 	{ "speaker": "jessie", "text": "Dont be jaelous of me for having some happiness in my life." },
 	],
-	"on_finish": {
+	"on_finish": [
+			{
 			"flag": "father_story",
 			"set": 1
+			},
+			{
+			"menu_entry": {
+			"id": "father_bio_met_neighbor_gave medicine",
+			"path": ["lore", "Journal.txt"],
+			"text": "In the face of chaos you can always bet on dad to make the dumbest most unfuniest jokes...that make me laugh anyway. 
+What a life am I living right now? sometimes I wish I wasnt as nosey as I am but then the only thing remaining would be dads jokes. Not taking that chance. 
+Should meet the new guy in school, see what hes made of. That sounded better in my mind. Anyway hes weird and I wanna see why.\n"
+			}
 		}
+		]
 	},
 
 "father_connections": {
@@ -293,10 +511,21 @@
 	{ "speaker": "father", "text": "Im not sure if Im proud of you for being smart enough to plan into the future for once or dissapointed because my son is a schemer." },
 	{ "speaker": "jessie", "text": "Try both." },
 	],
-	"on_finish": {
+	"on_finish": [
+			{
 			"flag": "father_story",
 			"set": 1
+			},
+			{
+			"menu_entry": {
+			"id": "father_bio_met_neighbor_gave medicine",
+			"path": ["lore", "Journal.txt"],
+			"text": "In the face of chaos you can always bet on dad to make the dumbest most unfuniest jokes...that make me laugh anyway. 
+What a life am I living right now? sometimes I wish I wasnt as nosey as I am but then the only thing remaining would be dads jokes. Not taking that chance. 
+Should meet the new guy in school, see what hes made of. That sounded better in my mind. Anyway hes weird and I wanna see why.\n"
+			}
 		}
+		]
 	},
 
 "father_goodness": {
@@ -309,10 +538,21 @@
 	{ "speaker": "father", "text": "Im not giving you money." },
 	{ "speaker": "jessie", "text": "Fine, Scrooge. Keep your freakin money, go bathe in it or something." },
 	],
-	"on_finish": {
+	"on_finish": [
+			{
 			"flag": "father_story",
 			"set": 1
+			},
+			{
+			"menu_entry": {
+			"id": "father_bio_met_neighbor_gave medicine",
+			"path": ["lore", "Journal.txt"],
+			"text": "In the face of chaos you can always bet on dad to keep his fucking money close...yeah I used this journal to swear without him knowing so what? 
+Anyway, what a life am I living right now? Sometimes I wish I wasnt as nosey as I am but then the only thing remaining would be dads jokes. Not taking that chance. 
+Should meet the new guy in school, see what hes made of. That sounded better in my mind. Anyway hes weird and I wanna see why.\n"
+			}
 		}
+		]
 	},
 
 
@@ -327,25 +567,47 @@
 	{ "speaker": "jessie", "text": "You are anti-" },
 	{ "speaker": "jessie", "text": "anti-normal" },
 	{ "speaker": "father", "text": "Wow. You surprise me with your wits everyday." },
-	{ "speaker": "jessie", "text": "Shut up." },
+	{ "speaker": "jessie", "text": "Shut up!" },
 	{ "speaker": "father", "text": "Where are you going?"},
 	{ "speaker": "jessie", "text": "To ask him for money!" },
-	{ "speaker": "neutral", "text": "You storm away from your father red in the face like a baloon(a red one)" },
+	{ "speaker": "neutral", "text": "You storm away from your father red in the face" },
 	],
-	"on_finish": {
+	"on_finish": [
+			{
 			"flag": "father_story",
 			"set": 1
+			},
+			{
+			"menu_entry": {
+			"id": "father_bio_met_neighbor_gave medicine",
+			"path": ["lore", "Journal.txt"],
+			"text": "In the face of chaos you can always bet on dad to keep his fucking money close...yeah I used this journal to swear without him knowing so what? 
+Anyway, what a life am I living right now? Sometimes I wish I wasnt as nosey as I am but then the only thing remaining would be dads jokes. Not taking that chance. 
+Should meet the new guy in school, see what hes made of. That sounded better in my mind. Anyway hes weird and I wanna see why.\n"
+			}
 		}
+		]
 	},
 
 "father_ask_neighbor_for_money": {
 	"lines": [
 	{ "speaker": "father", "text": "Good luck." }
 	],
-	"on_finish": {
+	"on_finish": [
+			{
 			"flag": "father_story",
 			"set": 1
+			},
+			{
+			"menu_entry": {
+			"id": "father_bio_met_neighbor_gave medicine",
+			"path": ["lore", "Journal.txt"],
+			"text": "In the face of chaos you can always bet on dad to keep his unfunny jokes at the ready...and make me laugh, I hate him. 
+Anyway, what a life am I living right now? Sometimes I wish I wasnt as nosey as I am but then the only thing remaining would be dads jokes. Not taking that chance. 
+Should meet the new guy in school, see what hes made of. That sounded better in my mind. Anyway hes weird and I wanna see why. Meanwhile gotta get the cash, gotta get the medicine\n"
+			}
 		}
+		]
 	},
 
 

@@ -287,15 +287,92 @@
 
 "neighbor_give_medicine_cond": {
 	"conditions": [
-	{"requires_item": { "name": "neighbors medicine", "amount": 1 }, "dialog": "neighbor_medicine_give"},
+	{"container_items": [{ "item": "neighbors medicine", "container": "hands" }], "dialog": "neighbor_medicine_give"},
+	{"container_items": [{ "item": "neighbors medicine", "container": "backpack" }], "dialog": "neighbor_medicine_give_backpack"},
+	{"container_items": [{ "item": "neighbors medicine", "container": "pockets" }], "dialog": "neighbor_medicine_give_pockets"},
 	{ "dialog": "neighbor_ask_about_the_medicine"}
 	]
   },
+
+"neighbor_medicine_give_pockets": {
+	"lines": [
+	{ "speaker": "jessie", "text": "I got the medicine you asked for." },
+	{ "speaker": "neutral;", "text": "you shuffle around in your pockets for a second." },
+	{ "speaker": "jessie", "text": "I swear I put them in my left pocket..." },
+	{ "speaker": "jessie", "text": "Oh here they are!" },
+	{ "speaker": "neighbor", "text": "Thank you! You cant even understand how much I owe you." }
+	],
+	"on_finish": [
+		{
+			"remove_item": {
+				"name": "neighbors medicine",
+				"amount": 1
+			}	
+		},
+		{
+			"flag": "neighbor_story",
+			"set": 4
+		},
+		{
+			"flag": "neighbor_opinion",
+			"set": 1
+		},
+		{
+			"moveNPC": {
+			"NPCid": "neighbor_npc",
+			"x": -5,
+			"y": 1,
+			"move_speed": 50,
+			"change_after_move": {
+				"neighbor_there": 0
+				}
+			}
+		}
+	]
+	},
 
 "neighbor_medicine_give": {
 	"lines": [
 	{ "speaker": "jessie", "text": "I got the medicine you asked for." },
 	{ "speaker": "neighbor", "text": "Oh thank you! You cant even understand how much I owe you." }
+	],
+	"on_finish": [
+		{
+			"remove_item": {
+				"name": "neighbors medicine",
+				"amount": 1
+			}	
+		},
+		{
+			"flag": "neighbor_story",
+			"set": 4
+		},
+		{
+			"flag": "neighbor_opinion",
+			"set": 1
+		},
+		{
+			"moveNPC": {
+			"NPCid": "neighbor_npc",
+			"x": -5,
+			"y": 1,
+			"move_speed": 50,
+			"change_after_move": {
+				"neighbor_there": 0
+				}
+			}
+		}
+	]
+	},
+
+"neighbor_medicine_give_backpack": {
+	"lines": [
+	{ "speaker": "jessie", "text": "I got the medicine you asked for." },
+	{ "speaker": "neutral;", "text": "you shuffle around in your pockets for a second." },
+	{ "speaker": "jessie", "text": "I swear I put them in my left pocket..." },
+	{ "speaker": "jessie", "text": "Oh I remember I put them in my backpack. Hold on." },
+	{ "speaker": "jessie", "text": "Here they are!" },
+	{ "speaker": "neighbor", "text": "Thank you! You cant even understand how much I owe you." }
 	],
 	"on_finish": [
 		{
