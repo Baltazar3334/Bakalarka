@@ -276,7 +276,8 @@
 			"menu_entry": {
 			"id": "neighbor_favour",
 			"path": ["lore", "Journal.txt"],
-			"text": "Neighbor asked me to \n"
+			"text": "\nNeighbor asked me to go get some medicine for him. Maybe I could stop by the hospital to get them for him.
+	Its good to get some favours in early so that the new guys in town owe you\n"
 				}
 			}
 	]

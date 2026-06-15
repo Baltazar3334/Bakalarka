@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://bn1yaqv18s8ig"]
+[gd_scene load_steps=38 format=3 uid="uid://bn1yaqv18s8ig"]
 
 [ext_resource type="FontFile" uid="uid://cxi1lqanwwgc4" path="res://UI/Fonts/JetBrainsMono-Medium.ttf" id="1_t8gra"]
 [ext_resource type="FontFile" uid="uid://b8gyyc8nnthmp" path="res://UI/Fonts/AurulentSansMNerdFontMono-Regular.otf" id="2_423qa"]
@@ -13,7 +13,7 @@ script/source = "extends Control
 @onready var command_input: LineEdit = $MarginContainer/VBoxContainer/CommandPanel/VBoxContainer/CommandInput
 @onready var line_numbers: Label = $MarginContainer/VBoxContainer/HBoxContainer/RightPanel/HBoxContainer/Label
 @onready var popupDialog: Control = $Popups/PausePopup
-
+@onready var lore_viewer: RichTextLabel = $MarginContainer/VBoxContainer/HBoxContainer/RightPanel/HBoxContainer/LoreViewer
 
 # content editor variables
 var current_open_file_path: Array = []
@@ -27,6 +27,34 @@ var pending_action := \"\"
 #player file system
 var file_system = {}
 const PLAYER_FILESYSTEM_PATH = \"user://menu_filesystem.json\"
+
+var lore_keywords = {
+	
+	\"dads\": \"#5b08ae\",
+	\"fathers\": \"#5b08ae\",
+	\"father\": \"#5b08ae\",
+	\"dad\": \"#5b08ae\",
+	
+	
+	\"neighbors\": \"#6A6D40\",
+	\"neighbor\": \"#6A6D40\",
+	\"michaels\": \"#6A6D40\",
+	\"michael\": \"#6A6D40\",
+	\"mikes\": \"#6A6D40\",
+	\"mike\": \"#6A6D40\",
+	
+	\"hospital lady\": \"#a61414\",
+	\"hospital\": \"#a61414\",
+	
+	\"moms\": \"#a266de\",
+	\"mom\": \"#a266de\",
+	\"mother\": \"#a266de\",
+	
+	\"janette\": \"#a8bd4d\",
+	
+	\"Cigaretes\": \"#C27BA0\",
+	\"flower\": \"#f249a9\"
+}
 
 #pregenerated files system
 var default_file_system = {
@@ -120,6 +148,7 @@ func _ready():
 	popupDialog.cancelled.connect(_on_overwrite_dialog_cancelled)
 	
 	content_editor.add_theme_font_size_override(\"font_size\", 16)
+	content_editor.add_theme_color_override(\"font_color\",Color(\"ffffffff\"))
 	
 	command_input.focus_mode = Control.FOCUS_ALL
 
@@ -278,6 +307,9 @@ Available actions:
 
 
 \"\"\"
+	lore_viewer.visible = false
+	content_editor.visible = true
+	
 	content_editor.editable = false
 	current_open_file_path.clear()
 	is_insert_mode = false
@@ -451,7 +483,6 @@ func _on_tree_item_selected():
 	#text file
 	if data[\"type\"] == \"text\":
 		open_text_file(path, data[\"content\"])
-		set_line_numbers_visible(true)
 	#executable
 	elif data[\"type\"] == \"action\":
 		content_editor.text = \"[ACTION FILE]\\n\\n\" + item.get_text(0) + \"\\n\\n\" + data[\"description\"] + \"\\n\\nDouble click to execute.\"
@@ -639,15 +670,53 @@ func create_text_file(path: Array, content: String = \"\") -> bool:
 	return true
 
 func open_text_file(path: Array, text: String):
+	if path.size() > 0 and path[0] == \"lore\":
+		open_lore_file(path, text)
+		return
+
+	lore_viewer.visible = false
+	content_editor.visible = true
+	set_line_numbers_visible(true)
+
+	
+
 	current_open_file_path = path.duplicate()
 	content_editor.text = text
+
 	update_line_numbers()
-	
+
 	content_editor.editable = false
 	is_insert_mode = false
 	file_modified = false
+
 	append_command_output(\"Opened: \" + \"/\".join(path))
 	append_command_output(\"-- NORMAL MODE --\")
+
+func format_lore_text(text: String) -> String:
+	var formatted = text
+	for keyword in lore_keywords.keys():
+		var regex = RegEx.new()
+		regex.compile(\"(?i)\" + keyword)
+		formatted = regex.sub(formatted,\"[color=%s]$0[/color]\" % lore_keywords[keyword],true)
+	return formatted
+
+func open_lore_file(path: Array, text: String):
+
+	current_open_file_path = path.duplicate()
+	
+	content_editor.visible = false
+	lore_viewer.visible = true
+	
+
+	lore_viewer.text = format_lore_text(text)
+	set_line_numbers_visible(false)
+	line_numbers.hide()
+	is_insert_mode = false
+	file_modified = false
+
+	append_command_output(\"Opened: \" + \"/\".join(path))
+	append_command_output(\"-- READ ONLY MODE --\")
+
 
 func delete_target(parts: Array):
 	if parts.size() < 2:
@@ -1348,6 +1417,10 @@ bg_color = Color(0, 0, 0, 0)
 line_spacing = 4.0
 font = ExtResource("2_423qa")
 
+[sub_resource type="Theme" id="Theme_t8gra"]
+default_font = ExtResource("2_423qa")
+default_font_size = 16
+
 [sub_resource type="Theme" id="Theme_bkfo5"]
 default_font = ExtResource("2_423qa")
 default_font_size = 12
@@ -1548,12 +1621,23 @@ layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_bkfo5")
 label_settings = SubResource("LabelSettings_p5ocy")
 
+[node name="LoreViewer" type="RichTextLabel" parent="MarginContainer/VBoxContainer/HBoxContainer/RightPanel/HBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(1550, 850)
+layout_mode = 2
+theme = SubResource("Theme_t8gra")
+bbcode_enabled = true
+
 [node name="ContentEditor" type="TextEdit" parent="MarginContainer/VBoxContainer/HBoxContainer/RightPanel/HBoxContainer"]
 custom_minimum_size = Vector2(1550, 850)
 layout_mode = 2
 theme = SubResource("Theme_bkfo5")
+theme_override_colors/search_result_color = Color(1, 1, 1, 1)
 theme_override_colors/caret_background_color = Color(0, 0, 0, 0)
+theme_override_colors/selection_color = Color(1, 1, 1, 1)
+theme_override_colors/font_readonly_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 0)
+theme_override_colors/current_line_color = Color(1, 1, 1, 0.8)
 theme_override_styles/normal = SubResource("StyleBoxLine_p5ocy")
 theme_override_styles/focus = SubResource("StyleBoxLine_xj041")
 theme_override_styles/read_only = SubResource("StyleBoxLine_5nvks")
