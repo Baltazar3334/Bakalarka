@@ -100,12 +100,17 @@ var default_file_system = {
 
 
 func _ready():
+	
+	
 	load_or_create_player_file_system()
 	
 	setup_tree()
 	setup_command_line()
 	setup_editor()
 	show_welcome_text()
+	
+	get_viewport().gui_release_focus()
+	command_input.grab_focus()
 
 	tree.item_selected.connect(_on_tree_item_selected)
 	tree.item_activated.connect(_on_tree_item_activated)
@@ -115,6 +120,8 @@ func _ready():
 	popupDialog.cancelled.connect(_on_overwrite_dialog_cancelled)
 	
 	content_editor.add_theme_font_size_override(\"font_size\", 16)
+	
+	command_input.focus_mode = Control.FOCUS_ALL
 
 func _unhandled_input(event):
 	if current_open_file_path.is_empty():
@@ -980,9 +987,14 @@ func update_line_numbers():
 
 #COMMAND LINE FUNCTIONS
 func _on_command_submitted(command: String):
+	command_input.release_focus()
+
 	parse_command(command)
+
 	command_input.clear()
+
 	await get_tree().process_frame
+
 	command_input.grab_focus()
 
 func is_valid_fs_name(name: String) -> bool:
@@ -1493,6 +1505,7 @@ label_settings = SubResource("LabelSettings_bkfo5")
 [node name="Tree" type="Tree" parent="MarginContainer/VBoxContainer/HBoxContainer/LeftPanel/VBoxContainer"]
 custom_minimum_size = Vector2(0, 850)
 layout_mode = 2
+focus_mode = 1
 theme = SubResource("Theme_xj041")
 theme_override_colors/font_hovered_color = Color(0.9490196, 0.9490196, 0.9490196, 0)
 theme_override_colors/font_hovered_dimmed_color = Color(0.8745098, 0.8745098, 0.8745098, 0)

@@ -1,10 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://d21iafvtd5yx5"]
+[gd_scene load_steps=3 format=3 uid="uid://bg7r8qsvdcx31"]
 
-[ext_resource type="Texture2D" uid="uid://dwgkytdh35qub" path="res://assets/menu_pictures/Good Will Browsing 2.png" id="1_s2ta7"]
-[ext_resource type="Texture2D" uid="uid://yqcqwkeppq70" path="res://assets/menu_pictures/Untitled-2.png" id="2_ayt76"]
+[ext_resource type="Texture2D" uid="uid://d2nefwkrr5muq" path="res://assets/menu_pictures/studio baltazar.png" id="1_8r3gc"]
 
-[sub_resource type="GDScript" id="GDScript_s2ta7"]
-resource_name = "FadeIn"
+[sub_resource type="GDScript" id="GDScript_u0ikw"]
+resource_name = "studio_intro"
 script/source = "extends Control
 
 @onready var fade_rect = $FadeRect
@@ -13,23 +12,35 @@ script/source = "extends Control
 var can_continue := false
 
 func _ready():
+	
+	
 	press_key.visible = false
 
 	fade_in()
 
-	await get_tree().create_timer(2.0).timeout
+	await get_tree().create_timer(0.25).timeout
 
 	show_press_key()
+	
+	await get_tree().create_timer(3.0).timeout
+	
+	if can_continue:
+		can_continue = false
+		Transitioner.change_scene(\"res://Menus/intro.tscn\",Transitioner.TransitionType.SIMPLE,2.0)
 
-func _unhandled_input(event):
+func _input(event):
 	if not can_continue:
 		return
 
-	if event is InputEventKey and event.pressed:
+	if (event is InputEventKey and event.pressed) \\
+	or (event is InputEventMouseButton and event.pressed):
+
 		can_continue = false
-		Transitioner.change_scene(\"res://Menus/MainMenuV4.tscn\")
+		Transitioner.change_scene(\"res://Menus/intro.tscn\",Transitioner.TransitionType.SIMPLE,2.0)
 
 func fade_in():
+	print(\"before:\", fade_rect.modulate.a)
+	
 	var tween = create_tween()
 
 	fade_rect.modulate.a = 1.0
@@ -89,7 +100,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = SubResource("GDScript_s2ta7")
+script = SubResource("GDScript_u0ikw")
 
 [node name="FadeRect" type="ColorRect" parent="."]
 z_index = 1
@@ -101,24 +112,13 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
-[node name="TextureRect" type="TextureRect" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("1_s2ta7")
+[node name="studio_pic" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("1_8r3gc")
 
 [node name="PressKeyRect" type="TextureRect" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 16.0
-offset_top = 32.0
-offset_right = 16.0
-offset_bottom = 32.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("2_ayt76")
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
