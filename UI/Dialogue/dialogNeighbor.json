@@ -132,7 +132,14 @@
 				"neighbor_there": 0
 				}
 			}
-		}
+		},
+			{
+			"menu_entry": {
+			"id": "neighbor_lied_redo",
+			"path": ["lore", "Journal.txt"],
+			"text": "\nWow, what a guy this new neighbor. Its none of his business why Im not at school...still maybe I could have played that better.\n"
+				}
+			}
 	]
   },
 
@@ -165,7 +172,14 @@
 				"neighbor_there": 0
 				}
 			}
-		}
+		},
+			{
+			"menu_entry": {
+			"id": "neighbor_invitation",
+			"path": ["lore", "Journal.txt"],
+			"text": "\nThe new neighbor invited me to visite them in the evening. Though theres something fishy about him..or his son maybe. Anyway I should come around one of these evenings.\n"
+				}
+			}
 	]
 	},
 
@@ -257,7 +271,14 @@
 		{
 			"flag": "neighbor_story",
 			"set": 2
-		}
+		},
+			{
+			"menu_entry": {
+			"id": "neighbor_favour",
+			"path": ["lore", "Journal.txt"],
+			"text": "Neighbor asked me to \n"
+				}
+			}
 	]
 	
   },
@@ -327,7 +348,15 @@
 				"neighbor_there": 0
 				}
 			}
-		}
+		},
+			{
+			"menu_entry": {
+			"id": "neighbor_gave_medicine",
+			"path": ["lore", "Journal.txt"],
+			"text": "\nGave the medicine to the neighbor. It kinda feels nice to do something for somebody. Though he could have at least given me something in return. I had to go the hospital and everything...
+and why hospital anyway? What kind of medicine for back pain you go to the hospital for? All my back pain medicine comes from the pharmacy. (Im 14 I dont have back pain if you found this dad)\n"
+				}
+			}
 	]
 	},
 
@@ -361,7 +390,15 @@
 				"neighbor_there": 0
 				}
 			}
-		}
+		},
+			{
+			"menu_entry": {
+			"id": "neighbor_gave_medicine",
+			"path": ["lore", "Journal.txt"],
+			"text": "\nGave the medicine to the neighbor. It kinda feels nice to do something for somebody. Though he could have at least given me something in return. I had to go the hospital and everything...
+and why hospital anyway? What kind of medicine for back pain you go to the hospital for? All my back pain medicine comes from the pharmacy. (Im 14 I dont have back pain if you found this dad)\n"
+				}
+			}
 	]
 	},
 
@@ -399,7 +436,15 @@
 				"neighbor_there": 0
 				}
 			}
-		}
+		},
+			{
+			"menu_entry": {
+			"id": "neighbor_gave_medicine",
+			"path": ["lore", "Journal.txt"],
+			"text": "\nGave the medicine to the neighbor. It kinda feels nice to do something for somebody. Though he could have at least given me something in return. I had to go the hospital and everything...
+and why hospital anyway? What kind of medicine for back pain you go to the hospital for? All my back pain medicine comes from the pharmacy. (Im 14 I dont have back pain if you found this dad)\n"
+				}
+			}
 	]
 	},
 
@@ -471,8 +516,15 @@
 	{ "speaker": "neighbor", "text": "Youre damn right you wont." },
 	{ "speaker": "neighbor", "text": "I know youre just a kid but you really should think before you ask rude questions." },
 	{ "speaker": "neighbor", "text": "If youre not careful youll get punched in the face a lot when you grow up." }
-	]
-	},
+	],
+	"on_finish": {
+			"menu_entry": {
+			"id": "neighbor_inquire",
+			"path": ["lore", "Journal.txt"],
+			"text": "\nGotta be careful asking random stuff that comes to my mind.\n"
+				}
+	}
+},
 
 "neighor_son_inquire_rude_money": {
 	"lines": [
@@ -489,6 +541,13 @@
 			"flag": "neighbor_opinion",
 			"set": 0
 		},
+			{
+			"menu_entry": {
+			"id": "neighbor_money_two_times",
+			"path": ["lore", "Journal.txt"],
+			"text": "\nDamn my never ending noseyness is gonna put me in the ground i swear. Just now I asked neighbor about the medicine and he really didnt take it very well.\n"
+				}
+			}
 	]
 	},
 
@@ -501,6 +560,15 @@
 	{ "speaker": "jessie", "text": "I would never do such thing. And more importantly-"},
 	{ "speaker": "neighbor", "text": "Sure. We will not speak about this anymore."},
 	{ "speaker": "neighbor", "text": "Either go get my medicine or dont."},
+	],
+	"on_finish": [
+			{
+			"menu_entry": {
+			"id": "neighbor_nosey_about_medicine",
+			"path": ["lore", "Journal.txt"],
+			"text": "\nDamn my never ending noseyness is gonna put me in the ground i swear. Just now I asked neighbor about the medicine and he really didnt take it very well.\n"
+				}
+			}
 	]
 	},
 
@@ -543,6 +611,15 @@
 	{ "speaker": "jessie", "text": "Ummm. Could you lend me some money?" },
 	{ "speaker": "neighbor", "text": "What do you mean? I already gave you money for the medicine." },
 	{ "speaker": "jessie", "text": "Oh yeah I forgot. Sorry.." },
+	],
+	"on_finish": [
+			{
+			"menu_entry": {
+			"id": "neighbor_money_two_times",
+			"path": ["lore", "Journal.txt"],
+			"text": "\nDamn, kinda hoped he would have a goldfish memory. Guess Im not getting mayed twice for the medicine.\n"
+				}
+			}
 	]
 	},
 
@@ -554,7 +631,17 @@
 	{ "speaker": "neutral", "text": "Looks like the neighbors arent welcoming any visitors at this time. Or maybe its just you..." },
 	{ "speaker": "jessie", "text": "Well...If i want to meet that kid I should get on better terms with his father." },
 	{ "speaker": "jessie", "text": "Meeting him in school is a no no. Hes too weird to risk being seen with him." },
-	{ "speaker": "jessie", "text": "I should catch up with Michael - the weid military style neighbor. He definitely has a MAGA hat hidden somewhere." }
+	{ "speaker": "jessie", "text": "I should catch up with Michael - the weird military style neighbor durring the day. He definitely has a MAGA hat hidden somewhere." }
+	],
+	"on_finish": [
+			{
+			"menu_entry": {
+			"id": "neighbor_was_rude_repair_it",
+			"path": ["lore", "Journal.txt"],
+			"text": "\nFucked up my chances with the new neighbor...yeah i swear in my journal dad so what? Really hope that he doesnt find this but if he does gotta be prepared...
+			Anyway kinda lost my train of thought. Need to meet with Michael durring the day when hes chilling on his porch.\n"
+				}
+			}
 	]
   },
 

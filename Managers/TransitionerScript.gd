@@ -16,6 +16,7 @@ func _ready() -> void:
 	$TransitionerControl.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	$TransitionerControl/ColorRect.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	$TransitionerControl/TextureRect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	
 
 func set_next_animation(fading_out : bool, transition_type: TransitionType = TransitionType.CUSTOM):
 	animation_player.queue(get_animation_name(fading_out,transition_type))

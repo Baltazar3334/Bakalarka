@@ -132,7 +132,7 @@
 		{"menu_entry": {
 			"id": "inventory_tutorial",
 			"path": ["tutorials", "inventory.txt"],
-			"text": "Items stored in different containers may affect the story.\n"
+			"text": "|You can move your items inside of your inventory using 'c' and 'p' keys. You can also drop them with 'q'. Use these so that your father doesnt chatch you holding cigarets in your hands like a moron.|\n"
 			}
 		}
 	]
@@ -182,12 +182,12 @@
 				}
 			},
 			{
-				"menu_entry": {
-				"id": "inventory_tutorial",
-				"path": ["tutorials", "inventory.txt"],
-				"text": "Items stored in different containers may affect the story.\n"
-				}
-			}	
+			"menu_entry": {
+			"id": "inventory_tutorial",
+			"path": ["tutorials", "inventory.txt"],
+			"text": "|You can move your items inside of your inventory using 'c' and 'p' keys. You can also drop them with 'q'. Use these so that your father doesnt chatch you holding cigarets in your hands like a moron.|\n"
+			}
+			}
 	]
 },
 
@@ -229,7 +229,7 @@
 				"menu_entry": {
 				"id": "father_bio_init",
 				"path": ["lore", "Journal.txt"],
-				"text": "I met father in the morning. He was his goofy self as always. Say whatever you want about him but he really does make your day a bit brither everytime..
+				"text": "\nI met father in the morning. He was his goofy self as always. Say whatever you want about him but he really does make your day a bit brither everytime..
 Shame mom is still away. \n"
 				}
 			}	
@@ -266,7 +266,7 @@ Shame mom is still away. \n"
 				"menu_entry": {
 				"id": "father_bio_init",
 				"path": ["lore", "Journal.txt"],
-				"text": "Father was already home in the evening. Didnt have the chance to speak to him when I woke up I had things to do..NOTE TO SELF do not get in tha jalopy\n"
+				"text": "\nFather was already home in the evening. Didnt have the chance to speak to him when I woke up I had things to do..NOTE TO SELF do not get in tha jalopy\n"
 				}
 			}	
 	]
@@ -296,7 +296,7 @@ Shame mom is still away. \n"
 				"menu_entry": {
 				"id": "father_bio_not_met_neighbor",
 				"path": ["lore", "Journal.txt"],
-				"text": "Father told me to pay a visit to the new neighbors. They live right next to us so maybe its not a bad idea.. Ill think about it.\n"
+				"text": "\nFather told me to pay a visit to the new neighbors. They live right next to us so maybe its not a bad idea.. Ill think about it.\n"
 				}
 		}
 	},
@@ -323,7 +323,7 @@ Shame mom is still away. \n"
 			"menu_entry": {
 			"id": "father_bio_met_neighbor",
 			"path": ["lore", "Journal.txt"],
-			"text": "Talked to father about the new neighbor. Two seconds and even I saw how weird he is..I bet his son is sick or something. Gotta find out more about him in school or something.\n"
+			"text": "\nTalked to father about the new neighbor. Two seconds and even I saw how weird he is..I bet his son is sick or something. Gotta find out more about him in school or something.\n"
 			}
 		}
 		]
@@ -498,7 +498,7 @@ Shame mom is still away. \n"
 			"menu_entry": {
 			"id": "father_bio_met_neighbor_gave medicine",
 			"path": ["lore", "Journal.txt"],
-			"text": "In the face of chaos you can always bet on dad to make the dumbest most unfuniest jokes...that make me laugh anyway. 
+			"text": "\nIn the face of chaos you can always bet on dad to make the dumbest most unfuniest jokes...that make me laugh anyway. 
 What a life am I living right now? sometimes I wish I wasnt as nosey as I am but then the only thing remaining would be dads jokes. Not taking that chance. 
 Should meet the new guy in school, see what hes made of. That sounded better in my mind. Anyway hes weird and I wanna see why.\n"
 			}
@@ -520,7 +520,7 @@ Should meet the new guy in school, see what hes made of. That sounded better in 
 			"menu_entry": {
 			"id": "father_bio_met_neighbor_gave medicine",
 			"path": ["lore", "Journal.txt"],
-			"text": "In the face of chaos you can always bet on dad to make the dumbest most unfuniest jokes...that make me laugh anyway. 
+			"text": "\nIn the face of chaos you can always bet on dad to make the dumbest most unfuniest jokes...that make me laugh anyway. 
 What a life am I living right now? sometimes I wish I wasnt as nosey as I am but then the only thing remaining would be dads jokes. Not taking that chance. 
 Should meet the new guy in school, see what hes made of. That sounded better in my mind. Anyway hes weird and I wanna see why.\n"
 			}
@@ -547,7 +547,7 @@ Should meet the new guy in school, see what hes made of. That sounded better in 
 			"menu_entry": {
 			"id": "father_bio_met_neighbor_gave medicine",
 			"path": ["lore", "Journal.txt"],
-			"text": "In the face of chaos you can always bet on dad to keep his fucking money close...yeah I used this journal to swear without him knowing so what? 
+			"text": "\nIn the face of chaos you can always bet on dad to keep his fucking money close...yeah I used this journal to swear without him knowing so what? 
 Anyway, what a life am I living right now? Sometimes I wish I wasnt as nosey as I am but then the only thing remaining would be dads jokes. Not taking that chance. 
 Should meet the new guy in school, see what hes made of. That sounded better in my mind. Anyway hes weird and I wanna see why.\n"
 			}
@@ -581,7 +581,7 @@ Should meet the new guy in school, see what hes made of. That sounded better in 
 			"menu_entry": {
 			"id": "father_bio_met_neighbor_gave medicine",
 			"path": ["lore", "Journal.txt"],
-			"text": "In the face of chaos you can always bet on dad to keep his fucking money close...yeah I used this journal to swear without him knowing so what? 
+			"text": "\nIn the face of chaos you can always bet on dad to keep his fucking money close...yeah I used this journal to swear without him knowing so what? 
 Anyway, what a life am I living right now? Sometimes I wish I wasnt as nosey as I am but then the only thing remaining would be dads jokes. Not taking that chance. 
 Should meet the new guy in school, see what hes made of. That sounded better in my mind. Anyway hes weird and I wanna see why.\n"
 			}
@@ -602,7 +602,7 @@ Should meet the new guy in school, see what hes made of. That sounded better in 
 			"menu_entry": {
 			"id": "father_bio_met_neighbor_gave medicine",
 			"path": ["lore", "Journal.txt"],
-			"text": "In the face of chaos you can always bet on dad to keep his unfunny jokes at the ready...and make me laugh, I hate him. 
+			"text": "\nIn the face of chaos you can always bet on dad to keep his unfunny jokes at the ready...and make me laugh, I hate him. 
 Anyway, what a life am I living right now? Sometimes I wish I wasnt as nosey as I am but then the only thing remaining would be dads jokes. Not taking that chance. 
 Should meet the new guy in school, see what hes made of. That sounded better in my mind. Anyway hes weird and I wanna see why. Meanwhile gotta get the cash, gotta get the medicine\n"
 			}
@@ -665,7 +665,16 @@ Should meet the new guy in school, see what hes made of. That sounded better in 
 	{ "speaker": "father", "text": "What is this random moment of compasion about?" },
 	{ "speaker": "jessie", "text": "Nothing. I just want you to know that." },
 	{ "speaker": "jessie", "text": "Youre a great dad." },
-	]
+	],
+	"on_finish": [
+			{
+			"menu_entry": {
+			"id": "father_bio_met_neighbor_gave_medicne_keep_secret",
+			"path": ["lore", "Journal.txt"],
+			"text": "\nI cant tell father about the whole neighbor thing. Not yet. Especially because I promised not to.\n"
+			}
+		}
+		]
 	},
 
 
@@ -676,13 +685,20 @@ Should meet the new guy in school, see what hes made of. That sounded better in 
 	{ "speaker": "father", "text": "Was that vow made to their son?" },
 	{ "speaker": "jessie", "text": "Yes..please dont hint at that or anything to the father." },
 	{ "speaker": "jessie", "text": "It would really freak up the dude life." },
-	{ "speaker": "father", "text": "Dont worry...but whatever it is, be careful." },
+	{ "speaker": "father", "text": "Dont worry...but whatever it is, be careful..or just avoid them all together." },
 	{ "speaker": "jessie", "text": "Dont worry dad, Ill be alright." },
 	],
 	"on_finish": [
 			{
 				"flag": "father_story",
 				"set": 2
+			},
+			{
+			"menu_entry": {
+			"id": "father_bio_met_neighbor_gave_medicne_keep_secret",
+			"path": ["lore", "Journal.txt"],
+			"text": "\nI couldnt tell father anymore of what i know. I mean I made a promise..\n"
+				}
 			}
 		]
 	},
@@ -728,6 +744,13 @@ Should meet the new guy in school, see what hes made of. That sounded better in 
 			{
 				"flag": "father_story",
 				"set": 3
+			},
+			{
+			"menu_entry": {
+			"id": "father_bio_met_neighbor_gave_medicne_keep_secret",
+			"path": ["lore", "Journal.txt"],
+			"text": "\nShit. I dont know if this was the correct choice..secrets dont keep being secret for long in this town. Especially with father. But he had to know in case something serious happened. Doesnt make it any less shitty breaking a promise like that.\n"
+				}
 			}
 		]
 	}

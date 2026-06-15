@@ -1,6 +1,6 @@
 [gd_scene load_steps=10 format=3 uid="uid://csr88cl7wtjph"]
 
-[ext_resource type="Script" uid="uid://0678klufu52u" path="res://TransitionerScript.gd" id="1_f1cvb"]
+[ext_resource type="Script" uid="uid://0678klufu52u" path="res://Managers/TransitionerScript.gd" id="1_f1cvb"]
 
 [sub_resource type="Gradient" id="Gradient_q843w"]
 interpolation_mode = 1

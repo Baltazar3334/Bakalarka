@@ -1,6 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://dnp301oc2ra7i"]
+[gd_scene load_steps=11 format=3 uid="uid://dnp301oc2ra7i"]
 
-[ext_resource type="Texture2D" uid="uid://be6gicoltbg0r" path="res://assets/NPCs/neighbor.png" id="1_e67l2"]
+[ext_resource type="Texture2D" uid="uid://bnorqc0jftoys" path="res://assets/NPCs/father_animations/New Piskel (0).png" id="1_657i6"]
+[ext_resource type="Texture2D" uid="uid://csitvvge1g64x" path="res://assets/NPCs/father_animations/New Piskel (1).png" id="2_lp4f8"]
+[ext_resource type="Texture2D" uid="uid://cqkd53aqmd755" path="res://assets/NPCs/father_animations/New Piskel (2).png" id="3_0rd1l"]
+[ext_resource type="Texture2D" uid="uid://d3kea684hc3ma" path="res://assets/NPCs/father_animations/New Piskel (3).png" id="4_ruj17"]
+[ext_resource type="Texture2D" uid="uid://dsvnaqyb1rxba" path="res://assets/NPCs/father_animations/New Piskel (4).png" id="5_p844v"]
 
 [sub_resource type="GDScript" id="GDScript_e67l2"]
 resource_name = "NPCBase"
@@ -10,6 +14,7 @@ class_name NPCBase
 @export var dialog_key: String = \"\"
 @onready var player = $\"../../player\"
 @onready var collisionShape = $CollisionShape2D
+
 
 @export var required_flags = {
 	\"time_of_day\": \"morning\"
@@ -81,6 +86,39 @@ func disable():
 	collisionShape.disabled = true
 "
 
+[sub_resource type="SpriteFrames" id="SpriteFrames_r7i86"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_657i6")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_lp4f8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_0rd1l")
+}],
+"loop": true,
+"name": &"walkDown",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_ruj17")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_p844v")
+}],
+"loop": true,
+"name": &"walkUp",
+"speed": 5.0
+}]
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_iy2mu"]
 size = Vector2(16, 8)
 
@@ -125,8 +163,10 @@ required_flags = {}
 entity_id = "NPC"
 display_name = "enpece"
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_e67l2")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+z_index = 2
+sprite_frames = SubResource("SpriteFrames_r7i86")
+animation = &"idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 4)

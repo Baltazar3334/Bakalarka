@@ -216,12 +216,22 @@
 	"lines": [
 	{ "speaker": "neutral", "text": "You tear off a branch as carefully as possible." }
 	],
-	"on_finish": {
+	"on_finish": [
+		{
 		"give_item": {
 			"name": "Lucky flower Branch",
 			"amount": 1
 		}
-	}
+		},
+			{
+			"menu_entry": {
+			"id": "flower_take",
+			"path": ["lore", "Journal.txt"],
+			"text": "\nI took the branch of off the flower mom told me about. I was feeling some tough times coming in the future. 
+If theres any truth to what moms saying it should..lets just say that I dont take chances.\n"
+				}
+			}
+	]
   },
 
 
@@ -279,12 +289,21 @@
 	{ "speaker": "jessie", "text": "Hmmm.." },
 	{ "speaker": "jessie", "text": "The gods favour me today. Better hide that key in the deepest pocket i have." }
 	],
-	"on_finish": {
+	"on_finish": [
+		{
 		"give_item": {
 			"name": "key to parents room",
 			"amount": 1
 		}
-	}
+		},
+			{
+			"menu_entry": {
+			"id": "key_p_discovered_it",
+			"path": ["lore", "Journal.txt"],
+			"text": "\nI found where parents hide their key. Shit why am I writing it down fuck me....Anyway dad if youre reading this, your hiding spot was shit. It was just a matter of time.\n"
+				}
+			}
+	]
   },
 
 "parents_room_cond": {
@@ -324,13 +343,22 @@
 	"lines": [
 	{ "speaker": "neutral", "text": "You enter the one room your parents always tell you not to enter." }
 	],
-	"on_finish": {
+	"on_finish": [
+		{
 		"teleport": {
 			"name": "parents_room",
 			"x": -33,
 			"y": 117
 		}
-	}
+		},
+			{
+			"menu_entry": {
+			"id": "parents_room_first_enter",
+			"path": ["lore", "Journal.txt"],
+			"text": "\nMy hands are shaking. What could be in this room that makes them hide the key and lock the door whenever theyre not home?\n"
+				}
+			}
+	]
 },
 
 "parents_room": {
@@ -396,14 +424,25 @@
 	"lines": [
 	{ "speaker": "neutral", "text": "You found some money hidden away!" }
 	],
-	"on_finish": {
-		"give_item": {
-			"name": "money",
-			"amount": 5
+	"on_finish": [
+		{
+			"give_item": {
+				"name": "money",
+				"amount": 5
+			}
 		},
-		"flag": "money_5_taken",
-		"set": 1 
-		}
+			{
+			"menu_entry": {
+			"id": "money_5",
+			"path": ["lore", "Journal.txt"],
+			"text": "\nHope dad wont be missing those 5 dollars. Or mom. Btw mom I cleaned my room for these. I deserve them by all the rights of this house.\n"
+				}
+			},
+			{
+			"flag": "money_5_taken",
+			"set": 1 
+			}
+		]
 },
 
 "money_6_cond": {

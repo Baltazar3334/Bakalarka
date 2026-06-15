@@ -1,4 +1,4 @@
-[gd_scene load_steps=65 format=4 uid="uid://bn4fgtbyw2s2g"]
+[gd_scene load_steps=70 format=4 uid="uid://bn4fgtbyw2s2g"]
 
 [ext_resource type="Texture2D" uid="uid://drakdotl3hqfe" path="res://assets/Player/player sprites/sprite_0.png" id="1_dg77c"]
 [ext_resource type="Texture2D" uid="uid://clmsah1vqao1d" path="res://assets/tiles/OutSide World/TilesBakalarka (3).png" id="1_ig7tw"]
@@ -22,7 +22,11 @@
 [ext_resource type="Texture2D" uid="uid://c2253q6f1gwbr" path="res://UI/Dialogue/notification Popup.png" id="21_d13ii"]
 [ext_resource type="FontFile" uid="uid://b8gyyc8nnthmp" path="res://UI/Fonts/AurulentSansMNerdFontMono-Regular.otf" id="21_getpj"]
 [ext_resource type="PackedScene" uid="uid://dnp301oc2ra7i" path="res://Entities/entity_base.tscn" id="21_ryguw"]
-[ext_resource type="Texture2D" uid="uid://1fhvk6galv4m" path="res://assets/NPCs/father.png" id="22_ryguw"]
+[ext_resource type="Texture2D" uid="uid://cjhvta6j5xe2u" path="res://assets/NPCs/neighbor_animations/New Piskel.png" id="23_a6jrf"]
+[ext_resource type="Texture2D" uid="uid://brgl7yxgh3cut" path="res://assets/NPCs/neighbor_animations/New Piskel (1).png" id="24_xuqvo"]
+[ext_resource type="Texture2D" uid="uid://cpd6si2tlgnkq" path="res://assets/NPCs/neighbor_animations/New Piskel (2).png" id="25_qsp4k"]
+[ext_resource type="Texture2D" uid="uid://b3p3w2qbn034v" path="res://assets/NPCs/neighbor_animations/New Piskel (3).png" id="26_kq58d"]
+[ext_resource type="Texture2D" uid="uid://c7d1m380erwcu" path="res://assets/NPCs/neighbor_animations/New Piskel (4).png" id="27_seu75"]
 
 [sub_resource type="GDScript" id="GDScript_0xm2m"]
 script/source = "extends CharacterBody2D
@@ -4179,17 +4183,50 @@ func show_notification(text: String):
 
 func file_created(path: String):
 	show_notification(
-		\"[ NEW FILE ] \" + path
+		\"[ new content ] \" + path
 	)
 
 func file_updated(path: String):
 	show_notification(
-		\"[ FILE UPDATED ] \" + path
+		\"[ new content ] \" + path
 	)
 "
 
 [sub_resource type="LabelSettings" id="LabelSettings_0odxb"]
 font = ExtResource("21_getpj")
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_htxhm"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("23_a6jrf")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("24_xuqvo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("25_qsp4k")
+}],
+"loop": true,
+"name": &"walkDown",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("26_kq58d")
+}, {
+"duration": 1.0,
+"texture": ExtResource("27_seu75")
+}],
+"loop": true,
+"name": &"walkUp",
+"speed": 5.0
+}]
 
 [node name="Main" type="Node2D"]
 
@@ -4216,7 +4253,7 @@ position_smoothing_speed = 7.0
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="player"]
 z_index = 2
 sprite_frames = SubResource("SpriteFrames_4c57u")
-animation = &"walkUp"
+animation = &"idle"
 
 [node name="PickupArea" type="Area2D" parent="player"]
 
@@ -4251,7 +4288,7 @@ layer = 15
 [node name="Transitioner" parent="LoadingScreen" instance=ExtResource("16_2cqfq")]
 layer = 11
 
-[node name="TextureRect" parent="LoadingScreen/Transitioner/TransitionerControl" index="0"]
+[node name="TextureRect" parent="LoadingScreen/Transitioner/TransitionerControl" index="1"]
 z_index = 11
 
 [node name="CheckButton" type="CheckButton" parent="LoadingScreen/Transitioner"]
@@ -4487,6 +4524,10 @@ required_flags = {
 entity_id = "neighbor_npc"
 display_name = "neighbor"
 
+[node name="AnimatedSprite2D" parent="Entities/neighbor" index="0"]
+sprite_frames = SubResource("SpriteFrames_htxhm")
+animation = &"walkUp"
+
 [node name="father" parent="Entities" instance=ExtResource("21_ryguw")]
 position = Vector2(-40, 3616)
 dialog_key = "father_cond"
@@ -4497,8 +4538,8 @@ required_flags = {
 entity_id = "father_npc"
 display_name = "father"
 
-[node name="Sprite2D" parent="Entities/father" index="0"]
-texture = ExtResource("22_ryguw")
+[node name="AnimatedSprite2D" parent="Entities/father" index="0"]
+animation = &"walkUp"
 
 [node name="GroundItems" type="Node2D" parent="."]
 z_index = 15
@@ -4507,4 +4548,5 @@ z_index = 15
 [connection signal="toggled" from="LoadingScreen/Transitioner/CheckButton" to="LoadingScreen/Transitioner/CheckButton" method="_on_toggled"]
 
 [editable path="LoadingScreen/Transitioner"]
+[editable path="Entities/neighbor"]
 [editable path="Entities/father"]

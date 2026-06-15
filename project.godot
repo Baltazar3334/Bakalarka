@@ -11,18 +11,18 @@ config_version=5
 [application]
 
 config/name="Bakalarka1"
-run/main_scene="uid://bg7r8qsvdcx31"
+run/main_scene="uid://bn1yaqv18s8ig"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
 
-InventoryManager="*res://inventory_manager.gd"
-SaveManager="*res://SaveManager.gd"
+InventoryManager="*res://Managers/inventory_manager.gd"
+SaveManager="*res://Managers/SaveManager.gd"
 Transitioner="*res://UI/fade/Transitioner.tscn"
-EntityManager="*res://EntityManager.gd"
+EntityManager="*res://Managers/EntityManager.gd"
 Global="*res://Global.gd"
-MenuFileManager="*res://MenuFileManager.gd"
+MenuFileManager="*res://Managers/MenuFileManager.gd"
 
 [display]
 
