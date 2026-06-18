@@ -1,0 +1,100 @@
+[gd_scene load_steps=2 format=3 uid="uid://wfhmljhc414b"]
+
+[sub_resource type="GDScript" id="GDScript_w6hx3"]
+resource_name = "AmbientSoundManager"
+script/source = "extends Node2D
+
+@onready var player: AudioStreamPlayer = $AmbientPlayer
+
+var loading_save := false
+var current_stream: AudioStream = null
+var active_zones := []
+
+func enter_zone(zone):
+	if loading_save:
+		return
+		
+	if zone in active_zones:
+		return
+	active_zones.append(zone)
+	update_active_ambient()
+
+func exit_zone(zone):
+	active_zones.erase(zone)
+	update_active_ambient()
+
+func update_active_ambient():
+	if active_zones.is_empty():
+		stop_all()
+		stop_ambient()
+		return
+
+	var best_zone = active_zones[0]
+	for zone in active_zones:
+		if zone.soundPriority > best_zone.soundPriority:
+			best_zone = zone
+	
+	print(\"SELECTED:\", best_zone.name)
+	print(\"SOUND:\", best_zone.ambient_sound)
+	play_ambient(best_zone.ambient_sound,best_zone.fade_time)
+
+func play_ambient(stream: AudioStream, fade_time := 3.0):
+	if stream == null:
+		player.stop()
+		return
+	if current_stream == stream:
+		return
+	current_stream = stream
+
+	var old_tween = create_tween()
+	old_tween.tween_property(
+		player,
+		\"volume_db\",
+		-80,
+		fade_time
+	)
+	await old_tween.finished
+
+	player.stop()
+	player.stream = stream
+	player.volume_db = -80
+	player.play()
+
+	var new_tween = create_tween()
+	new_tween.tween_property(
+		player,
+		\"volume_db\",
+		0,
+		fade_time
+	)
+
+func stop_ambient(fade_time := 3.0):
+	current_stream = null
+	if not player.playing:
+		return
+
+	var tween = create_tween()
+	tween.tween_property(
+		player,
+		\"volume_db\",
+		-80,
+		fade_time
+	)
+	await tween.finished
+
+	player.stop()
+	player.stream = null
+
+func stop_all():
+	active_zones.clear()
+	current_stream = null
+	player.stop()
+	player.stream = null
+	player.volume_db = -80
+"
+
+[node name="Node2D" type="Node2D"]
+script = SubResource("GDScript_w6hx3")
+
+[node name="AmbientPlayer" type="AudioStreamPlayer" parent="."]
+volume_db = -80.0

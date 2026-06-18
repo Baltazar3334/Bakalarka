@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://cypvtkcf3kycb"]
 
-[ext_resource type="Texture2D" uid="uid://cxwwqg2004nxk" path="res://UI/Dialogue/dialog window nvim-1.png.png" id="1_8mldl"]
+[ext_resource type="Texture2D" uid="uid://cv7584jm5u4dw" path="res://UI/Dialogue/dialog window nvim 2-1.png.png" id="1_8mldl"]
 [ext_resource type="FontFile" uid="uid://cxi1lqanwwgc4" path="res://UI/Fonts/JetBrainsMono-Medium.ttf" id="2_xpwk7"]
 
 [sub_resource type="GDScript" id="GDScript_ul4hf"]

@@ -29,7 +29,7 @@ func _input(event):
 	or (event is InputEventMouseButton and event.pressed):
 
 		can_continue = false
-		Transitioner.change_scene(\"res://Menus/mainMenuV4.tscn\",Transitioner.TransitionType.SIMPLE, 2.0)
+		Transitioner.change_scene(\"res://Menus/mainMenuV4.tscn\",Transitioner.TransitionType.SIMPLE, 3.0)
 
 func fade_in():
 	var tween = create_tween()

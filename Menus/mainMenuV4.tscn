@@ -1,7 +1,8 @@
-[gd_scene load_steps=38 format=3 uid="uid://bn1yaqv18s8ig"]
+[gd_scene load_steps=39 format=3 uid="uid://bn1yaqv18s8ig"]
 
 [ext_resource type="FontFile" uid="uid://cxi1lqanwwgc4" path="res://UI/Fonts/JetBrainsMono-Medium.ttf" id="1_t8gra"]
 [ext_resource type="FontFile" uid="uid://b8gyyc8nnthmp" path="res://UI/Fonts/AurulentSansMNerdFontMono-Regular.otf" id="2_423qa"]
+[ext_resource type="AudioStream" uid="uid://cmlugpd7m22bx" path="res://assets/sound/menu_sound/pcHumming.mp3" id="3_423qa"]
 
 [sub_resource type="GDScript" id="GDScript_ppo20"]
 resource_name = "MainMenuV3Script"
@@ -12,8 +13,9 @@ script/source = "extends Control
 @onready var command_output: RichTextLabel = $MarginContainer/VBoxContainer/CommandPanel/VBoxContainer/CommandOutput
 @onready var command_input: LineEdit = $MarginContainer/VBoxContainer/CommandPanel/VBoxContainer/CommandInput
 @onready var line_numbers: Label = $MarginContainer/VBoxContainer/HBoxContainer/RightPanel/HBoxContainer/Label
-@onready var popupDialog: Control = $Popups/PausePopup
+@onready var pcHumming_sound: AudioStreamPlayer2D = $pcHummingSound
 @onready var lore_viewer: RichTextLabel = $MarginContainer/VBoxContainer/HBoxContainer/RightPanel/HBoxContainer/LoreViewer
+@onready var popupDialog: Control = $Popups/PausePopup
 
 # content editor variables
 var current_open_file_path: Array = []
@@ -128,7 +130,7 @@ var default_file_system = {
 
 
 func _ready():
-	
+	play_menu_music()
 	
 	load_or_create_player_file_system()
 	
@@ -961,6 +963,7 @@ func start_new_game_in_slot(slot: int):
 		pending_action = \"new_game\"
 		overwriteDialogPopup()
 	else:
+		stop_menu_music()
 		create_new_save_and_start(slot)
 
 func create_new_save_and_start(slot: int):
@@ -982,6 +985,7 @@ func load_game_from_slot(slot: int):
 	if SaveManager.save_exists(slot):
 		SaveManager.current_save_slot = slot
 		append_command_output(\"Loading slot %d\" % slot)
+		stop_menu_music()
 		SaveManager.load_game_to_scene(slot)
 	else:
 		content_editor.text = \"Slot %d is empty.\" % slot
@@ -1328,6 +1332,7 @@ func overwriteDialogPopup():
 	popupDialog.open(\"Overwrite selected save slot?\")
 	
 func _on_overwrite_dialog_confirmed():
+	stop_menu_music()
 	match pending_action:
 		\"new_game\":
 			if selected_slot != -1:
@@ -1359,6 +1364,35 @@ func request_reset_tree():
 func request_reset_all():
 	pending_action = \"reset_all\"
 	popupDialog.open(\"Reset menu file system and delete all saves?\")
+	
+	
+#SF HELPERS
+
+@export var target_volume_db := 0
+
+func play_menu_music():
+	pcHumming_sound.volume_db = -80
+	pcHumming_sound.play()
+
+	create_tween().tween_property(
+		pcHumming_sound,
+		\"volume_db\",
+		target_volume_db,
+		1.75
+	)
+	
+func stop_menu_music():
+
+	var tween = create_tween()
+
+	tween.tween_property(
+		pcHumming_sound,
+		\"volume_db\",
+		-80,
+		1.75
+	)
+	await tween.finished
+	pcHumming_sound.stop()
 "
 
 [sub_resource type="Theme" id="Theme_5nvks"]
@@ -1760,3 +1794,7 @@ theme_override_styles/normal = SubResource("StyleBoxLine_jwrya")
 theme_override_styles/hover = SubResource("StyleBoxLine_w33pg")
 theme_override_styles/focus = SubResource("StyleBoxLine_c3axp")
 text = "No"
+
+[node name="pcHummingSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_423qa")
+parameters/looping = true

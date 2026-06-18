@@ -3,6 +3,7 @@ extends Node
 const DEFAULT_FLAGS := {
 	"neighbor_story": 0,
 	"neighbor_visit_story": 0,
+	"david_opinion": 0,
 	"neighbor_opinion": 0,
 	"neighbor_gave_money": 0,
 	"neighbor_asked_about_son": 0,
@@ -13,6 +14,9 @@ const DEFAULT_FLAGS := {
 	"father_story": 0,
 	"father_greeted": 0,
 	"father_there": 1,
+	"father_caught_cigarets": 0,
+	
+	"took_cigarets_from_campfire": 0,
 	
 	"med_lady_friendly": 0,
 	

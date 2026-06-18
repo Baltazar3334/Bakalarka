@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://bg7r8qsvdcx31"]
+[gd_scene load_steps=4 format=3 uid="uid://bg7r8qsvdcx31"]
 
 [ext_resource type="Texture2D" uid="uid://d2nefwkrr5muq" path="res://assets/menu_pictures/studio baltazar.png" id="1_8r3gc"]
+[ext_resource type="AudioStream" uid="uid://ytikjlmk0kb7" path="res://assets/sound/menu_sound/studoIntro2.mp3" id="2_6m6t5"]
 
 [sub_resource type="GDScript" id="GDScript_u0ikw"]
 resource_name = "studio_intro"
@@ -8,11 +9,12 @@ script/source = "extends Control
 
 @onready var fade_rect = $FadeRect
 @onready var press_key = $PressKeyRect
+@onready var intro_sound = $IntroSound
 
 var can_continue := false
 
 func _ready():
-	
+	intro_sound.play()
 	
 	press_key.visible = false
 
@@ -51,7 +53,7 @@ func fade_in():
 		fade_rect,
 		\"modulate:a\",
 		0.0,
-		3.0
+		2.5
 	)
 
 func show_press_key():
@@ -122,3 +124,6 @@ texture = ExtResource("1_8r3gc")
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
+
+[node name="IntroSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_6m6t5")

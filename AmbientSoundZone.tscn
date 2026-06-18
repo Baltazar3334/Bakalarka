@@ -1,0 +1,36 @@
+[gd_scene load_steps=3 format=3 uid="uid://ywygcgtqxmsa"]
+
+[sub_resource type="GDScript" id="GDScript_4ruhc"]
+resource_name = "AmbientSoundZone"
+script/source = "extends Area2D
+
+@export var ambient_sound: AudioStream
+@export var fade_time := 3.0
+@export var soundPriority := 0
+
+func _ready():
+	body_entered.connect(_on_body_entered)
+	body_exited.connect(_on_body_exited)
+
+func _on_body_entered(body):
+	if not body.is_in_group(\"player\"):
+		return
+	AmbientSoundManager.enter_zone(self)
+
+func _on_body_exited(body):
+	if not body.is_in_group(\"player\"):
+		return
+	AmbientSoundManager.exit_zone(self)
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_y2f67"]
+size = Vector2(4080, 2393)
+
+[node name="AmbientSoundZone" type="Area2D"]
+collision_layer = 0
+collision_mask = 2
+script = SubResource("GDScript_4ruhc")
+
+[node name="AmbientSoundCollisionBox" type="CollisionShape2D" parent="."]
+position = Vector2(111, -79)
+shape = SubResource("RectangleShape2D_y2f67")

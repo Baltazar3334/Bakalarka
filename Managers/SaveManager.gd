@@ -48,6 +48,8 @@ func save_exists(slot:int) -> bool:
 
 
 func load_game_to_scene(slot:int, scene_path:String = "res://main.tscn") -> void:
+	AmbientSoundManager.loading_save = true
+	
 	if not save_exists(slot):
 		print("Save not found for slot ", slot)
 		return
