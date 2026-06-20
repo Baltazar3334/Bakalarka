@@ -1,0 +1,69 @@
+[gd_scene load_steps=2 format=3 uid="uid://bww3qhxrg7gn7"]
+
+[sub_resource type="GDScript" id="GDScript_wjo7g"]
+resource_name = "soundManager"
+script/source = "extends Node2D
+
+@onready var playerGeneral: AudioStreamPlayer = $audioPlayerGeneral
+@onready var playerFootsteps: AudioStreamPlayer = $AudioPlayerFootsteps
+
+var last_footstep_index = {}
+
+var footstep_sounds = {
+	\"grass\": [
+		preload(\"res://assets/sound/game_sf/footsteps/grass1.mp3\"),
+		preload(\"res://assets/sound/game_sf/footsteps/grass2.mp3\"),
+		preload(\"res://assets/sound/game_sf/footsteps/grass3.mp3\"),
+		preload(\"res://assets/sound/game_sf/footsteps/grass4.mp3\")
+	],
+	\"wood\": [
+		preload(\"res://assets/sound/game_sf/footsteps/wood1.mp3\"),
+		preload(\"res://assets/sound/game_sf/footsteps/wood2.mp3\"),
+		preload(\"res://assets/sound/game_sf/footsteps/wood3.mp3\"),
+		preload(\"res://assets/sound/game_sf/footsteps/wood4.mp3\")
+	],
+	\"pavement\": [
+		preload(\"res://assets/sound/game_sf/footsteps/pavement1.mp3\"),
+		preload(\"res://assets/sound/game_sf/footsteps/pavement2.mp3\"),
+		preload(\"res://assets/sound/game_sf/footsteps/pavement3.mp3\"),
+		preload(\"res://assets/sound/game_sf/footsteps/pavement4.mp3\")
+	]
+}
+
+func playSound(path: String):
+	playerGeneral.stream = load(path)
+	playerGeneral.play()
+
+
+
+func play_footstep(surface: String):
+	if not footstep_sounds.has(surface):
+		return
+
+	var sounds = footstep_sounds[surface]
+
+	var index = randi() % sounds.size()
+
+	while sounds.size() > 1 \\
+	and last_footstep_index.get(surface, -1) == index:
+
+		index = randi() % sounds.size()
+
+	last_footstep_index[surface] = index
+
+	playerFootsteps.stream = sounds[index]
+	if surface == \"wood\":
+		playerFootsteps.volume_db = -5
+	if surface == \"pavement\":
+		playerFootsteps.volume_db = -5
+	if surface == \"grass\":
+		playerFootsteps.volume_db = 5
+	playerFootsteps.play()
+"
+
+[node name="soundManager" type="Node2D"]
+script = SubResource("GDScript_wjo7g")
+
+[node name="audioPlayerGeneral" type="AudioStreamPlayer" parent="."]
+
+[node name="AudioPlayerFootsteps" type="AudioStreamPlayer" parent="."]

@@ -24,6 +24,7 @@ EntityManager="*res://Managers/EntityManager.gd"
 Global="*res://Global.gd"
 MenuFileManager="*res://Managers/MenuFileManager.gd"
 AmbientSoundManager="*res://Managers/AmbientSoundManager.tscn"
+SoundManager="*res://SoundManager.tscn"
 
 [display]
 
