@@ -1,34 +1,39 @@
 {
 	
-	
 	"medicine_lady_cond": {
 	"conditions": [
 	{"flags": { "time_of_day": "afternoon"}, "dialog": "medicine_lady_not_there"},
 	{"flags": { "time_of_day": "morning", "med_lady_friendly": 0}, "dialog": "medicine_lady_neutral"},
-	{"flags": { "time_of_day": "morning", "neighbor_story": 2}, "dialog": "medicine_lady_asking"},
+	{"flags": {"med_lady_friendly": 2.0, "neighbor_story": 2}, "dialog": "medicine_lady_asking_rude"},
+	{"flags": {"med_lady_friendly": 1.0, "neighbor_story": 2}, "dialog": "medicine_lady_asking_nice"},
 	{"flags": { "time_of_day": "morning"}, "dialog": "medicine_lady_stop"}
 	]
   },
 
 "medicine_lady_not_there": {
 	"lines": [
-	{ "speaker": "neutral", "text": "The medicine store is already closed at this hour." }
+	{ "speaker": "neutral", "text": "The citys hospital." },
+	{ "speaker": "neutral", "text": "The hospital is not open to random visitors at this hour." }
 	]
 },
 
 "medicine_lady_stop": {
 	"lines": [
+	{ "speaker": "neutral", "text": "The citys hospital." },
 	{ "speaker": "neutral", "text": "Theres nothing you need to do here yet." }
 	]
 },
 
 "medicine_lady_neutral": {
 	"lines": [
+	{ "speaker": "neutral", "text": "The citys hospital." },
+	{ "speaker": "jessie", "text": "Luckily I never had the honor of visiting this place." },
+	{ "speaker": "neutral", "text": "You walk up to what looks like drug traffic to you." },
 	{ "speaker": "jessie", "text": "Hello." },
  	{ "speaker": "med_lady", "text": "Hi sweetie what do you need?" },
- 	{ "speaker": "jessie", "text": "Hmmm. Nothing really." },
+ 	{ "speaker": "jessie", "text": "I- uhhh.." },
 	{ "speaker": "med_lady", "text": "Are you lost?" },
-	{ "speaker": "jessie", "text": "What? No! Im old enough to know how to get home!" },
+	{ "speaker": "jessie", "text": "What? No! Im old enough to know how to get home lady!" },
 	{ "speaker": "med_lady", "text": "Alright, alright, Im just asking." },
 	],
 	"choices": [
@@ -78,16 +83,7 @@
 
 
 
-
-
-"medicine_lady_asking": {
-	"conditions": [
-	{"flags": {"med_lady_friendly": 2}, "dialog": "medicine_lady_asking_rude"},
-	{"flags": {"med_lady_friendly": 1}, "dialog": "medicine_lady_asking"},
-	]
-  },
-
-"medicine_lady_asking": {
+"medicine_lady_asking_nice": {
 	"lines": [
 	{ "speaker": "jessie", "text": "Excuse me. My neighbor sent me to pick up his medicine. I have the recipe here." },
  	{ "speaker": "med_lady", "text": "Let me see..." },
@@ -120,11 +116,70 @@
 	"lines": [
 	{ "speaker": "neutral", "text": "You hand her the money" },
 	{ "speaker": "med_lady", "text": "Thank you young man." },
-	{ "speaker": "neutral", "text": "You thank her as well as you start walking away." },
+	{ "speaker": "neutral", "text": "You thank her as you start walking away." },
 	{ "speaker": "neutral", "text": "Suddenly she stops you" },
 	{ "speaker": "med_lady", "text": "Wait a second. Are you still interested in hearing about-" },
-	{ "speaker": "med_lady", "text": "well..about what you asked earlier?" },
-	{ "speaker": "neutral", "text": "This part of the game is not finished yet." },
+	{ "speaker": "med_lady", "text": "well..about what you asked earlier?" }
+	],
+	"choices": [
+	  {
+		"text": "Sure.",
+		"next": "medicine_lady_secret",
+	  },
+	  {
+		"text": "You know what? I changed my mind about that.",
+		"next": "medicine_lady_not_interested"
+	  },
+	]
+},
+
+
+"medicine_lady_secret": {
+	"lines": [
+	{ "speaker": "neutral", "text": "The lady checks around nervously" },
+	{ "speaker": "med_lady", "text": "The medicine-" },
+	{ "speaker": "med_lady", "text": "Whoever youre supposed to give it to," },
+	{ "speaker": "med_lady", "text": "Dont give it to them." },
+	{ "speaker": "jessie", "text": "why?" },
+	{ "speaker": "med_lady", "text": "I cant say!" },
+	{ "speaker": "med_lady", "text": "..." },
+	{ "speaker": "med_lady", "text": "Look. Since my coworker started taking them she is not herself." },
+	{ "speaker": "med_lady", "text": "Im not a doctor. I dont know what it is, I just know its doing something to her." },
+	{ "speaker": "med_lady", "text": "DONT GIVE IT TO THEM!" },
+	{ "speaker": "neutral", "text": "Luckily there are not many people in the room to notice her shouting" },
+	{ "speaker": "jessie", "text": "Okay lady. Im not sure if thats up to me to decide though." },
+	{ "speaker": "med_lady", "text": "..I know. I shouldnt be talking about this to you either way. But I cant let another person get their life ruined." },
+	{ "speaker": "med_lady", "text": "At least I tried this time.." },
+	{ "speaker": "neutral", "text": "You walk away" },
+	],
+	"on_finish": [
+		{
+		"give_item": {
+			"name": "neighbors medicine",
+			"amount": 1
+		},
+		},
+		{
+		"remove_item": {
+			"name": "money",
+			"amount": 11
+		},
+		},
+		{
+		"flag": "neighbor_story",
+		"set": 3
+		},
+		{
+		"flag": "med_lady_story",
+		"set": 1
+		}
+	]
+},
+
+"medicine_lady_not_interested": {
+	"lines": [
+	{ "speaker": "neutral", "text": "Developer note: 'REALLY?!'" },
+	{ "speaker": "med_lady", "text": "Oh..Okay-" },
 	],
 	"on_finish": {
 		"give_item": {
@@ -139,6 +194,9 @@
 		"set": 3
 	}
 },
+
+
+
 
 "medicine_lady_not_enough_money": {
 	"lines": [
@@ -159,8 +217,8 @@
 	"lines": [
 	{ "speaker": "med_lady", "text": "Sweet boy.." },
 	{ "speaker": "med_lady", "text": "I really cant help you here Im sorry. If you dont have the money go back to your neigbor and ask it. Its reasonable that he should give you it." },
-	{ "speaker": "neutral", "text": "Yeah, save to say that wont work." },
-	{ "speaker": "jessie", "text": "Yeah ill definitely do that." },
+	{ "speaker": "neutral", "text": "A good idea?" },
+	{ "speaker": "jessie", "text": "Yeah ill definitely do..that." },
 	{ "speaker": "neutral", "text": "You walk away cursing to yourself." }
 	]
 },

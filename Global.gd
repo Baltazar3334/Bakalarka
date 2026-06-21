@@ -19,6 +19,7 @@ const DEFAULT_FLAGS := {
 	"took_cigarets_from_campfire": 0,
 	
 	"med_lady_friendly": 0,
+	"med_lady_story": 0,
 	
 	"day_of_the_week": 1,
 	"money_6_taken": 0,

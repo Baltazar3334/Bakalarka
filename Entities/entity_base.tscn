@@ -120,7 +120,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_iy2mu"]
-size = Vector2(16, 8)
+size = Vector2(8, 6)
 
 [sub_resource type="GDScript" id="GDScript_fn5cw"]
 resource_name = "InteractionArea"
