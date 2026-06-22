@@ -23,6 +23,10 @@
 		"flag": "time_of_day",
 		"toggle": ["morning", "afternoon"]
 	},
+			{
+				"flag": "david_cinema_tonight",
+				"set": 0
+			},
 	{
 				"moveNPC": {
 				"NPCid": "father_npc",
@@ -470,6 +474,195 @@ If theres any truth to what moms saying it should..lets just say that I dont tak
 	"lines": [
 	{ "speaker": "neutral", "text": "You have already taken the money" },
 	]
+},
+
+
+
+
+
+
+"cinema_cond": {
+	"conditions": [
+	{"flags": { "david_cinema_tonight": 1}, "dialog": "cinema_david"},
+	{ "dialog": "cinema_comment"},
+		]
+  },
+
+
+
+
+"cinema_comment": {
+	"lines": [
+	{ "speaker": "neutral", "text": "The towns cinema" },
+	{ "speaker": "jessie", "text": "Maybe I should see what their screening this week." },
+	{ "speaker": "jessie", "text": "The thing..goodfellas..matrix" },
+	{ "speaker": "jessie", "text": "I should Invite somebody, not going alone." },
+	]
+	},
+
+
+
+"cinema_david": {
+	"lines": [
+	{ "speaker": "neutral", "text": "You see David already waiting at the cinema as you aproach" },
+	{ "speaker": "jessie", "text": "Hey! Half expected you to not show up with the enthusiasm you showed when I asked you." },
+	{ "speaker": "David", "text": "Im not the kind of person to make you come here and then not show up." },
+	{ "speaker": "jessie", "text": "And I apreciate you for that dude." },
+	{ "speaker": "jessie", "text": "Looks like the cinema is 5$ per person.." },
+	],
+	"choices": [
+	  {
+		"text": "Pay full (You lose 10$)",
+		"next": "cinema_david_paid",
+		"requires_item": {
+		"name": "money",
+		"amount": 10
+	  		}
+	  },
+		{
+		"text": "Pay only yourself (You lose 5$)",
+		"next": "cinema_david_paid_half",
+		"requires_item": {
+		"name": "money",
+		"amount": 5
+	  		}
+	  },
+		{
+		"text": "I dont have that money...",
+		"next": "cinema_david_brokie"
+	  },
+	]
+},
+
+
+"cinema_david_paid": {
+	"lines": [
+	{ "speaker": "neutral", "text": "You pay the full price for you and David" },
+	{ "speaker": "jessie", "text": "When was the last time youve been to the cinema?" },
+	{ "speaker": "David", "text": "Never." },
+	{ "speaker": "jessie", "text": "Really? Then Im glad your first experience is this movie. Its a banger." },
+	{ "speaker": "David", "text": "Ive never heard of it." },
+	{ "speaker": "jessie", "text": "It came out recently. Its a banger man. Youre gonna shit yourself." },
+	{ "speaker": "neutral", "text": "David indeed shit himself from the tense horor of the classic horror movie 'The thing'" },
+	{ "speaker": "jessie", "text": "So? How was it?" },
+	{ "speaker": "David", "text": "Im probably not gonna sleep a couple nights. But it was the best freakin movie Ive ever seen dude!" },
+	{ "speaker": "jessie", "text": "I told you maaan." },
+	{ "speaker": "jessie", "text": "Its the best." },
+	{ "speaker": "neutral", "text": "After a prolonged conversation about the details of the movie and wondering if childs was the thing you split up" },
+	{ "speaker": "David", "text": "Thanks man..I really needed this." },
+	{ "speaker": "jessie", "text": "Dont mention it." },
+	],
+	"on_finish": [
+		{
+			"remove_item": {
+			"name": "money",
+			"amount": 10
+			}	
+		},
+			{
+			"menu_entry": {
+				"id": "david_cinema_good_time",
+				"path": ["lore", "Journal.txt"],
+				"text": "Been to the cinema with David. Hes actually a pretty funny guy and he enojyed the movie. He really needed a break like this I think.\n"
+				}
+			},
+			{
+				"flag": "david_opinion",
+				"increase": 1
+			},
+		{	
+			"menu_entry": {
+			"id": "opinion_tutorial",
+			"path": ["tutorials", "inventory.txt"],
+			"text": "|When you dissapoint people their opinion of you decreases. Same happens when you charm them or do a favour for them.|\n"
+			}
+		}
+		]
+},
+
+"cinema_david_paid_half": {
+	"lines": [
+	{ "speaker": "neutral", "text": "You pay the price only for yourself" },
+	{ "speaker": "jessie", "text": "Youre gonna hate me for this..I didnt bring enough money for the both of us." },
+	{ "speaker": "David", "text": "Yeah I brought my own. Dont sweat it. You dont owe me anything." },
+	{ "speaker": "jessie", "text": "When was the last time youve been to the cinema?" },
+	{ "speaker": "David", "text": "Never." },
+	{ "speaker": "jessie", "text": "Really? Then Im glad your first experience is this movie. Its a banger." },
+	{ "speaker": "David", "text": "Ive never heard of it." },
+	{ "speaker": "jessie", "text": "It came out recently. Its a banger man. Youre gonna shit yourself." },
+	{ "speaker": "neutral", "text": "David indeed shit himself from the tense horor of the classic horror movie 'The thing'" },
+	{ "speaker": "jessie", "text": "So? How was it?" },
+	{ "speaker": "David", "text": "Im probably not gonna sleep a couple nights. But it was the best freakin movie Ive ever seen dude!" },
+	{ "speaker": "jessie", "text": "I told you maaan." },
+	{ "speaker": "jessie", "text": "Its the best." },
+	{ "speaker": "neutral", "text": "After a prolonged conversation about the details of the movie and wondering if childs was the thing, you split up" },
+	{ "speaker": "David", "text": "Thanks man..I really got my money worth." },
+	{ "speaker": "jessie", "text": "Glad you enjoyed it." },
+	],
+	"on_finish": [
+		{
+			"remove_item": {
+			"name": "money",
+			"amount": 5
+			}	
+		},
+			{
+			"menu_entry": {
+				"id": "david_cinema_good_time",
+				"path": ["lore", "Journal.txt"],
+				"text": "Been to the cinema with David. Hes actually a pretty funny guy and he enojyed the movie. He really needed a break like this I think.\n"
+				}
+			},
+			{
+				"flag": "david_opinion",
+				"increase": 1
+			},
+		{	
+			"menu_entry": {
+			"id": "opinion_tutorial",
+			"path": ["tutorials", "inventory.txt"],
+			"text": "|When you dissapoint people their opinion of you decreases. Same happens when you charm them or do a favour for them.|\n"
+			}
+		}
+		]
+	},
+
+"cinema_david_brokie": {
+	"lines": [
+	{ "speaker": "neutral", "text": "Devs note: You cant/dont want to play that money brokie?" },
+	{ "speaker": "jessie", "text": "Shit man..I-." },
+	{ "speaker": "jessie", "text": "I forgot my wallet in my other pants.." },
+	{ "speaker": "David", "text": "Oh yeah? What random turn of events. Me too!" },
+	{ "speaker": "jessie", "text": "So uhh. Some other time?" },
+	{ "speaker": "David", "text": "When youre not broke." },
+	],
+	"on_finish": [
+		{
+			"give_item": {
+			"name": "brokie token",
+			"amount": 1
+			}	
+		},
+		{	
+			"menu_entry": {
+			"id": "opinion_tutorial",
+			"path": ["tutorials", "inventory.txt"],
+			"text": "|When you dissapoint people their opinion of you decreases. Same happens when you charm them or do a favour for them.|\n"
+			}
+		},
+		{
+				"flag": "david_cinema_tonight",
+				"set": 3 
+			},
+			{
+				"flag": "david_cinema_visit_planned",
+				"set": 3 
+			},
+			{
+				"flag": "david_opinion",
+				"decrease": 1
+			}
+		]
 },
 
 

@@ -14,11 +14,17 @@
 	{"flags": { "father_story": 1, "neighbor_visit_story": 1 }, "dialog": "father_the_news"},
 	{"flags": { "father_story": 0, "time_of_day": "morning", "father_greeted": 0}, "dialog": "father_greeting_morning"},
 	{"flags": { "father_story": 0, "time_of_day": "afternoon", "father_greeted": 0 }, "dialog": "father_greeting_evening"},
+	{"flags": { "father_story": 1, "time_of_day": "afternoon", "father_greeted": 0 }, "dialog": "father_greeting_evening"},
 	{"flags": { "father_story": 0, "time_of_day": "morning", "father_greeted": 1}, "dialog": "father_greeting_morning"},
 	{"flags": { "father_story": 0, "time_of_day": "afternoon", "father_greeted": 1, "neighbor_story": 0 }, "dialog": "father_greeting_evening_not_met_neighbor"},
 	{"flags": { "father_story": 0,"time_of_day": "afternoon", "father_greeted": 1, "neighbor_story": 1 }, "dialog": "father_greeting_evening_met_neighbor"},
 	{"flags": { "father_story": 0,"time_of_day": "afternoon", "father_greeted": 1, "neighbor_story": 2 }, "dialog": "father_greeting_evening_met_neighbor"},
 	{"flags": { "father_story": 0,"time_of_day": "afternoon", "father_greeted": 1, "neighbor_story": 3 }, "dialog": "father_greeting_evening_met_neighbor_gave_medicine"},
+	
+	{"flags": {"neighbor_gave_money": 0, "neighbor_opinion": 0 ,"father_story": 0,"time_of_day": "afternoon", "father_greeted": 1, "neighbor_story": 4 }, "dialog": "father_money_descision_dont_have_money_neighbor_hates"},
+	{"flags": {"neighbor_gave_money": 1, "neighbor_opinion": 0 ,"father_story": 0,"time_of_day": "afternoon", "father_greeted": 1, "neighbor_story": 4 }, "dialog": "father_money_descision_have_money_neighbor_hates"},
+	{"flags": {"neighbor_gave_money": 0, "neighbor_opinion": 1 ,"father_story": 0,"time_of_day": "afternoon", "father_greeted": 1, "neighbor_story": 4 }, "dialog": "father_money_descision_dont_have_money_neighbor_likes"},
+	{"flags": {"neighbor_gave_money": 1, "neighbor_opinion": 1 ,"father_story": 0,"time_of_day": "afternoon", "father_greeted": 1, "neighbor_story": 4 }, "dialog": "father_money_descision_have_money_neighbor_likes"},	
 	]
   },
 
@@ -331,14 +337,7 @@ Shame mom is still away. \n"
 
 
 
-"father_greeting_evening_met_neighbor_gave_medicine": {
-	"conditions": [
-	{"flags": { "neighbor_gave_money": 0, "neighbor_opinion": 0}, "dialog": "father_money_descision_dont_have_money_neighbor_hates"},
-	{"flags": { "neighbor_gave_money": 1, "neighbor_opinion": 0}, "dialog": "father_money_descision_have_money_neighbor_hates"},
-	{"flags": { "neighbor_gave_money": 0, "neighbor_opinion": 1}, "dialog": "father_money_descision_dont_have_money_neighbor_likes"},
-	{"flags": { "neighbor_gave_money": 1, "neighbor_opinion": 1}, "dialog": "father_money_descision_have_money_neighbor_likes"},
-	]
-	},
+
 
 
 "father_money_descision_dont_have_money_neighbor_hates": {
@@ -734,7 +733,7 @@ Should meet the new guy in school, see what hes made of. That sounded better in 
 	{ "speaker": "jessie", "text": "Yeah..so what do we do." },
 	{ "speaker": "father", "text": "We? You dont do anything. Or better yet. Stay away from that guy and his whole family." },
 	{ "speaker": "jessie", "text": "What? No way!" },
-	{ "speaker": "father", "text": "That is not a question. That is a decision. Dont talk to them. Dont look at them. Dont stand near them." },
+	{ "speaker": "father", "text": "That is not a question. That is an order. Dont talk to them. Dont look at them. Dont stand near them." },
 	{ "speaker": "father", "text": "Last thing I need is for you to get drugged or worse." },
 	{ "speaker": "father", "text": "What would I tell your mother? That a bad guy came into town and abducted our son?" },
 	{ "speaker": "father", "text": "Dont touch this or youre done, undestand?" },

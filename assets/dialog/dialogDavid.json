@@ -1,0 +1,539 @@
+{
+"comment_ignore_david": {
+	"lines": [
+	{ "speaker": "neutral", "text": "david_story = 0 - nothing special, 1 - talked to david in school" },
+	{ "speaker": "neutral", "text": "david_opinion = 0 - nothing special, 1 - initial meeting, 2 - met in school" },
+	],
+  	},
+
+	
+"david_school_cond": {
+	"conditions": [
+	{"flags": { "david_story": 0, "time_of_day": "evening"}, "dialog": "david_school_evening"},
+	{"flags": { "david_story": 0}, "dialog": "david_school"},
+	{"flags": { "david_story": 1}, "dialog": "david_school_casual"}
+		]
+  			},
+	
+"david_school": {
+	"lines": [
+	{ "speaker": "david", "text": "Hey." },
+	{ "speaker": "jessie", "text": "Hey. So.." },
+	{ "speaker": "jessie", "text": "First time Ive seen you at school." },
+	{ "speaker": "david", "text": "You must have missed school these last couple days then." },
+	{ "speaker": "jessie", "text": "Oh yeah, thats likely." },
+	{ "speaker": "david", "text": "Hope you havent said anything to anybody." },
+	],
+	"choices": [
+	  {
+		"text": "Havent even had time to talk to anybody..",
+		"next": "david_school_kept_secret",
+		"requires_flag": {
+			"father_story": 0
+		}
+	  },
+		{
+		"text": "Nope.",
+		"next": "david_school_kept_secret",
+		"requires_flag": {
+			"father_story": 1
+		}
+	  },
+	{
+		"text": "Nope. (lie)",
+		"next": "david_school_kept_secret",
+		"requires_flag": {
+			"father_story": 2
+		}
+	  },
+		{
+		"text": "Nope. (lie)",
+		"next": "david_school_kept_secret",
+		"requires_flag": {
+			"father_story": 3
+		}
+	  },
+	
+	
+	{
+		"text": "I havent exaclty TOLD anybody.. ",
+		"next": "david_school_hinted_secret",
+		"requires_flag": {
+			"father_story": 2
+		}
+	  },
+	{
+		"text": "I havent exaclty TOLD anybody..(lie)",
+		"next": "david_school_hinted_secret",
+		"requires_flag": {
+			"father_story": 3
+		}
+	  },
+	
+	
+	{
+		"text": "Sorry. I had to tell my father.",
+		"next": "david_school_told_secret",
+		"requires_flag": {
+			"father_story": 3
+		}
+	  },
+	],
+	},
+
+"david_school_evening": {
+	"lines": [
+	{ "speaker": "david", "text": "Hey." },
+	{ "speaker": "jessie", "text": "Hey. So.." },
+	{ "speaker": "jessie", "text": "Tough evening?" },
+	{ "speaker": "david", "text": "Yeah.." },
+	{ "speaker": "jessie", "text": "Yeah.." },
+	{ "speaker": "david", "text": "Hope you havent said anything to anybody." },
+	],
+	"choices": [
+	  {
+		"text": "Nope.",
+		"next": "david_school_kept_secret",
+		"requires_flag": {
+			"father_story": 1
+		}
+	  },
+	{
+		"text": "Nope. (lie)",
+		"next": "david_school_kept_secret",
+		"requires_flag": {
+			"father_story": 2
+		}
+	  },
+		{
+		"text": "Nope. (lie)",
+		"next": "david_school_kept_secret",
+		"requires_flag": {
+			"father_story": 3
+		}
+	  },
+	
+	
+	{
+		"text": "I havent exaclty TOLD anybody.. ",
+		"next": "david_school_hinted_secret",
+		"requires_flag": {
+			"father_story": 2
+		}
+	  },
+	{
+		"text": "I havent exaclty TOLD anybody..(lie)",
+		"next": "david_school_hinted_secret",
+		"requires_flag": {
+			"father_story": 3
+		}
+	  },
+	
+	
+	{
+		"text": "Sorry. I had to tell my father.",
+		"next": "david_school_told_secret",
+		"requires_flag": {
+			"father_story": 3
+		}
+	  },
+	],
+	},
+
+
+
+"david_school_kept_secret": {
+	"lines": [
+	{ "speaker": "david", "text": "Thats good. Thank you." },
+	{ "speaker": "jessie", "text": "I keep promises, dont worry." },
+	{ "speaker": "jessie", "text": "But youve got to do something about it though no?" },
+	{ "speaker": "david", "text": "As I said. I cant." },
+	{ "speaker": "jessie", "text": "Call the police or something." },
+	{ "speaker": "david", "text": "And tell them what?" },
+	{ "speaker": "david", "text": "Firstly, its legal." },
+	{ "speaker": "david", "text": "Secondly, like police are gonna believe me." },
+	{ "speaker": "david", "text": "Thirdly, after the police leave father will kill me." },
+	{ "speaker": "jessie", "text": "Well I think getting whiped with a belt is worth the try.." },
+	{ "speaker": "david", "text": "No I mean like LITERALY kill me." },
+	{ "speaker": "jessie", "text": "what?" },
+	{ "speaker": "david", "text": "Hes scary sometimes and one time when he was drunk he.." },
+	{ "speaker": "david", "text": "well he started swinging the gun around." },
+	{ "speaker": "jessie", "text": "Oh.." },
+	{ "speaker": "jessie", "text": "We have to go to the police like right now." },
+	{ "speaker": "david", "text": "NO!" },
+	{ "speaker": "jessie", "text": "Dude whatever you think is gonna happen is not gonna. They will help you!" },
+	{ "speaker": "david", "text": "Im not in danger. But I will be if you go to the police." },
+	{ "speaker": "jessie", "text": "..." },
+	{ "speaker": "david", "text": "I already did once, okay?!" },
+	{ "speaker": "jessie", "text": "What happened?" },
+	{ "speaker": "david", "text": "Do I look like it helped?" },
+	{ "speaker": "david", "text": "Mom was on his side and he.." },
+	{ "speaker": "david", "text": "he beat me." },
+	{ "speaker": "david", "text": "..." },
+	{ "speaker": "david", "text": "Thats when he pulled the gun out." },
+	{ "speaker": "jessie", "text": "Fine..." },
+	{ "speaker": "jessie", "text": "But we have to figure something out." },
+	{ "speaker": "david", "text": "Got any ideas?" },
+	{ "speaker": "jessie", "text": "Not now. But we need to somehow get him." },
+	{ "speaker": "david", "text": "Like kill him 'get him'?" },
+	{ "speaker": "jessie", "text": "No! Like get him in jail or something. I dont know. Get you and your mom away from him." },
+	{ "speaker": "david", "text": "Can I ask you something?" },
+	{ "speaker": "jessie", "text": "Sure." },
+	{ "speaker": "david", "text": "Why are you helping me?" },
+	{ "speaker": "jessie", "text": "Maybe because your dad is a psycho." },
+	{ "speaker": "david", "text": "No but like...you dont even know me or my family. We just moved here." },
+	{ "speaker": "jessie", "text": "Guess Im just a good person, I dont know." },
+	{ "speaker": "jessie", "text": "Or I really dont want somebody to die living opposite to where I live." },
+	{ "speaker": "jessie", "text": "Doesnt really matter no?" },
+	{ "speaker": "david", "text": "Guess not." },
+	{ "speaker": "jessie", "text": "Which class do you go to?" },
+	{ "speaker": "david", "text": "A13" },
+	{ "speaker": "jessie", "text": "Nice. Sit by my right theres an empty spot usually." },
+	],
+	"on_finish": [
+			{
+				"flag": "david_story",
+				"set": 1 
+			},
+			{
+				"flag": "david_opinion",
+				"set": 2
+			},
+			{
+			"menu_entry": {
+				"id": "david_school_family_matters",
+				"path": ["lore", "Journal.txt"],
+				"text": "Talked to David in school. Damn it I almost cried in school. Its really fucked up what happens in his family..\n"
+				}
+			}
+		]
+	},
+
+
+"david_school_hinted_secret": {
+	"lines": [
+	{ "speaker": "david", "text": "What the hell does that mean?!" },
+	{ "speaker": "jessie", "text": "Look I know your father is dangerous.." },
+	{ "speaker": "jessie", "text": "and all I said is to keep away from him to my father." },
+	{ "speaker": "david", "text": "You promised!" },
+	{ "speaker": "jessie", "text": "Im sorry but the safety of my family comes first." },
+	{ "speaker": "david", "text": "..." },
+	{ "speaker": "david", "text": "Can he at least keep secrets?" },
+	{ "speaker": "jessie", "text": "Yes and as I said, he doesnt know anything besides keeping away from him." },
+	{ "speaker": "david", "text": "Okay.." },
+	{ "speaker": "jessie", "text": "But youve got to do something about it though no?" },
+	{ "speaker": "david", "text": "As I said. I cant." },
+	{ "speaker": "jessie", "text": "Call the police or something." },
+	{ "speaker": "david", "text": "And tell them what?" },
+	{ "speaker": "david", "text": "Firstly, its legal." },
+	{ "speaker": "david", "text": "Secondly, like police are gonna believe me." },
+	{ "speaker": "david", "text": "Thirdly, after the police leave father will kill me." },
+	{ "speaker": "jessie", "text": "Well I think getting whiped with a belt is worth the try.." },
+	{ "speaker": "david", "text": "No I mean like LITERALY kill me." },
+	{ "speaker": "jessie", "text": "what?" },
+	{ "speaker": "david", "text": "Hes scary sometimes and one time when he was drunk he.." },
+	{ "speaker": "david", "text": "well he started swinging the gun around." },
+	{ "speaker": "jessie", "text": "Oh.." },
+	{ "speaker": "jessie", "text": "We have to go to the police like right now." },
+	{ "speaker": "david", "text": "NO!" },
+	{ "speaker": "jessie", "text": "Dude whatever you think is gonna happen is not gonna. They will help you!" },
+	{ "speaker": "david", "text": "Im not in danger. But I will be if you go to the police." },
+	{ "speaker": "jessie", "text": "..." },
+	{ "speaker": "david", "text": "I already did once, okay?!" },
+	{ "speaker": "jessie", "text": "What happened?" },
+	{ "speaker": "david", "text": "Do I look like it helped?" },
+	{ "speaker": "david", "text": "Mom was on his side and he.." },
+	{ "speaker": "david", "text": "he beat me." },
+	{ "speaker": "david", "text": "..." },
+	{ "speaker": "david", "text": "Thats when he pulled the gun out." },
+	{ "speaker": "jessie", "text": "Fine..." },
+	{ "speaker": "jessie", "text": "But we have to figure something out." },
+	{ "speaker": "david", "text": "Got any ideas?" },
+	{ "speaker": "jessie", "text": "Not now. But we need to somehow get him." },
+	{ "speaker": "david", "text": "Like kill him 'get him'?" },
+	{ "speaker": "jessie", "text": "No! Like get him in jail or something. I dont know. Get you and your mom away from him." },
+	{ "speaker": "david", "text": "Can I ask you something?" },
+	{ "speaker": "jessie", "text": "Sure." },
+	{ "speaker": "david", "text": "Why are you helping me?" },
+	{ "speaker": "jessie", "text": "Maybe because your dad is a psycho." },
+	{ "speaker": "david", "text": "No but like...you dont even know me or my family. We just moved here." },
+	{ "speaker": "jessie", "text": "Guess Im just a good person, I dont know." },
+	{ "speaker": "jessie", "text": "Or I really dont want somebody to die living opposite to where I live." },
+	{ "speaker": "jessie", "text": "Doesnt really matter no?" },
+	{ "speaker": "david", "text": "Guess not." },
+	{ "speaker": "jessie", "text": "Which class do you go to?" },
+	{ "speaker": "david", "text": "A13" },
+	{ "speaker": "jessie", "text": "Nice. Sit by my right theres an empty spot usually." },
+	],
+	"on_finish": [
+			{
+				"flag": "david_story",
+				"set": 1 
+			},
+			{
+				"flag": "david_opinion",
+				"set": 1
+			},
+			{
+			"menu_entry": {
+				"id": "david_school_family_matters",
+				"path": ["lore", "Journal.txt"],
+				"text": "Talked to David in school. Damn it I almost cried in school. Its really fucked up what happens in his family..Also he understood why I had to tell dad at least something. Thats good.\n"
+				}
+			}
+		]
+	},
+
+
+"david_school_told_secret": {
+	"lines": [
+	{ "speaker": "david", "text": "You promised!" },
+	{ "speaker": "jessie", "text": "Im sorry but the safety of my family comes first. I had to tell father." },
+	{ "speaker": "david", "text": "..." },
+	{ "speaker": "david", "text": "Can he at least keep secrets?" },
+	{ "speaker": "jessie", "text": "Yes he promised to keep it." },
+	{ "speaker": "david", "text": "The more people know the bigger the chance we move towns again." },
+	{ "speaker": "jessie", "text": "But youve got to do something about it though no?" },
+	{ "speaker": "david", "text": "As I said. I cant." },
+	{ "speaker": "jessie", "text": "Call the police or something." },
+	{ "speaker": "david", "text": "And tell them what?" },
+	{ "speaker": "david", "text": "Firstly, its legal." },
+	{ "speaker": "david", "text": "Secondly, like police are gonna believe me." },
+	{ "speaker": "david", "text": "Thirdly, after the police leave father will kill me." },
+	{ "speaker": "jessie", "text": "Well I think getting whiped with a belt is worth the try.." },
+	{ "speaker": "david", "text": "No I mean like LITERALY kill me." },
+	{ "speaker": "jessie", "text": "what?" },
+	{ "speaker": "david", "text": "Hes scary sometimes and one time when he was drunk he.." },
+	{ "speaker": "david", "text": "well he started swinging the gun around." },
+	{ "speaker": "jessie", "text": "Oh.." },
+	{ "speaker": "jessie", "text": "We have to go to the police like right now." },
+	{ "speaker": "david", "text": "NO!" },
+	{ "speaker": "jessie", "text": "Dude whatever you think is gonna happen is not gonna. They will help you!" },
+	{ "speaker": "david", "text": "Im not in danger. But I will be if you go to the police." },
+	{ "speaker": "jessie", "text": "..." },
+	{ "speaker": "david", "text": "I already did once, okay?!" },
+	{ "speaker": "jessie", "text": "What happened?" },
+	{ "speaker": "david", "text": "Do I look like it helped?" },
+	{ "speaker": "david", "text": "Mom was on his side and he.." },
+	{ "speaker": "david", "text": "he beat me." },
+	{ "speaker": "david", "text": "..." },
+	{ "speaker": "david", "text": "Thats when he pulled the gun out." },
+	{ "speaker": "jessie", "text": "Fine..." },
+	{ "speaker": "jessie", "text": "But we have to figure something out." },
+	{ "speaker": "david", "text": "Got any ideas?" },
+	{ "speaker": "jessie", "text": "Not now. But we need to somehow get him." },
+	{ "speaker": "david", "text": "Like kill him 'get him'?" },
+	{ "speaker": "jessie", "text": "No! Like get him in jail or something. I dont know. Get you and your mom away from him." },
+	{ "speaker": "david", "text": "Can I ask you something?" },
+	{ "speaker": "jessie", "text": "Sure." },
+	{ "speaker": "david", "text": "Why are you helping me?" },
+	{ "speaker": "jessie", "text": "Maybe because your dad is a psycho." },
+	{ "speaker": "david", "text": "No but like...you dont even know me or my family. We just moved here." },
+	{ "speaker": "jessie", "text": "Guess Im just a good person, I dont know." },
+	{ "speaker": "jessie", "text": "Or I really dont want somebody to die living opposite to where I live." },
+	{ "speaker": "jessie", "text": "Doesnt really matter no?" },
+	{ "speaker": "david", "text": "Guess not." },
+	{ "speaker": "jessie", "text": "Which class do you go to?" },
+	{ "speaker": "david", "text": "A13" },
+	{ "speaker": "jessie", "text": "Nice. Sit by my right theres an empty spot usually." },
+	],
+	"on_finish": [
+			{
+				"flag": "david_story",
+				"set": 1 
+			},
+			{
+				"flag": "david_opinion",
+				"set": 0
+			},
+			{
+			"menu_entry": {
+				"id": "david_school_family_matters",
+				"path": ["lore", "Journal.txt"],
+				"text": "Talked to David in school. Damn it I almost cried in school. Its really fucked up what happens in his family..They move town every time people notice?\n"
+				}
+			}
+		]
+	},
+
+
+
+
+
+
+"david_school_casual": {
+	"lines": [
+	{ "speaker": "jessie", "text": "Hey." },
+	{ "speaker": "david", "text": "Hey. Whats up?" },
+	],
+	"choices": [
+	  	{
+		"text": "Why are you not talking to anybody?",
+		"next": "david_school_loner",
+	  	},
+		{
+		"text": "Have you thought of anything about the thing?",
+		"next": "david_school_clue"
+		},
+		{
+		"text": "Invite to see 'The thing'",
+		"next": "david_school_the_thing_cond"
+		},
+		{
+		"text": "By the way, where do you hang out after school?",
+		"next": "david_school_where_hang_out"
+		}
+	]
+	},
+
+
+
+"david_school_loner": {
+	"lines": [
+	{ "speaker": "david", "text": "How observant of you! Well done." },
+	{ "speaker": "jessie", "text": "With such sarcastic comments I can also see why." },
+	{ "speaker": "david", "text": "I move town every couple months I have given up on making many friends" },
+	{ "speaker": "jessie", "text": "Yeah could have just said that instead of being smartypants about it." },
+	{ "speaker": "jessie", "text": "And I can imagine that sucks." },
+	{ "speaker": "david", "text": "Oh yeah how observant of you again." },
+	{ "speaker": "jessie", "text": "Are you trying to not make any friends right now? Because if you havent noticed Im trying to help you." },
+	{ "speaker": "david", "text": "Im sorry. Theres no excuse to be talking like that. Im just not in the mood to talk about my lack of friends right now." },
+	{ "speaker": "jessie", "text": "Look. Try to talk to the guys in class. Ill introduce you. Even if its for a month or two itll be easier if you talk to people." },
+	{ "speaker": "david", "text": "Sure I guess.." },
+	],
+	"on_finish": [
+			{
+			"menu_entry": {
+				"id": "david_school_lonely_dude",
+				"path": ["lore", "Journal.txt"],
+				"text": "Every single time I talk to David I realise how sad his circumstances are..Nobody deserves these kind of conditions to live their life in.\n"
+				}
+			}
+		]
+	},
+
+
+
+"david_school_clue": {
+	"lines": [
+	{ "speaker": "david", "text": "Not really.." },
+	{ "speaker": "jessie", "text": "We need to catch him being abusive or something incriminating. Then show it to the police. They have to something then?" },
+	{ "speaker": "david", "text": "Maybe. Last time I spoke to them I didnt have anything to show." },
+	{ "speaker": "david", "text": "But it has to be concrete. Like no chance hell wiggle out of it you know?" },
+	{ "speaker": "jessie", "text": "Like a photo or a video of some sort. Do you have a camera?" },
+	{ "speaker": "david", "text": "Dad doesnt allow cameras or anything in the house." },
+	{ "speaker": "jessie", "text": "Well I assumed that but maybe hide it in a hidden spot?" },
+	{ "speaker": "david", "text": "If he finds out.." },
+	{ "speaker": "jessie", "text": "You cant keep living like this. You have to take some risks." },
+	{ "speaker": "david", "text": "Well we dont have a camera anyway so we dont need to discuss that." },
+	{ "speaker": "jessie", "text": "Yup well we could buy one or borrow it from somebody." },
+	{ "speaker": "david", "text": "Well thats something Id need help with since you know-" },
+	{ "speaker": "david", "text": "Ive been here for less than a week." },
+	{ "speaker": "jessie", "text": "Well Ill look around town. Speak to friends." },
+	{ "speaker": "jessie", "text": "Maybe we could also get your mom of the meds slowly and she could convince the police then?" },
+	{ "speaker": "david", "text": "Shes not a good actor. And the really doesnt want to stop as of now." },
+	{ "speaker": "jessie", "text": "Well what if we like replaced the drug? With like fake tablets?" },
+	{ "speaker": "david", "text": "Again If father finds out.." },
+	{ "speaker": "jessie", "text": "Then after she regains her senses we update her on the plan and she might want to help us." },
+	{ "speaker": "david", "text": "Or she might tell dad..or she might not want to stop and get the meds. I dont know how she feels about anything anymore!" },
+	{ "speaker": "jessie", "text": "..Im really sorry David." },
+	{ "speaker": "david", "text": "Its not that bad. At least dad doesnt give a shit about me cleaning my room or going to school. Hes jus satisfied I leave the house in the morning and thats that." },
+	{ "speaker": "jessie", "text": "Sure.." },
+	{ "speaker": "jessie", "text": "Well as I said Ill ask around town and see what I can do." },
+	],
+	"on_finish": [
+			{
+			"menu_entry": {
+				"id": "david_school_plan",
+				"path": ["lore", "Journal.txt"],
+				"text": "Gotta ask around town about the camera and maybe figure out some plan with replacing the tablets. The sooner the better.\n"
+				}
+			}
+		]
+	},
+
+
+
+"david_school_the_thing_cond": {
+	"conditions": [
+	{"flags": { "david_cinema_visit_planned": 0}, "dialog": "david_school_the_thing_initial"},
+	{"flags": { "david_cinema_visit_planned": 1}, "dialog": "david_school_the_thing_invite"},
+	{"flags": { "david_cinema_visit_planned": 3}, "dialog": "david_school_the_thing_cool"}
+		]
+  			},
+
+"david_school_the_thing_initial": {
+	"lines": [
+	{ "speaker": "david", "text": "What thing?" },
+	{ "speaker": "jessie", "text": "The movie 'The thing'" },
+	{ "speaker": "david", "text": "I dont watch many movies.." },
+	{ "speaker": "jessie", "text": "Its in the cinema this week..." },
+	{ "speaker": "david", "text": "..great." },
+	{ "speaker": "jessie", "text": "Dude are you touched?" },
+	{ "speaker": "jessie", "text": "Im inviting you to come with me to see it." },
+	{ "speaker": "david", "text": "I dont have any money." },
+	{ "speaker": "jessie", "text": "Thats alright Ill pay if you wanna go." },
+	{ "speaker": "david", "text": "..why are you doing this?" },
+	{ "speaker": "jessie", "text": "Do you wanna go?" },
+	{ "speaker": "david", "text": ".." },
+	{ "speaker": "david", "text": "Yeah." },
+	{ "speaker": "jessie", "text": "Sweet. Theyre gonna screen it every evening at seven. We can go whenever." },
+	
+	],
+	"on_finish": [
+			{
+				"flag": "david_cinema_visit_planned",
+				"set": 1 
+			}
+		]
+	},
+
+"david_school_the_thing_invite": {
+	"lines": [
+	{ "speaker": "jessie", "text": "So wanna go see the thing?" },
+	{ "speaker": "david", "text": "What thing are you talking about again?!" },
+	{ "speaker": "jessie", "text": "Jessus christ david-" },
+	{ "speaker": "david", "text": "Im messing with you." },
+	{ "speaker": "jessie", "text": "Huh.." },
+	{ "speaker": "jessie", "text": "Okay you got me there." },
+	{ "speaker": "jessie", "text": "See you there in an hour?" },
+	{ "speaker": "david", "text": "Yeah, Ive got a few things to do..but Ill be there." },
+	],
+	"on_finish": [
+			{
+				"flag": "david_cinema_tonight",
+				"set": 1 
+			}
+		]
+	},
+
+"david_school_the_thing_cool": {
+	"lines": [
+	{ "speaker": "david", "text": "Ready for The thing 2?" },
+	{ "speaker": "jessie", "text": "Wait its already out? The first out so long ago but I havent hear about the seq-" },
+	{ "speaker": "david", "text": "Im bullshitting you." },
+	{ "speaker": "jessie", "text": "Oh you fucking asshole." },
+	{ "speaker": "david", "text": "But it would be the best if they made it." },
+	{ "speaker": "jessie", "text": "It would." },
+	]
+	},
+
+
+
+
+"david_school_where_hang_out": {
+	"lines": [
+	{ "speaker": "david", "text": "Uhh home?" },
+	{ "speaker": "jessie", "text": "Im not knocking on that door." },
+	{ "speaker": "david", "text": "Well then-" },
+	{ "speaker": "david", "text": "I like to hang out around the campfire place near our house sometimes." },
+	{ "speaker": "jessie", "text": "Wait the campfire near the forrest next to the town?" },
+	{ "speaker": "david", "text": "Yeah." },
+	{ "speaker": "jessie", "text": "Are you kidding me?! I grew up in that place. I used to hang out there with my friends when I was little." },
+	{ "speaker": "david", "text": "Were still 14." },
+	{ "speaker": "jessie", "text": "Ehh you know what I meant. Like preschool era." },
+	{ "speaker": "david", "text": "Sure. Well you know where to find me after school." },
+	]
+	},
+
+}
