@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://d2jxgdnkir8lx"
+path="res://.godot/imported/BETON 8.wav-fcfa773a87e94d5aa1989a89061abc9b.sample"
+
+[deps]
+
+source_file="res://assets/sound/game_sf/footsteps/pavement/BETON 8.wav"
+dest_files=["res://.godot/imported/BETON 8.wav-fcfa773a87e94d5aa1989a89061abc9b.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

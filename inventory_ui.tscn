@@ -123,22 +123,28 @@ func clamp_selection():
 
 
 func drop_current_item():
+	if get_current_container() == \"carry\":
+		return
 	var item_name = get_current_item()
 	if item_name == \"\":
 		return
 	var container = get_current_container()
 
-	spawn_world_item(item_name, 1)
+	spawn_world_item(item_name, 1, container)
 
 	InventoryManager.remove_item(item_name, 1)
 	render_inventory()
 
-func spawn_world_item(item_name: String, amount: int):
+func spawn_world_item(item_name: String, amount: int, container: String):
 	var scene = load(\"res://world_item.tscn\")
 	var item_instance = scene.instantiate()
 
 	item_instance.item_name = item_name
 	item_instance.amount = amount
+	if container == \"carry\":
+		item_instance.pickup_mode = \"carry\"
+	else:
+		item_instance.pickup_mode = \"inventory\"
 
 	item_instance.global_position = get_player_position()
 
@@ -286,6 +292,8 @@ func move_right():
 
 
 func cut_item():
+	if get_current_container() == \"carry\":
+		return
 	var item = get_current_item()
 	if item == \"\":
 		return
@@ -296,6 +304,8 @@ func cut_item():
 
 
 func paste_item():
+	if get_current_container() == \"carry\":
+		return
 	if grabbed_item == \"\":
 		return
 

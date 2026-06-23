@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://caaqifftx55pr"
+path="res://.godot/imported/DREVO 7.wav-4c91e95c609b9e233305852fe36bedb1.sample"
+
+[deps]
+
+source_file="res://assets/sound/game_sf/footsteps/wood/DREVO 7.wav"
+dest_files=["res://.godot/imported/DREVO 7.wav-4c91e95c609b9e233305852fe36bedb1.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

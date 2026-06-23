@@ -4,7 +4,8 @@
 resource_name = "AmbientSoundZone"
 script/source = "extends Area2D
 
-@export var ambient_sound: AudioStream
+@export var ambient_sound_day: AudioStream
+@export var ambient_sound_night: AudioStream
 @export var fade_time := 3.0
 @export var soundPriority := 0
 

@@ -1,0 +1,79 @@
+[gd_scene load_steps=2 format=3 uid="uid://bww3qhxrg7gn7"]
+
+[sub_resource type="GDScript" id="GDScript_wjo7g"]
+resource_name = "soundManager"
+script/source = "extends Node2D
+
+@onready var playerGeneral: AudioStreamPlayer = $audioPlayerGeneral
+@onready var playerFootsteps: AudioStreamPlayer = $AudioPlayerFootsteps
+
+var last_footstep_index = {}
+
+var footstep_sounds = {
+	\"grass\": [
+		preload(\"res://assets/sound/game_sf/footsteps/grass/TRAVA 1.wav\"),
+		preload(\"res://assets/sound/game_sf/footsteps/grass/TRAVA 2.wav\"),
+		preload(\"res://assets/sound/game_sf/footsteps/grass/TRAVA 3.wav\"),
+		preload(\"res://assets/sound/game_sf/footsteps/grass/TRAVA 4.wav\"),
+		preload(\"res://assets/sound/game_sf/footsteps/grass/TRAVA 5.wav\"),
+		preload(\"res://assets/sound/game_sf/footsteps/grass/TRAVA 6.wav\"),
+		preload(\"res://assets/sound/game_sf/footsteps/grass/TRAVA 7.wav\"),
+		preload(\"res://assets/sound/game_sf/footsteps/grass/TRAVA 8.wav\"),
+	],
+	\"wood\": [
+		preload(\"res://assets/sound/game_sf/footsteps/wood/DREVO 1.wav\"),
+		preload(\"res://assets/sound/game_sf/footsteps/wood/DREVO 2.wav\"),
+		preload(\"res://assets/sound/game_sf/footsteps/wood/DREVO 3.wav\"),
+		preload(\"res://assets/sound/game_sf/footsteps/wood/DREVO 4.wav\"),
+		preload(\"res://assets/sound/game_sf/footsteps/wood/DREVO 5.wav\"),
+		preload(\"res://assets/sound/game_sf/footsteps/wood/DREVO 6.wav\"),
+		preload(\"res://assets/sound/game_sf/footsteps/wood/DREVO 7.wav\"),
+		preload(\"res://assets/sound/game_sf/footsteps/wood/DREVO 8.wav\"),
+	],
+	\"pavement\": [
+		preload(\"res://assets/sound/game_sf/footsteps/pavement/BETON 1.wav\"),
+		preload(\"res://assets/sound/game_sf/footsteps/pavement/BETON 2.wav\"),
+		preload(\"res://assets/sound/game_sf/footsteps/pavement/BETON 3.wav\"),
+		preload(\"res://assets/sound/game_sf/footsteps/pavement/BETON 4.wav\"),
+		preload(\"res://assets/sound/game_sf/footsteps/pavement/BETON 5.wav\"),
+		preload(\"res://assets/sound/game_sf/footsteps/pavement/BETON 6.wav\"),
+		preload(\"res://assets/sound/game_sf/footsteps/pavement/BETON 7.wav\"),
+		preload(\"res://assets/sound/game_sf/footsteps/pavement/BETON 8.wav\"),
+	]
+}
+
+func playSound(path: String):
+	playerGeneral.stream = load(path)
+	playerGeneral.play()
+
+
+
+func play_footstep(surface: String):
+	if not footstep_sounds.has(surface):
+		return
+
+	var sounds = footstep_sounds[surface]
+
+	var index = randi() % sounds.size()
+
+	while sounds.size() > 1 \\
+	and last_footstep_index.get(surface, -1) == index:
+
+		index = randi() % sounds.size()
+
+	last_footstep_index[surface] = index
+
+	playerFootsteps.stream = sounds[index]
+	if surface == \"wood\":
+		playerFootsteps.volume_db = 0
+	if surface == \"pavement\":
+		playerFootsteps.volume_db = 5
+	playerFootsteps.play()
+"
+
+[node name="soundManager" type="Node2D"]
+script = SubResource("GDScript_wjo7g")
+
+[node name="audioPlayerGeneral" type="AudioStreamPlayer" parent="."]
+
+[node name="AudioPlayerFootsteps" type="AudioStreamPlayer" parent="."]

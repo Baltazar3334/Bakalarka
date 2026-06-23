@@ -973,7 +973,8 @@ func create_new_save_and_start(slot: int):
 		\"inventory\": {
 			\"hands\": {},
 			\"pockets\": {},
-			\"backpack\": {}
+			\"backpack\": {},
+			\"carry\": {}
 		}
 	}
 	

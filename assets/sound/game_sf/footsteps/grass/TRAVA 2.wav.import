@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://wynhi7aa5eio"
+path="res://.godot/imported/TRAVA 2.wav-5e06dc115c1560a1cf87a280fd75e723.sample"
+
+[deps]
+
+source_file="res://assets/sound/game_sf/footsteps/grass/TRAVA 2.wav"
+dest_files=["res://.godot/imported/TRAVA 2.wav-5e06dc115c1560a1cf87a280fd75e723.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

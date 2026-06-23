@@ -6,11 +6,13 @@ script/source = "extends Area2D
 
 @onready var sprite: Sprite2D = $Sprite2D
 
-var item_name: String = \"\"
+@export var pickup_mode := \"inventory\"
+
+@export var item_name: String = \"\"
 var amount: int = 1
 
 func _ready():
-	add_to_group(\"world_items\")
+	add_to_group(\"world_items_static\")
 	update_sprite()
 	scale = Vector2(0.8, 0.8)
 	z_index = 15

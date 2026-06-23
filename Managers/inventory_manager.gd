@@ -5,7 +5,8 @@ signal inventory_changed
 var inventory = {
 	"hands": {},
 	"pockets": {},
-	"backpack": {}
+	"backpack": {},
+	"carry": {}
 }
 
 #LOAD DATA FROM SAVEMANAGER
@@ -27,17 +28,40 @@ func add_item(item_name: String, amount: int = 1):
 	emit_signal("inventory_changed")
 	print_inventory()
 
-func remove_item(item_name: String, amount: int = 1):
-	var container
-	for container_name in inventory:
-		container = inventory[container_name]
-		if container.has(item_name):
-			container[item_name] -= amount
-			if container[item_name] <= 0:
-				container.erase(item_name)
-	
-	emit_signal("inventory_changed")
+
+#ADDING ITEM TO CARRY CONTAINER
+func add_carry_item(item_name: String):
+
+	if not inventory["carry"].is_empty():
+		print("Already carrying something")
+		return false
+
+	inventory["carry"][item_name] = 1
+
+	inventory_changed.emit()
 	print_inventory()
+
+	return true
+
+func remove_item(item_name: String, amount: int = 1):
+
+	for container_name in inventory.keys():
+
+		var container = inventory[container_name]
+
+		if not container.has(item_name):
+			continue
+
+		container[item_name] -= amount
+
+		if container[item_name] <= 0:
+			container.erase(item_name)
+
+		inventory_changed.emit()
+		print_inventory()
+		return
+
+	print("Item not found:", item_name)
 
 
 

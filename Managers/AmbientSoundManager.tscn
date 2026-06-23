@@ -6,9 +6,13 @@ script/source = "extends Node2D
 
 @onready var player: AudioStreamPlayer = $AmbientPlayer
 
+
 var loading_save := false
 var current_stream: AudioStream = null
 var active_zones := []
+
+#hlavna postava
+var playerMain
 
 func enter_zone(zone):
 	if loading_save:
@@ -34,9 +38,20 @@ func update_active_ambient():
 		if zone.soundPriority > best_zone.soundPriority:
 			best_zone = zone
 	
+	
+	
+	if playerMain == null:
+		playerMain = get_tree().current_scene.get_node_or_null(\"player\")
+	
+	
 	print(\"SELECTED:\", best_zone.name)
-	print(\"SOUND:\", best_zone.ambient_sound)
-	play_ambient(best_zone.ambient_sound,best_zone.fade_time)
+	if playerMain.flags[\"time_of_day\"] == \"morning\":
+		play_ambient(best_zone.ambient_sound_day,best_zone.fade_time)
+		print(\"SOUND:\", best_zone.ambient_sound_day)
+	if playerMain.flags[\"time_of_day\"] == \"afternoon\":
+		play_ambient(best_zone.ambient_sound_night,best_zone.fade_time)
+		print(\"SOUND:\", best_zone.ambient_sound_night)
+	
 
 func play_ambient(stream: AudioStream, fade_time := 3.0):
 	if stream == null:
@@ -54,7 +69,7 @@ func play_ambient(stream: AudioStream, fade_time := 3.0):
 		fade_time
 	)
 	await old_tween.finished
-
+	
 	player.stop()
 	player.stream = stream
 	player.volume_db = -80
@@ -64,7 +79,7 @@ func play_ambient(stream: AudioStream, fade_time := 3.0):
 	new_tween.tween_property(
 		player,
 		\"volume_db\",
-		0,
+		-5,
 		fade_time
 	)
 
