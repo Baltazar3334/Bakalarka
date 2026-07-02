@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://ckmkxv2iiawi5"
+path="res://.godot/imported/PIESOK 6.wav-6bdb8ceee8a8f8f56086add107bbfffa.sample"
+
+[deps]
+
+source_file="res://assets/sound/game_sf/footsteps/sand/PIESOK 6.wav"
+dest_files=["res://.godot/imported/PIESOK 6.wav-6bdb8ceee8a8f8f56086add107bbfffa.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

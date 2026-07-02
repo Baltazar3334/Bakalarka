@@ -3,13 +3,14 @@
 "comment_ignore": {
 	"lines": [
 	{ "speaker": "neutral", "text": "neighbor_story = 0 - havent talked to, 1 - first greeting finished, 
-	2 - asked for medicine, 3 - medicine given by doctor, 4 - medicine given to neighbor" },
+	2 - asked for medicine, 3 - medicine given by doctor, 4 - medicine given to neighbor, 5 - neighbor asked for medicine again , 6 - got the medicine for neighbor"},
 	
 	{ "speaker": "neutral", "text": "neighbor_visit_story = 0 - havent visited, 1 - visited neighbors first time" },
 	{ "speaker": "neutral", "text": "neighbor_opinion = 0 - doesnt like you particularly, 1 - likes you somewhat, 2 - real fan" }
 	],
   	},
 	
+
 	
 "neighbor_cond": {
 	"conditions": [
@@ -21,6 +22,9 @@
 	
 	{ "flags": { "neighbor_opinion": 1 ,"time_of_day": "afternoon" }, "dialog": "neighbor_evening_visit" },
 	{ "flags": { "neighbor_opinion": 0 ,"time_of_day": "afternoon" }, "dialog": "neighbor_evening_visit_dont_like_you" },
+	
+	{ "flags": { "neighbor_opinion": 1 ,"time_of_day": "morning",  "neighbor_story": 4, "neighbor_visit_story": 1}, "dialog": "neighbor_ask_about_medicine_repeat" },
+	{ "flags": { "time_of_day": "morning",  "neighbor_story": 6 }, "dialog": "neighbor_give_medicine_again" },
 	
 	]
   },
@@ -968,7 +972,96 @@ and why hospital anyway? What kind of medicine for back pain you go to the hospi
 		},
 	],
 	
-}
+},
+
+
+
+
+"neighbor_ask_about_medicine_repeat": {
+	"lines": [
+	{ "speaker": "neighbor", "text": "Hey kid, could you get me my medicine again?" },
+	{ "speaker": "jessie", "text": "..." },
+	{ "speaker": "neutral", "text": "What the hell do I do?" },
+	{ "speaker": "neighbor", "text": "What is it?" }
+	],
+	"choices": [
+		{
+		"text": "Yeah I can get them for you. No worries.",
+		"next": "neighbor_ask_about_medicine_repeat_agree"
+		},
+		{
+		"text": "Sorry, but I cant this time. I have to get to school asap.",
+		"next": "neighbor_ask_about_medicine_repeat_disagree"
+		}
+	],
+	},
+
+
+
+"neighbor_ask_about_medicine_repeat_agree": {
+	"lines": [
+	{ "speaker": "neighbor", "text": "Oh Great! Thank you so much son." },
+	{ "speaker": "jessie", "text": "Same like last time right?" },
+	{ "speaker": "neighbor", "text": "Yes. One packing. Heres th recipe." },
+	{ "speaker": "jessie", "text": "Can I get the money for it? It costs 11$." },
+	{ "speaker": "neighbor", "text": "Oh- sure, hold on.." },
+	{ "speaker": "neighbor", "text": "There." },
+	],
+	"on_finish": [
+		{
+				"give_item": {
+				"name": "money",
+				"amount": 11
+			}
+		},
+		{
+			"flag": "neighbor_story",
+			"set": 5
+		},
+	],
+	},
+
+"neighbor_ask_about_medicine_repeat_disagree": {
+	"lines": [
+	{ "speaker": "neighbor", "text": "Oh..well then. I wont hold you any longer. Go on." },
+	{ "speaker": "jessie", "text": "Maybe some other time..." },
+	],
+	},
+
+
+
+"neighbor_give_medicine_again": {
+	"lines": [
+	{ "speaker": "jessie", "text": "I got you the medicine." },
+	{ "speaker": "neighbor", "text": "And I thank you once again!" },
+	{ "speaker": "jessie", "text": "Sure, here it is." },
+	{ "speaker": "neighbor", "text": "Hold on!" },
+	{ "speaker": "neighbor", "text": "Heres some money for your trouble buy something." },
+	{ "speaker": "jessie", "text": "Thanks." },
+	{ "speaker": "neighbor", "text": "I thank you, son." },
+	],
+	"on_finish": [
+		{
+				"give_item": {
+				"name": "money",
+				"amount": 5
+			}
+		},
+		{
+			"flag": "neighbor_story",
+			"set": 7
+		},
+		{
+			"remove_item": {
+				"name": "neighbors medicine",
+				"amount": 1
+			}	
+		},
+	],
+	},
+
+
+
 
 
 }

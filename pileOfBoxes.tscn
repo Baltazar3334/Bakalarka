@@ -1,17 +1,24 @@
-[gd_scene load_steps=9 format=3 uid="uid://bdrxwp0tx337x"]
+[gd_scene format=3 uid="uid://bdrxwp0tx337x"]
 
 [ext_resource type="Texture2D" uid="uid://chb78whry6vhy" path="res://assets/interactible/boxes0.png" id="1_njvtw"]
 [ext_resource type="Texture2D" uid="uid://6lejk0wrlwrw" path="res://assets/interactible/boxes1.png" id="2_ag1f0"]
 [ext_resource type="Texture2D" uid="uid://cl01faujcsf01" path="res://assets/interactible/boxes2.png" id="3_hjgss"]
 [ext_resource type="Texture2D" uid="uid://bkci1wki1nph6" path="res://assets/interactible/boxes3.png" id="4_2jq1v"]
 [ext_resource type="Texture2D" uid="uid://ys6jjlwgmi18" path="res://assets/interactible/boxes4.png" id="5_s5gc2"]
+[ext_resource type="Texture2D" uid="uid://c4cqacgnxnsoh" path="res://assets/interactible/empty.png" id="6_ag1f0"]
 
 [sub_resource type="GDScript" id="GDScript_k2hbx"]
 resource_name = "pileOfBoxes"
 script/source = "extends Area2D
 
-@onready var sprite = $Sprite2D
+@onready var sprite = $AnimatedSprite2D
 @export var boxes_left := 5
+
+var colors = [
+	\"box blue\",
+	\"box red\",
+	\"box green\"
+]
 
 func _ready():
 	add_to_group(\"box_piles\")
@@ -33,36 +40,65 @@ func update_visual():
 		sprite.frame = 0
 
 func take_box():
+	var playerMain = get_tree().current_scene.get_node_or_null(\"player\")
+	if playerMain.flags.has(\"factory_work_started\"):
+		if playerMain.flags[\"factory_work_started\"] != 1:
+				return
 	if boxes_left <= 0:
 		return false
-	if !InventoryManager.add_carry_item(\"box\"):
+	var random_box = colors.pick_random()
+	if !InventoryManager.add_carry_item(random_box):
 		return false
+	SoundManager.playSound(\"res://assets/sound/game_sf/PICK UP shortened.wav\")
 	boxes_left -= 1
 	update_visual()
 	return true
-"
 
-[sub_resource type="AnimatedTexture" id="AnimatedTexture_cqppy"]
-frames = 6
-frame_1/texture = ExtResource("1_njvtw")
-frame_1/duration = 1.0
-frame_2/texture = ExtResource("2_ag1f0")
-frame_2/duration = 1.0
-frame_3/texture = ExtResource("3_hjgss")
-frame_3/duration = 1.0
-frame_4/texture = ExtResource("4_2jq1v")
-frame_4/duration = 1.0
-frame_5/texture = ExtResource("5_s5gc2")
-frame_5/duration = 1.0
+func reset_boxes():
+	boxes_left = 5
+	update_visual()
+	
+func clear_factory_boxes():
+	for box in get_tree().get_nodes_in_group(\"factory_boxes\"):
+		if is_instance_valid(box):
+			box.queue_free()
+"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8yqcm"]
 size = Vector2(26, 26)
 
-[node name="boxes" type="Area2D"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_hjgss"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_ag1f0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("1_njvtw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_ag1f0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_hjgss")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_2jq1v")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_s5gc2")
+}],
+"loop": 1,
+"name": &"0",
+"speed": 5.0
+}]
+
+[node name="boxes" type="Area2D" unique_id=623311940]
 script = SubResource("GDScript_k2hbx")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = SubResource("AnimatedTexture_cqppy")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1862183675]
 shape = SubResource("RectangleShape2D_8yqcm")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=420023155]
+sprite_frames = SubResource("SpriteFrames_hjgss")
+animation = &"0"

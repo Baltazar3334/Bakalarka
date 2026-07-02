@@ -1,115 +1,155 @@
-[gd_scene load_steps=2 format=3 uid="uid://wfhmljhc414b"]
+[gd_scene format=3 uid="uid://wfhmljhc414b"]
 
 [sub_resource type="GDScript" id="GDScript_w6hx3"]
 resource_name = "AmbientSoundManager"
 script/source = "extends Node2D
 
 @onready var player: AudioStreamPlayer = $AmbientPlayer
-
+@onready var playerB: AudioStreamPlayer = $AmbientPlayerB
 
 var loading_save := false
 var current_stream: AudioStream = null
 var active_zones := []
 
-#hlavna postava
 var playerMain
+
+var active_player: AudioStreamPlayer
+var inactive_player: AudioStreamPlayer
+
+func _ready():
+	active_player = player
+	inactive_player = playerB
+
+	active_player.volume_db = -80
+	inactive_player.volume_db = -80
+
 
 func enter_zone(zone):
 	if loading_save:
 		return
-		
+
 	if zone in active_zones:
 		return
+
 	active_zones.append(zone)
 	update_active_ambient()
+
 
 func exit_zone(zone):
 	active_zones.erase(zone)
 	update_active_ambient()
 
+
 func update_active_ambient():
+
 	if active_zones.is_empty():
-		stop_all()
 		stop_ambient()
 		return
 
 	var best_zone = active_zones[0]
+
 	for zone in active_zones:
 		if zone.soundPriority > best_zone.soundPriority:
 			best_zone = zone
-	
-	
-	
+
 	if playerMain == null:
 		playerMain = get_tree().current_scene.get_node_or_null(\"player\")
-	
-	
-	print(\"SELECTED:\", best_zone.name)
+
+	if playerMain == null:
+		return
+
+	var target_stream: AudioStream = null
+
 	if playerMain.flags[\"time_of_day\"] == \"morning\":
-		play_ambient(best_zone.ambient_sound_day,best_zone.fade_time)
-		print(\"SOUND:\", best_zone.ambient_sound_day)
-	if playerMain.flags[\"time_of_day\"] == \"afternoon\":
-		play_ambient(best_zone.ambient_sound_night,best_zone.fade_time)
-		print(\"SOUND:\", best_zone.ambient_sound_night)
-	
+		target_stream = best_zone.ambient_sound_day
+
+	elif playerMain.flags[\"time_of_day\"] == \"afternoon\":
+		target_stream = best_zone.ambient_sound_night
+
+	play_ambient(target_stream, best_zone.fade_time)
+
 
 func play_ambient(stream: AudioStream, fade_time := 3.0):
+
 	if stream == null:
-		player.stop()
+		stop_ambient(fade_time)
 		return
+
 	if current_stream == stream:
 		return
+
 	current_stream = stream
 
-	var old_tween = create_tween()
-	old_tween.tween_property(
-		player,
+	inactive_player.stop()
+	inactive_player.stream = stream
+	inactive_player.volume_db = -80
+	inactive_player.play()
+
+	var fade_out = create_tween()
+	fade_out.tween_property(
+		active_player,
 		\"volume_db\",
 		-80,
 		fade_time
 	)
-	await old_tween.finished
-	
-	player.stop()
-	player.stream = stream
-	player.volume_db = -80
-	player.play()
 
-	var new_tween = create_tween()
-	new_tween.tween_property(
-		player,
+	var fade_in = create_tween()
+	fade_in.tween_property(
+		inactive_player,
 		\"volume_db\",
 		-5,
 		fade_time
 	)
 
+	await fade_out.finished
+
+	active_player.stop()
+
+	var temp = active_player
+	active_player = inactive_player
+	inactive_player = temp
+
+
 func stop_ambient(fade_time := 3.0):
+
 	current_stream = null
-	if not player.playing:
+
+	if not active_player.playing:
 		return
 
 	var tween = create_tween()
+
 	tween.tween_property(
-		player,
+		active_player,
 		\"volume_db\",
 		-80,
 		fade_time
 	)
+
 	await tween.finished
 
-	player.stop()
-	player.stream = null
+	active_player.stop()
+	active_player.stream = null
+
 
 func stop_all():
+
 	active_zones.clear()
 	current_stream = null
+
 	player.stop()
 	player.stream = null
 	player.volume_db = -80
+
+	playerB.stop()
+	playerB.stream = null
+	playerB.volume_db = -80
 "
 
-[node name="Node2D" type="Node2D"]
+[node name="Node2D" type="Node2D" unique_id=1689254187]
 script = SubResource("GDScript_w6hx3")
 
-[node name="AmbientPlayer" type="AudioStreamPlayer" parent="."]
+[node name="AmbientPlayer" type="AudioStreamPlayer" parent="." unique_id=538047402]
 volume_db = -80.0
+
+[node name="AmbientPlayerB" type="AudioStreamPlayer" parent="." unique_id=964467537]

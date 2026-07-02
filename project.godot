@@ -8,11 +8,15 @@
 
 config_version=5
 
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
 [application]
 
 config/name="Bakalarka1"
 run/main_scene="uid://bn1yaqv18s8ig"
-config/features=PackedStringArray("4.5", "Forward Plus")
+config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
@@ -25,6 +29,8 @@ Global="*res://Global.gd"
 MenuFileManager="*res://Managers/MenuFileManager.gd"
 AmbientSoundManager="*res://Managers/AmbientSoundManager.tscn"
 SoundManager="*res://Managers/SoundManager.tscn"
+HighlightManager="*uid://csm26hg2btom8"
+ConfigManager="*uid://cvhvo4ufr3srd"
 
 [display]
 

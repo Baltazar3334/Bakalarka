@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://bhnq02d5j2jsd"
+path="res://.godot/imported/LES CEZ DEN IBA VTAKY.wav-69b5477c081f6aab0e21d4fb295c926a.sample"
+
+[deps]
+
+source_file="res://assets/sound/game_sf/ambient/LES CEZ DEN IBA VTAKY.wav"
+dest_files=["res://.godot/imported/LES CEZ DEN IBA VTAKY.wav-69b5477c081f6aab0e21d4fb295c926a.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

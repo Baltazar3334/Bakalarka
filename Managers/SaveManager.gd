@@ -56,7 +56,9 @@ func load_game_to_scene(slot:int, scene_path:String = "res://main.tscn") -> void
 
 	current_save_slot = slot
 	loaded_data = load_game(slot)
-
+	
+	SoundManager.playSound("res://assets/sound/menu_sound/LOADING SAVE FILE.wav", -7)
+	
 	Transitioner.change_scene(scene_path)
 	call_deferred("_finish_loading_game_async")
 

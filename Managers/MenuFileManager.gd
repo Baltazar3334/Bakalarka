@@ -2,6 +2,69 @@ extends Node
 
 const PLAYER_FILESYSTEM_PATH = "user://menu_filesystem.json"
 const UNLOCKED_ENTRIES_PATH = "user://unlocked_menu_entries.json"
+const GLOBAL_DATA_PATH = "user://global_data.json"
+
+#function for game start
+func initialize():
+	Global.set_permission_level(MenuFileManager.get_global_value("permission_level",0))
+
+func load_global_data() -> Dictionary:
+	if not FileAccess.file_exists(GLOBAL_DATA_PATH):
+		return {}
+
+	var file = FileAccess.open(GLOBAL_DATA_PATH, FileAccess.READ)
+
+	if file == null:
+		return {}
+
+	var data = JSON.parse_string(file.get_as_text())
+	file.close()
+
+	if data is Dictionary:
+		return data
+
+	return {}
+
+func save_global_data(data: Dictionary):
+
+	var file = FileAccess.open(GLOBAL_DATA_PATH, FileAccess.WRITE)
+
+	if file == null:
+		return
+
+	file.store_string(JSON.stringify(data, "\t"))
+	file.close()
+
+func get_global_value(key: String, default_value = null):
+
+	var data = load_global_data()
+
+	return data.get(key, default_value)
+
+func set_global_value(key: String, value):
+
+	var data = load_global_data()
+
+	data[key] = value
+
+	save_global_data(data)
+
+func set_global_values(values: Dictionary):
+
+	var data = load_global_data()
+
+	for key in values.keys():
+		data[key] = values[key]
+
+	save_global_data(data)
+
+func reset_global_data():
+
+	save_global_data({})
+
+
+
+
 
 
 func load_filesystem() -> Dictionary:
@@ -63,6 +126,7 @@ func get_parent_directory(filesystem: Dictionary, path: Array):
 
 
 func create_text_file(path: Array, content: String = "") -> bool:
+	print("Creating:", path)
 	var filesystem = load_filesystem()
 
 	if path.is_empty():

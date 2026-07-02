@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://qlvkw3ttq63i"
+path="res://.godot/imported/INSIDE MESTO.wav-8a31887971e6c636c97f6165ff9ef73d.sample"
+
+[deps]
+
+source_file="res://assets/sound/game_sf/ambient/INSIDE MESTO.wav"
+dest_files=["res://.godot/imported/INSIDE MESTO.wav-8a31887971e6c636c97f6165ff9ef73d.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

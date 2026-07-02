@@ -1,0 +1,250 @@
+{
+	"factory_cond": {
+	"conditions": [
+	{"flags": { "factory_introduced": 0, "factory_work_started": 0}, "dialog": "factory_introduction"},
+	{"flags": { "factory_introduced": 1, "factory_work_started": 0}, "dialog": "factory_start_work"},
+	{"flags": { "factory_introduced": 1, "factory_work_started": 1}, "dialog": "factory_end_work"},
+	]
+  	},
+	
+	
+"factory_introduction": {
+	"lines": [
+	{ "speaker": "factoryWorker", "text": "Hey kid, want some money?" },
+	{ "speaker": "jessie", "text": "Sure!" },
+	{ "speaker": "factoryWorker", "text": "Then sort out those boxes for me. The ones on the right of the belts. 
+	Just place them on the correc belt and Ill give you 1$ for every correct box. Dont mess them up and dont throw anything else onto the belts." },
+	{ "speaker": "jessie", "text": "What if I accidentaly do?" },
+	{ "speaker": "factoryWorker", "text": "Well Ill have to go get them for you and I dont work overtime unless payed." },
+	],
+	"choices": [
+	  {
+		"text": "Umm Ive accidentaly dropped some items in the machines..",
+		"next": "factory_dropped_items",
+		"requires_flag": {
+			"factory_items_return": 1
+		}
+	  },
+	{
+		"text": "Got it.",
+		"next": "factory_start_work_finish",
+		"requires_flag": {
+			"factory_work_started": 0
+		}
+	},
+	{
+		"text": "No I dont think want to slave away here..",
+		"next": "factory_deny",
+		"requires_flag": {
+			"factory_work_started": 0
+		}
+	},
+	],
+	"on_finish": [
+			{
+			"menu_entry": {
+			"id": "work_tutorial",
+			"path": ["tutorials", "inventory.txt"],
+			"text": "|You can visit the post office any time to earn some money. Make sure you dont drop anything onto the conveyor belts or youll have to pay to get it back.
+You can leave whenever but if you do, the job is reset.|\n"
+						}
+			},
+			
+		]
+	},
+
+
+
+
+
+"factory_dropped_items": {
+	"lines": [
+	{ "speaker": "factoryWorker", "text": "Damn it kid! I hate going into the sorting room. Itll cost you...5$." },
+	],
+	"choices": [
+	  {
+		"text": "Here..(You lose 5$)",
+		"next": "factory_give_money_for_items",
+		"requires_items": {
+			"money": 5
+		}
+	  },
+		{
+		"text": "I dont have that money..",
+		"next": "factory_dont_have_money"
+	  },
+	],
+	},
+	
+"factory_give_money_for_items": {
+	"lines": [
+	{ "speaker": "factoryWorker", "text": "And be more careful next time! DOPLNIT ODOVZDANIE PENAZI" },
+	],
+	"on_finish": [
+			{
+			"remove_item": {
+			"name": "money",
+			"amount": 5
+				}
+			}
+		]
+	},
+	
+"factory_dont_have_money": {
+	"lines": [
+	{ "speaker": "factoryWorker", "text": "Well come back when you do. Im not going in there without getting something in return. I wont suffer because youre clumsy." },
+	]
+	},
+
+"factory_start_work_finish": {
+	"lines": [
+	{ "speaker": "factoryWorker", "text": "Okay, the boxes are right next to the belts. On the right side." },
+	],
+	"on_finish": [
+			{
+				"flag": "factory_work_started",
+				"set": 1 
+			},
+			{
+				"flag": "factory_introduced",
+				"set": 1 
+			},
+			{
+			"menu_entry": {
+			"id": "work_tutorial",
+			"path": ["tutorials", "inventory.txt"],
+			"text": "|You can visit the post office any time to earn some money. Make sure you dont drop anything onto the conveyor belts or youll have to pay to get it back.
+You can leave whenever but if you do, the job is reset.|\n"
+						}
+			},
+			{
+			"factory_reset_box_piles": true
+			},
+			{
+			"highlight_item": "boxes1"
+			},
+			{
+			"highlight_item": "boxes2"
+			},
+			{
+			"highlight_item": "boxes3"
+			},
+		]
+	},
+
+"factory_deny": {
+	"lines": [
+	{ "speaker": "factoryWorker", "text": "As you wish. If you change your mind you can cdome help out any time. We always like cheap-" },
+	{ "speaker": "factoryWorker", "text": "..skilled labourers ehm." },
+	{ "speaker": "jessie", "text": "Sure." },
+	],
+	"on_finish": [
+			{
+				"flag": "factory_introduced",
+				"set": 1 
+			},
+			{
+			"menu_entry": {
+			"id": "work_tutorial",
+			"path": ["tutorials", "inventory.txt"],
+			"text": "|You can visit the post office any time to earn some money. Make sure you dont drop anything onto the conveyor belts or youll have to pay to get it back.
+You can leave whenever but if you do, the job is reset.|\n"
+						}
+			},
+		]
+	},
+
+			
+
+
+"factory_start_work": {
+	"lines": [
+	{ "speaker": "factoryWorker", "text": "Here for some work?" },
+	{ "speaker": "factoryWorker", "text": "We have some boxes to sort out again." }
+	],
+	"choices": [
+	  {
+		"text": "Umm Ive accidentaly dropped some items in the machines..",
+		"next": "factory_dropped_items",
+		"requires_flag": {
+			"factory_items_return": 1
+		}
+	  },
+	{
+		"text": "Ill get to it. Need the money.",
+		"next": "factory_start_work_finish",
+		"requires_flag": {
+			"factory_work_started": 0
+		}
+	},
+	{
+		"text": "No I dont think I want to slave away here..",
+		"next": "factory_deny",
+		"requires_flag": {
+			"factory_work_started": 0
+		}
+	},
+	],
+	},
+
+"factory_end_work": {
+	"lines": [
+	{ "speaker": "factoryWorker", "text": "You finished?" },
+	],
+	"choices": [
+	  {
+		"text": "Umm Ive accidentaly dropped some items in the machines..",
+		"next": "factory_dropped_items",
+		"requires_flag": {
+			"factory_items_return": 1
+		}
+	  },
+	{
+		"text": "No.",
+		"next": "factory_annoy",
+	},
+	{
+		"text": "Yup. All done!",
+		"next": "factory_get_paid",
+	},
+	],
+	},
+
+
+"factory_get_paid": {
+	"lines": [
+	{ "speaker": "factoryWorker", "text": "Alright lets see.." },
+	{ "speaker": "factoryWorker", "text": "You correctly sorted {factory_successful_boxes} boxes." },
+	{ "speaker": "factoryWorker", "text": "Youll get one dollar for each. Enjoy!" },
+	{ "speaker": "jessie", "text": "Gee, thanks." },
+	],
+	"on_finish": [
+			{
+				"flag": "factory_work_started",
+				"set": 0 
+			},
+			{
+			"give_item": {
+			"name": "money",
+			"amount": "factory_successful_boxes"
+				}
+			},
+			{
+				"flag": "factory_successful_boxes",
+				"set": 0 
+			},
+			{
+			"factory_reset_box_piles": true
+			},
+		]
+	},
+
+
+"factory_annoy": {
+	"lines": [
+	{ "speaker": "factoryWorker", "text": "Well then get to work or leave." },
+	{ "speaker": "factoryWorker", "text": "Dont bother me I have important stuff to do!" },
+	],
+	},
+
+}

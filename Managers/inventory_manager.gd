@@ -26,7 +26,6 @@ func add_item(item_name: String, amount: int = 1):
 		container[item_name] = amount
 		
 	emit_signal("inventory_changed")
-	print_inventory()
 
 
 #ADDING ITEM TO CARRY CONTAINER
@@ -39,7 +38,6 @@ func add_carry_item(item_name: String):
 	inventory["carry"][item_name] = 1
 
 	inventory_changed.emit()
-	print_inventory()
 
 	return true
 
@@ -58,7 +56,6 @@ func remove_item(item_name: String, amount: int = 1):
 			container.erase(item_name)
 
 		inventory_changed.emit()
-		print_inventory()
 		return
 
 	print("Item not found:", item_name)

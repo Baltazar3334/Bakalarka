@@ -11,24 +11,185 @@
 "father_cond": {
 	"conditions": [
 	{"container_items": [{ "item": "pack of cigarets", "container": "hands" }], "dialog": "father_why_are_you_holding_a_pack_of_cigarets"},
-	{"flags": { "father_story": 1, "neighbor_visit_story": 1 }, "dialog": "father_the_news"},
-	{"flags": { "father_story": 0, "time_of_day": "morning", "father_greeted": 0}, "dialog": "father_greeting_morning"},
-	{"flags": { "father_story": 0, "time_of_day": "afternoon", "father_greeted": 0 }, "dialog": "father_greeting_evening"},
-	{"flags": { "father_story": 1, "time_of_day": "afternoon", "father_greeted": 0 }, "dialog": "father_greeting_evening"},
-	{"flags": { "father_story": 0, "time_of_day": "morning", "father_greeted": 1}, "dialog": "father_greeting_morning"},
-	{"flags": { "father_story": 0, "time_of_day": "afternoon", "father_greeted": 1, "neighbor_story": 0 }, "dialog": "father_greeting_evening_not_met_neighbor"},
-	{"flags": { "father_story": 0,"time_of_day": "afternoon", "father_greeted": 1, "neighbor_story": 1 }, "dialog": "father_greeting_evening_met_neighbor"},
-	{"flags": { "father_story": 0,"time_of_day": "afternoon", "father_greeted": 1, "neighbor_story": 2 }, "dialog": "father_greeting_evening_met_neighbor"},
-	{"flags": { "father_story": 0,"time_of_day": "afternoon", "father_greeted": 1, "neighbor_story": 3 }, "dialog": "father_greeting_evening_met_neighbor_gave_medicine"},
 	
-	{"flags": {"neighbor_gave_money": 0, "neighbor_opinion": 0 ,"father_story": 0,"time_of_day": "afternoon", "father_greeted": 1, "neighbor_story": 4 }, "dialog": "father_money_descision_dont_have_money_neighbor_hates"},
-	{"flags": {"neighbor_gave_money": 1, "neighbor_opinion": 0 ,"father_story": 0,"time_of_day": "afternoon", "father_greeted": 1, "neighbor_story": 4 }, "dialog": "father_money_descision_have_money_neighbor_hates"},
-	{"flags": {"neighbor_gave_money": 0, "neighbor_opinion": 1 ,"father_story": 0,"time_of_day": "afternoon", "father_greeted": 1, "neighbor_story": 4 }, "dialog": "father_money_descision_dont_have_money_neighbor_likes"},
-	{"flags": {"neighbor_gave_money": 1, "neighbor_opinion": 1 ,"father_story": 0,"time_of_day": "afternoon", "father_greeted": 1, "neighbor_story": 4 }, "dialog": "father_money_descision_have_money_neighbor_likes"},	
+	{"flags": { "time_of_day": "morning", "father_greeted": 0}, "dialog": "father_greeting_morning"},
+	{"flags": { "time_of_day": "afternoon", "father_greeted": 0 }, "dialog": "father_greeting_evening"},
+	
+	{ "dialog": "dad_general_dialog"},
 	]
   },
 
 
+"dad_general_dialog": {
+	"lines": [
+	{ "speaker": "jessie", "text": "Hey." },
+	{ "speaker": "father", "text": "Hey kid." },
+	],
+	
+	"choices": [
+	  {
+		"text": "The neighbor sent me for some medicine.",
+		"next": "father_money_descision_dont_have_money_neighbor_hates",
+		"requires_flag": {
+			"neighbor_gave_money": 0, 
+			"neighbor_opinion": 0,
+			"father_story": 0,
+			"time_of_day": "afternoon",
+			"father_greeted": 1,
+			"neighbor_story": 4 
+		}
+	  },
+		{
+		"text": "The neighbor sent me for some medicine.",
+		"next": "father_money_descision_have_money_neighbor_hates",
+		"requires_flag": {
+			"neighbor_gave_money": 1, 
+			"neighbor_opinion": 0,
+			"father_story": 0,
+			"time_of_day": "afternoon", 
+			"father_greeted": 1,
+			"neighbor_story": 4 
+		}
+	  },
+	{
+		"text": "The neighbor sent me for some medicine.",
+		"next": "father_money_descision_dont_have_money_neighbor_likes",
+		"requires_flag": {
+			"neighbor_gave_money": 0, 
+			"neighbor_opinion": 1,
+			"father_story": 0,
+			"time_of_day": "afternoon",
+			"father_greeted": 1,
+			"neighbor_story": 4 
+		}
+	  },
+		{
+		"text": "The neighbor sent me for some medicine.",
+		"next": "father_money_descision_have_money_neighbor_likes",
+		"requires_flag": {
+			"neighbor_gave_money": 1, 
+			"neighbor_opinion": 1,
+			"father_story": 0,
+			"time_of_day": "afternoon",
+			"father_greeted": 1,
+			"neighbor_story": 4 
+		}
+	  },
+
+
+
+	{
+		"text": "I met the new neighbor.",
+		"next": "father_greeting_evening_met_neighbor",
+		"requires_flag": {
+			"father_story": 0,
+			"time_of_day": "afternoon", 
+			"father_greeted": 1, 
+			"neighbor_story": 2 
+		}
+	  },
+	{
+		"text": "I met the new neighbor.",
+		"next": "father_greeting_evening_met_neighbor",
+		"requires_flag": {
+			"father_story": 0,
+			"time_of_day": "afternoon", 
+			"father_greeted": 1, 
+			"neighbor_story": 1
+		}
+	  },
+	
+	
+	
+	{
+		"text": "Anything new around town?",
+		"next": "father_greeting_not_met_neighbor",
+		"requires_flag": {
+			"father_story": 0,
+			"father_greeted": 1,
+			"neighbor_story": 0 
+		}
+	  },
+	
+	
+	{
+		"text": "Talk about the neighbors secret",
+		"next": "father_the_news",
+		"requires_flag": {
+			"father_story": 1, 
+			"neighbor_visit_story": 1 
+		}
+	  },
+	
+	
+	{
+		"text": "I heard the post office is openning again.",
+		"next": "father_post_office_info",
+		"requires_flag": {
+			"father_told_about_post_office": 0
+		}
+	  },
+	
+	
+		{
+		"text": "See you later.",
+		"next": "father_missclick",
+		"requires_flag": {
+			"time_of_day": "morning"
+		}
+		},
+		
+		{
+		"text": "Good night.",
+		"next": "father_missclick_evening",
+		"requires_flag": {
+			"time_of_day": "afternoon"
+		}
+		},
+	
+	],
+	},
+
+
+"father_missclick": {
+	"lines": [
+	{ "speaker": "father", "text": "Bye." },
+	]
+},
+
+"father_missclick_evening": {
+	"lines": [
+	{ "speaker": "father", "text": "Sweet dreams." },
+	]
+},
+
+
+
+"father_post_office_info": {
+	"lines": [
+	{ "speaker": "father", "text": "Oh, yeah." },
+	{ "speaker": "father", "text": "Heard theyre also looking for some summer holiday students to help with the work." },
+	{ "speaker": "father", "text": "So if you want to earn some money go ask." },
+	{ "speaker": "jessie", "text": "Huh, nobody wants to work for the two dollars an hour they offer so instead they go for kids that cant work an actual job yet." },
+	{ "speaker": "father", "text": "Yup. Thats how the world works Jessie. Sometimes you just have to get fucked to get money." },
+	{ "speaker": "jessie", "text": "Hey!" },
+	{ "speaker": "jessie", "text": "language!" },
+	{ "speaker": "father", "text": "Sorry." },
+	],
+	"on_finish": [
+			{
+				"flag": "neifather_told_about_post_office",
+				"set": 1 
+			},
+			{
+				"menu_entry": {
+				"id": "post_office_work_oportunity",
+				"path": ["lore", "Journal.txt"],
+				"text": "\nAgain the guys at the post office use cheap labour to get things done. Just like the last management...and Ill jump on that oportunity anyway cause I need the money.\n"
+				}
+			}
+		]
+},
 
 
 "father_why_are_you_holding_a_pack_of_cigarets": {
@@ -221,35 +382,15 @@
 				"set": 1 
 			},
 			{
-				"moveNPC": {
-				"NPCid": "father_npc",
-				"x": 1,
-				"y": 118,
-				"move_speed": 50,
-				"change_after_move": {
-					"father_there": 0
-					}
-				}	
-			},
-			{
 				"menu_entry": {
 				"id": "father_bio_init",
 				"path": ["lore", "Journal.txt"],
 				"text": "\nI met father in the morning. He was his goofy self as always. Say whatever you want about him but he really does make your day a bit brither everytime..
 Shame mom is still away. \n"
 				}
-			}	
+			}
 		]
 	},
-
-"father_greeting_morning_greeted": {
-	"lines": [
-	{ "speaker": "father", "text": "Go get dressed and dont forget to eat something." },
-	{ "speaker": "father", "text": "Mom coming home in a week so better get used to making your own breakfast." },
-	]
-	},
-
-
 
 "father_greeting_evening": {
 	"lines": [
@@ -278,9 +419,9 @@ Shame mom is still away. \n"
 	]
 	},
 
-"father_greeting_evening_not_met_neighbor": {
+"father_greeting_not_met_neighbor": {
 	"lines": [
-	{ "speaker": "father", "text": "Anyway have you met the new neighbors?" },
+	{ "speaker": "father", "text": "Have you met the new neighbors?" },
 	{ "speaker": "jessie", "text": "We have new neighbors?" },
 	{ "speaker": "father", "text": "Oh my god you really do live under a rock." },
 	{ "speaker": "jessie", "text": "Dude if I live under a rock so do you! WE LIVE IN THE SAME HOUSE!" },

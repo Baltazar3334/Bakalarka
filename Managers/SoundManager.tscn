@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://bww3qhxrg7gn7"]
+[gd_scene format=3 uid="uid://bww3qhxrg7gn7"]
 
 [sub_resource type="GDScript" id="GDScript_wjo7g"]
 resource_name = "soundManager"
@@ -42,8 +42,9 @@ var footstep_sounds = {
 	]
 }
 
-func playSound(path: String):
+func playSound(path: String, volume_db: float = 0.0):
 	playerGeneral.stream = load(path)
+	playerGeneral.volume_db = volume_db
 	playerGeneral.play()
 
 
@@ -65,15 +66,15 @@ func play_footstep(surface: String):
 
 	playerFootsteps.stream = sounds[index]
 	if surface == \"wood\":
-		playerFootsteps.volume_db = 0
+		playerFootsteps.volume_db = -3
 	if surface == \"pavement\":
 		playerFootsteps.volume_db = 5
 	playerFootsteps.play()
 "
 
-[node name="soundManager" type="Node2D"]
+[node name="soundManager" type="Node2D" unique_id=927101120]
 script = SubResource("GDScript_wjo7g")
 
-[node name="audioPlayerGeneral" type="AudioStreamPlayer" parent="."]
+[node name="audioPlayerGeneral" type="AudioStreamPlayer" parent="." unique_id=346408012]
 
-[node name="AudioPlayerFootsteps" type="AudioStreamPlayer" parent="."]
+[node name="AudioPlayerFootsteps" type="AudioStreamPlayer" parent="." unique_id=180054785]

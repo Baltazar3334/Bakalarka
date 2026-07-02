@@ -1,7 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://d21iafvtd5yx5"]
+[gd_scene format=3 uid="uid://d21iafvtd5yx5"]
 
 [ext_resource type="Texture2D" uid="uid://dwgkytdh35qub" path="res://assets/menu_pictures/Good Will Browsing 2.png" id="1_ne0pw"]
 [ext_resource type="Texture2D" uid="uid://yqcqwkeppq70" path="res://assets/menu_pictures/Untitled-2.png" id="2_iqbuy"]
+[ext_resource type="Texture2D" uid="uid://x4bcq2hci8yg" path="res://assets/menu_pictures/Vignette.png" id="3_qhm5o"]
+[ext_resource type="Texture2D" uid="uid://bpl415e1mjjof" path="res://assets/menu_pictures/odraz.jpg" id="4_fhy7f"]
 
 [sub_resource type="GDScript" id="GDScript_s2ta7"]
 resource_name = "FadeIn"
@@ -9,12 +11,21 @@ script/source = "extends Control
 
 @onready var fade_rect = $FadeRect
 @onready var press_key = $PressKeyRect
+@onready var picture_intro = $TextureRect
+
+const NORMAL_SPLASH = preload(\"C:/Users/misko/Documents/bakalarka-1/assets/menu_pictures/Good Will Browsing 2.png\")
+const KERNEL_SPLASH = preload(\"C:/Users/misko/Documents/bakalarka-1/assets/menu_pictures/Good Will Browsing 2 Kernel.png\")
 
 var can_continue := false
 
 func _ready():
 	press_key.visible = false
-
+	
+	if Global.permission_level > 0:
+		picture_intro.texture = KERNEL_SPLASH
+	else:
+		picture_intro.texture = NORMAL_SPLASH
+		
 	fade_in()
 
 	await get_tree().create_timer(2.0).timeout
@@ -84,7 +95,7 @@ func start_press_key_animation():
 	)
 "
 
-[node name="Control" type="Control"]
+[node name="Control" type="Control" unique_id=22403883]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -93,7 +104,8 @@ grow_horizontal = 2
 grow_vertical = 2
 script = SubResource("GDScript_s2ta7")
 
-[node name="FadeRect" type="ColorRect" parent="."]
+[node name="FadeRect" type="ColorRect" parent="." unique_id=1580768627]
+visible = false
 z_index = 1
 layout_mode = 1
 anchors_preset = 15
@@ -103,7 +115,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1962375661]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -112,7 +124,7 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("1_ne0pw")
 
-[node name="PressKeyRect" type="TextureRect" parent="."]
+[node name="PressKeyRect" type="TextureRect" parent="." unique_id=1968486516]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -124,3 +136,25 @@ offset_bottom = 32.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_iqbuy")
+
+[node name="vignette" type="TextureRect" parent="." unique_id=1094099527]
+modulate = Color(1, 1, 1, 0.31300002)
+z_index = 3
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_qhm5o")
+
+[node name="reflection" type="TextureRect" parent="vignette" unique_id=1329467778]
+modulate = Color(1, 1, 1, 0.259)
+z_index = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_fhy7f")

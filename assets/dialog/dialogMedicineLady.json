@@ -6,6 +6,9 @@
 	{"flags": { "time_of_day": "morning", "med_lady_friendly": 0}, "dialog": "medicine_lady_neutral"},
 	{"flags": {"med_lady_friendly": 2.0, "neighbor_story": 2}, "dialog": "medicine_lady_asking_rude"},
 	{"flags": {"med_lady_friendly": 1.0, "neighbor_story": 2}, "dialog": "medicine_lady_asking_nice"},
+	
+	{"flags": { "neighbor_story": 5}, "dialog": "medicine_lady_asking_medicine_again"},
+	
 	{"flags": { "time_of_day": "morning"}, "dialog": "medicine_lady_stop"}
 	]
   },
@@ -283,5 +286,162 @@
 	{ "speaker": "med_lady", "text": "And stop wasting my time." }
 	]
 },
+
+
+
+"medicine_lady_asking_medicine_again": {
+	"lines": [
+	{ "speaker": "jessie", "text": "Excuse me. My neighbor sent me to pick up his medicine again. I have the recipe here." },
+ 	{ "speaker": "med_lady", "text": "Again!-" },
+ 	{ "speaker": "neutral", "text": "She stops herself midsentence" },
+	{ "speaker": "med_lady", "text": "Okay, wait here a second.." },
+	{ "speaker": "neutral", "text": "The lady walks away for a minute and comes back with the medicine" },
+	{ "speaker": "neutral", "text": "However she had two packs in her hand" },
+	],
+  	"next_dialog": "medicine_lady_asking_medicine_again2"
+	
+  },
+
+
+
+
+
+"medicine_lady_asking_medicine_again2": {
+	"lines": [
+	{ "speaker": "med_lady", "text": "Alright, that will be 22$ please." },
+	],
+	"choices": [
+	  {
+		"text": "Here (You lose 22$)",
+		"next": "medicine_lady_finish_two_packs",
+		"requires_item": {
+		"name": "money",
+		"amount": 22
+	  }
+	  },
+	  {
+		"text": "What? Its supposed to be only 11$.",
+		"next": "medicine_lady_confused_friendly",
+		"requires_flag": {
+		"med_lady_friendly": 1
+	  }
+	  },
+		{
+		"text": "What? Its supposed to be only 11$.",
+		"next": "medicine_lady_confused",
+		"requires_flag": {
+		"med_lady_friendly": 0
+	  }
+	  },
+		{
+		"text": "I dont have that money...",
+		"next": "medicine_lady_not_enough_money_again"
+		},
+	]
+  },
+
+
+"medicine_lady_not_enough_money_again": {
+	"lines": [
+	{ "speaker": "med_lady", "text": "Well then sorry honey but I cant give you the medicine." },
+	{ "speaker": "med_lady", "text": "Did your neighbor not give you the money upfront?" },
+	{ "speaker": "jessie", "text": "Not enough aparently.." },
+	{ "speaker": "med_lady", "text": "Well kid, its 22$ for 2 packs." },
+	{ "speaker": "jessie", "text": "Two packs?" },
+	{ "speaker": "med_lady", "text": "Yes, honey." },
+	{ "speaker": "neutral", "text": "The neighbor only asked for one..and im getting two..." },
+	{ "speaker": "neutral", "text": "I could use one of these to see what they are made of." },
+	{ "speaker": "neutral", "text": "Better take two of these." },
+	]
+},
+
+"medicine_lady_confused": {
+	"lines": [
+	{ "speaker": "med_lady", "text": "Its 11$ for one package. Your recipe says two." },
+	{ "speaker": "jessie", "text": "Cant I just take the one? And then come later for the other?" },
+	{ "speaker": "med_lady", "text": "The recipe says two. So no. Whoever youre bringing them to, ordered two." },
+	],
+  	"next_dialog": "medicine_lady_asking_medicine_again2"
+},
+
+"medicine_lady_confused_friendly": {
+	"lines": [
+	{ "speaker": "med_lady", "text": "Its 11$ for one package, honey. Your recipe says two." },
+	{ "speaker": "jessie", "text": "Cant I just take the one? And then come later for the other?" },
+	{ "speaker": "med_lady", "text": "Hmm.. I shouldnt." },
+	{ "speaker": "jessie", "text": "Look, you said I shouldnt be bringing that medicine. So the fewer I bring the better." },
+	{ "speaker": "med_lady", "text": "..." },
+	{ "speaker": "med_lady", "text": "Okay. Ill give you the one." },
+	{ "speaker": "jessie", "text": "What will you do with the other one?" },
+	{ "speaker": "med_lady", "text": "Ill just erase it from the system and throw it away. The river maybe?" },
+	{ "speaker": "jessie", "text": "No need for you to walk, Ill throw it into the river. Its on the way anyway." },
+	{ "speaker": "med_lady", "text": "Thank you." },
+	{ "speaker": "jessie", "text": "Dont mention it. About the money-" },
+	{ "speaker": "med_lady", "text": "Ill erase both. No need to pay. Buy yourself something nice with that." },
+	],
+	"on_finish": [
+		{
+			"flag": "neighbor_story",
+			"set": 6
+		},
+		{
+		"give_item": {
+			"name": "neighbors medicine",
+			"amount": 2
+			},
+		},
+		{
+		"flag": "med_lady_story",
+		"set": 2
+		},
+		{
+		"flag": "med_lady_friendly",
+		"set": 3
+		},
+		{
+			"menu_entry": {
+			"id": "neighbor_medicine_two_packs",
+			"path": ["lore", "Journal.txt"],
+			"text": "\nThere was a mistake at the hospital. I got two packs instead of one that the neighbor asked for. Should tell david. We could use one for something. NOTE TO SELF: do something nice for the lady at the drug store.\n"
+			}
+		}
+	]
+},
+
+"medicine_lady_finish_two_packs": {
+	"lines": [
+	{ "speaker": "neutral", "text": "You hand her the money" },
+	{ "speaker": "med_lady", "text": "Thank you." },
+	{ "speaker": "neutral", "text": "She hands you two packs of medicine." },
+	{ "speaker": "neutral", "text": "Two packs of medicine..hmm" },
+	{ "speaker": "neutral", "text": "Neighbor only asked for one.." },
+	],
+	"on_finish": [
+		{
+			"flag": "neighbor_story",
+			"set": 6
+		},
+		{
+		"give_item": {
+			"name": "neighbors medicine",
+			"amount": 2
+			},
+		},
+		{
+		"flag": "med_lady_story",
+		"set": 2
+		},
+		{
+				"menu_entry": {
+				"id": "neighbor_medicine_two_packs",
+				"path": ["lore", "Journal.txt"],
+				"text": "\nThere was a mistake at the hospital. I got two packs instead of one that the neighbor asked for. Should tell david. We could use one for something.\n"
+				}
+			}
+	]
+},
+
+
+
 
 }

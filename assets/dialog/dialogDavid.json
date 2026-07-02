@@ -1,7 +1,7 @@
 {
 "comment_ignore_david": {
 	"lines": [
-	{ "speaker": "neutral", "text": "david_story = 0 - nothing special, 1 - talked to david in school" },
+	{ "speaker": "neutral", "text": "david_story = 0 - nothing special, 1 - talked to david in school, 2 - got a plan, 3 - gonna test the drugs near the campfire" },
 	{ "speaker": "neutral", "text": "david_opinion = 0 - nothing special, 1 - initial meeting, 2 - met in school" },
 	],
   	},
@@ -9,9 +9,13 @@
 	
 "david_school_cond": {
 	"conditions": [
-	{"flags": { "david_story": 0, "time_of_day": "evening"}, "dialog": "david_school_evening"},
+	{"flags": { "david_story": 0, "time_of_day": "afternoon"}, "dialog": "david_school_evening"},
+	
 	{"flags": { "david_story": 0}, "dialog": "david_school"},
-	{"flags": { "david_story": 1}, "dialog": "david_school_casual"}
+	{"flags": { "david_story": 1}, "dialog": "david_school_casual"},
+	{"flags": { "david_story": 2}, "dialog": "david_school_casual"},
+	
+	{"flags": { "david_story": 3, "time_of_day": "afternoon"}, "dialog": "david_testing_medicine"},
 		]
   			},
 	
@@ -373,8 +377,31 @@
 	  	},
 		{
 		"text": "Have you thought of anything about the thing?",
-		"next": "david_school_clue"
+		"next": "david_school_clue",
+		"requires_flag": {
+			"david_story": 1
+			}
 		},
+		
+		
+		{
+		"text": "Your father asked me to get some more medicine.",
+		"next": "david_school_neighbor_asked_again_not_delivered",
+		"requires_flag": {
+			"david_story": 2,
+			"neighbor_story": 6
+			}
+		},
+		{
+		"text": "Your father asked me to get some more medicine.",
+		"next": "david_school_neighbor_asked_again_delivered",
+		"requires_flag": {
+			"david_story": 2,
+			"neighbor_story": 7
+			}
+		},
+		
+		
 		{
 		"text": "Invite to see 'The thing'",
 		"next": "david_school_the_thing_cond"
@@ -388,29 +415,6 @@
 
 
 
-"david_school_loner": {
-	"lines": [
-	{ "speaker": "david", "text": "How observant of you! Well done." },
-	{ "speaker": "jessie", "text": "With such sarcastic comments I can also see why." },
-	{ "speaker": "david", "text": "I move town every couple months I have given up on making many friends" },
-	{ "speaker": "jessie", "text": "Yeah could have just said that instead of being smartypants about it." },
-	{ "speaker": "jessie", "text": "And I can imagine that sucks." },
-	{ "speaker": "david", "text": "Oh yeah how observant of you again." },
-	{ "speaker": "jessie", "text": "Are you trying to not make any friends right now? Because if you havent noticed Im trying to help you." },
-	{ "speaker": "david", "text": "Im sorry. Theres no excuse to be talking like that. Im just not in the mood to talk about my lack of friends right now." },
-	{ "speaker": "jessie", "text": "Look. Try to talk to the guys in class. Ill introduce you. Even if its for a month or two itll be easier if you talk to people." },
-	{ "speaker": "david", "text": "Sure I guess.." },
-	],
-	"on_finish": [
-			{
-			"menu_entry": {
-				"id": "david_school_lonely_dude",
-				"path": ["lore", "Journal.txt"],
-				"text": "Every single time I talk to David I realise how sad his circumstances are..Nobody deserves these kind of conditions to live their life in.\n"
-				}
-			}
-		]
-	},
 
 
 
@@ -448,11 +452,101 @@
 				"path": ["lore", "Journal.txt"],
 				"text": "Gotta ask around town about the camera and maybe figure out some plan with replacing the tablets. The sooner the better.\n"
 				}
-			}
+			},
+			{
+				"flag": "david_story",
+				"set": 2 
+			},
 		]
 	},
 
 
+"david_school_neighbor_asked_again_not_delivered": {
+	"lines": [
+	{ "speaker": "david", "text": "And you got them for him?" },
+	{ "speaker": "jessie", "text": "Not yet." },
+	{ "speaker": "jessie", "text": "Should i?" },
+	{ "speaker": "david", "text": "As I said, thats up to you." },
+	{ "speaker": "david", "text": "Maybe hell give you something.." },
+	],
+  	"next_dialog": "david_school_neighbor_asked_again"
+	},
+	
+"david_school_neighbor_asked_again_delivered": {
+	"lines": [
+	{ "speaker": "david", "text": "And you got them for him?" },
+	{ "speaker": "jessie", "text": "Yeah." },
+	{ "speaker": "jessie", "text": "I shouldnt have?" },
+	{ "speaker": "david", "text": "As I said, thats up to you." },
+	{ "speaker": "david", "text": "It doesnt change much." },
+	],
+  	"next_dialog": "david_school_neighbor_asked_again"
+	},
+
+"david_school_neighbor_asked_again": {
+	"lines": [
+	{ "speaker": "jessie", "text": "The thing is, he only asked for once and the lady gave me two.." },
+	{ "speaker": "david", "text": "Oh." },
+	{ "speaker": "david", "text": "So you got some?" },
+	{ "speaker": "jessie", "text": "Yeah, we can see what it does." },
+	{ "speaker": "david", "text": "Well we dont really need to see what it does. More like we need to somehow stop my mom from taking them." },
+	{ "speaker": "jessie", "text": "Well at least we have some evidence, and maybe we could tinker with these and then replace your moms." },
+	{ "speaker": "david", "text": "So what? Do we replace whats in the capsules with something else? It would need to taste the same." },
+	{ "speaker": "jessie", "text": "That sound like an idea." },
+	{ "speaker": "jessie", "text": "But we need to figure out how it tastes first." },
+	{ "speaker": "david", "text": "You really wanna taste it huh?" },
+	{ "speaker": "jessie", "text": "Dont you?-" },
+	{ "speaker": "jessie", "text": "We need to know what to replace it with so we gotta taste it." },
+	{ "speaker": "david", "text": "Im not doing it. And besides couldt we like-" },
+	{ "speaker": "david", "text": "I dont know.." },
+	{ "speaker": "david", "text": "Let somebody else taste it?" },
+	{ "speaker": "jessie", "text": "Oh so its immoral to try to taste it but its okay to roofie somebodies drink and then ask them for the taste?" },
+	{ "speaker": "david", "text": "Not like that! Like ask them if they would." },
+	{ "speaker": "jessie", "text": "Yeah, like anybody would willingly want to taste a drug." },
+	{ "speaker": "jessie", "text": "Look, Ill try it, but promise me youll take care of me if I start seeing things haha." },
+	{ "speaker": "david", "text": "Youre crazy." },
+	{ "speaker": "jessie", "text": "Hey Im helping you here!" },
+	{ "speaker": "david", "text": "Youre. Crazy." },
+	{ "speaker": "jessie", "text": "Well you can go around trying to convince some junkie to test your drug and hope he wont snitch to your father or you can trust me." },
+	{ "speaker": "david", "text": "Okay." },
+	{ "speaker": "jessie", "text": "Okay then. Its settled. Lets meet at the campfire near our stree and Ill test it there." },
+	{ "speaker": "david", "text": "Ill meet you there after school." },
+	],
+	"on_finish": [
+			{
+				"flag": "david_story",
+				"set": 3
+			},
+		]
+	},
+
+
+
+
+
+"david_school_loner": {
+	"lines": [
+	{ "speaker": "david", "text": "How observant of you! Well done." },
+	{ "speaker": "jessie", "text": "With such sarcastic comments I can also see why." },
+	{ "speaker": "david", "text": "I move town every couple months I have given up on making many friends" },
+	{ "speaker": "jessie", "text": "Yeah could have just said that instead of being smartypants about it." },
+	{ "speaker": "jessie", "text": "And I can imagine that sucks." },
+	{ "speaker": "david", "text": "Oh yeah how observant of you again." },
+	{ "speaker": "jessie", "text": "Are you trying to not make any friends right now? Because if you havent noticed Im trying to help you." },
+	{ "speaker": "david", "text": "Im sorry. Theres no excuse to be talking like that. Im just not in the mood to talk about my lack of friends right now." },
+	{ "speaker": "jessie", "text": "Look. Try to talk to the guys in class. Ill introduce you. Even if its for a month or two itll be easier if you talk to people." },
+	{ "speaker": "david", "text": "Sure I guess.." },
+	],
+	"on_finish": [
+			{
+			"menu_entry": {
+				"id": "david_school_lonely_dude",
+				"path": ["lore", "Journal.txt"],
+				"text": "Every single time I talk to David I realise how sad his circumstances are..Nobody deserves these kind of conditions to live their life in.\n"
+				}
+			}
+		]
+	},
 
 "david_school_the_thing_cond": {
 	"conditions": [
@@ -535,5 +629,38 @@
 	{ "speaker": "david", "text": "Sure. Well you know where to find me after school." },
 	]
 	},
+
+
+
+
+"david_testing_medicine": {
+	"lines": [
+	{ "speaker": "david", "text": "Hey." },
+	{ "speaker": "jessie", "text": "Ready for the taste test?" },
+	{ "speaker": "david", "text": "Are you?" },
+	{ "speaker": "jessie", "text": "Ready as Ill ever be." },
+	{ "speaker": "david", "text": "At least sit before trying so that I dont have to call an ambulance." },
+	{ "speaker": "neutral", "text": "You sit and take out the medicine." },
+	{ "speaker": "neutral", "text": "You pop open the lid and take one capsule into your hand." },
+	{ "speaker": "jessie", "text": "Well here goes nothing" },
+	{ "speaker": "david", "text": "This is the stupidest idea I have ever seen." },
+	{ "speaker": "jessie", "text": "One small step for man-" },
+	{ "speaker": "david", "text": "Dont make it the corniest as well." },
+	{ "speaker": "jessie", "text": "Okay.." },
+	{ "speaker": "neutral", "text": "You swallow the tablet" },
+	],
+	"on_finish": [
+			{
+				"permission_raised": 1
+			},
+			{
+				"restart_game": true
+			}
+		]
+	},
+
+
+
+
 
 }

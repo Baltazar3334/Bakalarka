@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://bk7d4qm5muknv"
+path="res://.godot/imported/PUT DOWN.wav-4b937c028f74a92bd3be8effda08bd0e.sample"
+
+[deps]
+
+source_file="res://assets/sound/game_sf/PUT DOWN.wav"
+dest_files=["res://.godot/imported/PUT DOWN.wav-4b937c028f74a92bd3be8effda08bd0e.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2
