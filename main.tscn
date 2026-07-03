@@ -97,6 +97,7 @@ var flags := {
 	\"factory_work_started\": 0,
 	\"factory_items_return\": 0,
 	\"factory_successful_boxes\": 0,
+	\"factory_successful_boxes_multiplier\": 1,
 	
 	\"david_opinion\": 0,
 	\"david_story\": 0,
@@ -119,6 +120,9 @@ var flags := {
 	\"money_6_taken\": 0,
 	\"money_5_taken\": 0,
 	\"time_of_day\": \"morning\",
+	
+	\"post_office_work_days\": 5,
+	
 	
 	\"permission_level\": 0,
 }
@@ -175,6 +179,19 @@ func _ready():
 		set_time_of_day_fast(loaded_data[\"flags\"][\"time_of_day\"])
 		_apply_data()
 	AmbientSoundManager.loading_save = false
+	
+	Global.player_config_changed.connect(_on_player_config_changed)
+	_on_player_config_changed()
+	Global.post_office_config_changed.connect(_on_post_office_changed)
+	_on_post_office_changed()
+
+func _on_player_config_changed():
+	max_speed = Global.player_max_speed
+
+func _on_post_office_changed():
+	flags[\"factory_successful_boxes_multiplier\"] = Global.post_office_salary
+	flags[\"post_office_work_days\"] = Global.post_office_work_days
+	
 
 func _apply_data():
 	global_position = loaded_data.get(\"player_position\", global_position)
@@ -2005,28 +2022,19 @@ script/source = "extends Area2D
 var items_inside = []
 
 func _on_area_entered(area):
-	print(\" mover zone ENTER:\", area.name)
-	
 	if area.is_in_group(\"world_items\") \\
 	or area.is_in_group(\"world_items_static\"):
 
 		items_inside.append(area)
 
 func _on_area_exited(area):
-	print(\" mover zone EXIT:\", area.name)
-	
 	items_inside.erase(area)
 
 func _process(delta):
-
 	for item in items_inside:
-
 		if !is_instance_valid(item):
 			continue
-
 		item.global_position.y -= speed * delta
-		
-		
 "
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_557es"]
@@ -2056,43 +2064,32 @@ func _ready():
 	pass
 
 func _on_green_zone_area_entered(area: Area2D) -> void:
-	print(\"GREEN ENTER\")
-	print(area)
 	check_item(area, \"box green\")
 
 
 func _on_red_zone_area_entered(area: Area2D) -> void:
-	print(\"RED ENTER\")
-	print(area)
 	check_item(area, \"box red\")
 
 
 func _on_blue_zone_area_entered(area: Area2D) -> void:
-	print(\"BLUE ENTER\")
-	print(area)
 	check_item(area, \"box blue\")
 
 
 func check_item(area, expected_box):
 	if !(area.is_in_group(\"world_items\") or area.is_in_group(\"world_items_static\")):
-		print(\"co to voslo do mna\")
 		return
 	if area.item_name.begins_with(\"box \"):
 		if area.item_name == expected_box:
 			correct_boxes.append(area)
-			print(\"correct box:\",area.item_name)
 			if playerMain == null:
 				return
 			correct_count += 1
 			playerMain.flags[\"factory_successful_boxes\"] = correct_count
-			
 		else:
 			wrong_boxes.append(area)
-			print(\"wrong box:\",area.item_name)
 			wrong_count += 1
 	else:
 		other_items.append(area)
-		print(\"other item:\",area.item_name)
 "
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wu3dc"]
@@ -2798,7 +2795,15 @@ func close_dialog():
 			if change.has(\"give_item\"):
 				var item = change[\"give_item\"]
 				var amount = item.get(\"amount\", 1)
-				if amount is String:
+				if amount is Dictionary:
+					var final_amount = 1
+					if amount.has(\"value\"):
+						final_amount = int(player.flags.get(amount[\"value\"], 0))
+					if amount.has(\"multiply_by\"):
+						final_amount *= int(player.flags.get(amount[\"multiply_by\"], 1))
+					amount = final_amount
+
+				elif amount is String:
 					amount = int(player.flags.get(amount, 0))
 				InventoryManager.add_item(item[\"name\"], amount)
 			

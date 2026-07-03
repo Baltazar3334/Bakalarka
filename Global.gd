@@ -3,6 +3,24 @@ extends Node
 var permission_level := 0
 var permission_just_raised = false
 
+signal player_config_changed
+signal post_office_config_changed
+
+var post_office_salary := 1:
+	set(value):
+		post_office_salary = value
+		post_office_config_changed.emit()
+
+var post_office_work_days := 7:
+	set(value):
+		post_office_work_days = value
+		post_office_config_changed.emit()
+
+var player_max_speed = 150:
+	set(value):
+		player_max_speed = value
+		player_config_changed.emit()
+
 
 
 const DEFAULT_FLAGS := {
@@ -47,8 +65,10 @@ const DEFAULT_FLAGS := {
 
 func _ready():
 	load_global_data()
-
-
+	post_office_config_changed.emit()
+	player_config_changed.emit()
+	ConfigManager.load_all_configs()
+	print("Updated config values")
 
 func load_global_data():
 	permission_level = MenuFileManager.get_global_value("permission_level", 0)

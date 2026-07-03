@@ -226,7 +226,10 @@ You can leave whenever but if you do, the job is reset.|\n"
 			{
 			"give_item": {
 			"name": "money",
-			"amount": "factory_successful_boxes"
+			"amount": {
+				"value": "factory_successful_boxes",
+				"multiply_by": "factory_successful_boxes_multiplier"
+					}
 				}
 			},
 			{

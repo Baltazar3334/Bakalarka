@@ -26,40 +26,28 @@ func load_global_data() -> Dictionary:
 	return {}
 
 func save_global_data(data: Dictionary):
-
 	var file = FileAccess.open(GLOBAL_DATA_PATH, FileAccess.WRITE)
-
 	if file == null:
 		return
-
 	file.store_string(JSON.stringify(data, "\t"))
 	file.close()
 
 func get_global_value(key: String, default_value = null):
-
 	var data = load_global_data()
-
 	return data.get(key, default_value)
 
 func set_global_value(key: String, value):
-
 	var data = load_global_data()
-
 	data[key] = value
-
 	save_global_data(data)
 
 func set_global_values(values: Dictionary):
-
 	var data = load_global_data()
-
 	for key in values.keys():
 		data[key] = values[key]
-
 	save_global_data(data)
 
 func reset_global_data():
-
 	save_global_data({})
 
 

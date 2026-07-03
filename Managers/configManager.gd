@@ -7,13 +7,17 @@ const CONFIG_SCHEMAS = {
 			"min": 1,
 			"max": 10,
 			"default":1,
-			"permission":1
+			"permission":1,
+			
+			"apply":"_apply_post_office_salary"
 		},
 		"work_days": {
 			"type": "int",
 			"min": 1,
 			"max": 7,
-			"permission":1
+			"permission":1,
+			
+			"apply":"_apply_post_office_work_days"
 		}
 	},
 	"player.cfg": {
@@ -21,7 +25,9 @@ const CONFIG_SCHEMAS = {
 			"type": "int",
 			"min": 50,
 			"max": 300,
-			"permission":1
+			"permission":1,
+			
+			"apply":"_apply_player_walk_speed"
 		},
 	}
 }
@@ -45,8 +51,6 @@ const PERMISSION_UNLOCKS = {
 		}
 	]
 }
-
-
 
 
 
@@ -78,6 +82,13 @@ func on_config_saved(path: Array):
 		"messages": ["Configuration applied successfully."]
 	}
 
+func load_all_configs():
+	var filesystem = MenuFileManager.load_filesystem()
+	var config = filesystem.get("config", {})
+	for file_name in config.keys():
+		if !file_name.ends_with(".cfg"):
+			continue
+		on_config_saved(["config", file_name])
 
 func is_config_file(path:Array) -> bool:
 	if path.is_empty():
@@ -182,7 +193,6 @@ func validate_config(file_name:String, config:Dictionary) -> Dictionary:
 			result.success = false
 			result.errors.append("Unknown parameter: " + key)
 			continue
-
 		var rule = schema[key]
 		var value = config[key]
 		match rule.type:
@@ -208,25 +218,32 @@ func validate_config(file_name:String, config:Dictionary) -> Dictionary:
 func apply_config(path: Array, config: Dictionary):
 	var file_name = path[path.size() - 1]
 
-	match file_name:
-		"player.cfg":
-			apply_player_config(config)
+	if !CONFIG_SCHEMAS.has(file_name):
+		return
 
-		"post_office.cfg":
-			apply_post_office_config(config)
+	var schema = CONFIG_SCHEMAS[file_name]
+	for key in config.keys():
+		if !schema.has(key):
+			continue
 
-		"school.cfg":
-			apply_school_config(config)
+		var rule = schema[key]
+		if !rule.has("apply"):
+			print("apply schema doesnt contain apply keyword")
+			print(key)
+			continue
 
-		_:
-			print("Unknown config:", file_name)
+		var function_name = rule["apply"]
+		if has_method(function_name):
+			call(function_name, config[key])
+		else:
+			push_error("Config apply function not found: " + function_name)
 
 
-func apply_player_config(config: Dictionary):
-	pass
+func _apply_player_walk_speed(value):
+	Global.player_max_speed = int(value)
 
-func apply_post_office_config(config: Dictionary):
-	pass
+func _apply_post_office_salary(value):
+	Global.post_office_salary = int(value)
 
-func apply_school_config(config: Dictionary):
-	pass
+func _apply_post_office_work_days(value):
+	Global.post_office_work_days = int(value)
