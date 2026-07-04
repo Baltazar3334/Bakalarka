@@ -1,7 +1,7 @@
 {
 "comment_ignore_david": {
 	"lines": [
-	{ "speaker": "neutral", "text": "david_story = 0 - nothing special, 1 - talked to david in school, 2 - got a plan, 3 - gonna test the drugs near the campfire" },
+	{ "speaker": "neutral", "text": "david_story = 0 - nothing special, 1 - talked to david in school, 2 - got a plan, 3 - gonna test the drugs near the campfire, 4 - tested the drugs" },
 	{ "speaker": "neutral", "text": "david_opinion = 0 - nothing special, 1 - initial meeting, 2 - met in school" },
 	],
   	},
@@ -16,6 +16,7 @@
 	{"flags": { "david_story": 2}, "dialog": "david_school_casual"},
 	
 	{"flags": { "david_story": 3, "time_of_day": "afternoon"}, "dialog": "david_testing_medicine"},
+	{"flags": { "david_story": 4, "time_of_day": "afternoon"}, "dialog": "david_testing_medicine_wake_up"},
 		]
   			},
 	
@@ -651,11 +652,68 @@
 	],
 	"on_finish": [
 			{
+				"flag": "david_story",
+				"set": 4 
+			},
+			{
 				"permission_raised": 1
 			},
 			{
 				"restart_game": true
 			}
+		]
+	},
+	
+"david_testing_medicine_wake_up": {
+	"lines": [
+	{ "speaker": "david", "text": "Hey Jessie!" },
+	{ "speaker": "david", "text": "Wake up!" },
+	{ "speaker": "jessie", "text": "..." },
+	{ "speaker": "jessie", "text": "...." },
+	{ "speaker": "jessie", "text": "....." },
+	{ "speaker": "jessie", "text": "What happened?" },
+	{ "speaker": "david", "text": "You passed out." },
+	{ "speaker": "jessie", "text": "How long was I out for?" },
+	{ "speaker": "david", "text": "A couple seconds. You popped the tablet, you closed your eyes and fell backwards." },
+	{ "speaker": "david", "text": "Are you feeling alright?" },
+	{ "speaker": "jessie", "text": "I think Im okay. But you wont believe what I saw." },
+	{ "speaker": "david", "text": "Did you dream?" },
+	{ "speaker": "jessie", "text": "No..It felt real. Like I was controlling a computer." },
+	{ "speaker": "david", "text": "A computer?" },
+	{ "speaker": "jessie", "text": "Yeah, but like inside of it you know?" },
+	{ "speaker": "david", "text": "Like inside of a computer case?" },
+	{ "speaker": "jessie", "text": "No! Like I was a part of the software or something..going through the operating system." },
+	{ "speaker": "jessie", "text": "I was browsing through files and opening them. Interacting with them changing them." },
+	{ "speaker": "david", "text": "A weird dream." },
+	{ "speaker": "jessie", "text": "Thats the thing it didnt feel like one." },
+	{ "speaker": "jessie", "text": "And the weirdest thing is. I got out of it by openning a file." },
+	{ "speaker": "david", "text": "What file?" },
+	{ "speaker": "jessie", "text": "A save file." },
+	{ "speaker": "david", "text": "Like a game save file?" },
+	{ "speaker": "jessie", "text": "Yeah. I think I was in there for only a couple seconds too. That would align wih how long I was out." },
+	{ "speaker": "david", "text": "Dreams usually dont.." },
+	{ "speaker": "jessie", "text": "Exactly." },
+	{ "speaker": "david", "text": "Damn, this is weird." },
+	{ "speaker": "jessie", "text": "..." },
+	{ "speaker": "david", "text": "Lets leave, I feel like somebody is watching us.." },
+	{ "speaker": "jessie", "text": "..Yeah" },
+	],
+	"on_finish": [
+			{
+				"flag": "david_story",
+				"set": 4 
+			},
+			{
+			"moveNPC": {
+			"NPCid": "David_evening",
+			"x": -6,
+			"y": 1,
+			"move_speed": 50,
+			"change_after_move": {
+				"david_there_evening": 0
+				}
+			}
+			},
 		]
 	},
 

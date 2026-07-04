@@ -36,11 +36,13 @@ const DEFAULT_FLAGS := {
 	"factory_work_started": 0,
 	"factory_items_return": 0,
 	"factory_successful_boxes": 0,
+	"factory_successful_boxes_multiplier": 1,
 	
 	"david_opinion": 0,
 	"david_story": 0,
 	"david_cinema_visit_planned": 0,
 	"david_cinema_tonight": 0,
+	"david_there_evening": 1,
 	
 	"parents_at_home": 1,
 	"father_story": 0,
@@ -58,6 +60,8 @@ const DEFAULT_FLAGS := {
 	"money_6_taken": 0,
 	"money_5_taken": 0,
 	"time_of_day": "morning",
+	
+	"post_office_work_days": 5,
 	
 	"permission_level": 0,
 }

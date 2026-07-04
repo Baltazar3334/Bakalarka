@@ -79,6 +79,12 @@
 [ext_resource type="Texture2D" uid="uid://cqkd53aqmd755" path="res://assets/NPCs/father_animations/New Piskel (2).png" id="73_f1p13"]
 [ext_resource type="Texture2D" uid="uid://d3kea684hc3ma" path="res://assets/NPCs/father_animations/New Piskel (3).png" id="74_4obbf"]
 [ext_resource type="Texture2D" uid="uid://dsvnaqyb1rxba" path="res://assets/NPCs/father_animations/New Piskel (4).png" id="75_ovcoh"]
+[ext_resource type="Texture2D" uid="uid://k2fr5hxoni2c" path="res://assets/NPCs/classmate6/0.png" id="76_1yv1y"]
+[ext_resource type="Texture2D" uid="uid://k5eyw14ixpfd" path="res://assets/NPCs/classmate6/3.png" id="77_5yh34"]
+[ext_resource type="Texture2D" uid="uid://f462ibjy6cc0" path="res://assets/NPCs/classmate6/1.png" id="78_pjuso"]
+[ext_resource type="Texture2D" uid="uid://dp6fn1i8083xi" path="res://assets/NPCs/classmate6/2.png" id="79_23xmf"]
+[ext_resource type="Texture2D" uid="uid://45rrenoj1ugb" path="res://assets/NPCs/classmate6/4.png" id="80_swlj1"]
+[ext_resource type="Texture2D" uid="uid://5l7w6cvh5qbo" path="res://assets/NPCs/classmate6/5.png" id="81_yysqy"]
 
 [sub_resource type="GDScript" id="GDScript_0xm2m"]
 script/source = "extends CharacterBody2D
@@ -103,6 +109,7 @@ var flags := {
 	\"david_story\": 0,
 	\"david_cinema_visit_planned\": 0,
 	\"david_cinema_tonight\": 0,
+	\"david_there_evening\": 1,
 	
 	\"parents_at_home\": 1,
 	\"father_story\": 0,
@@ -359,11 +366,17 @@ func try_teleport_or_dialog():
 		
 		if tile_data.has_custom_data(\"teleport\"):
 			if !(tile_data.get_custom_data(\"teleport\") == Vector2i.ZERO):
-				await teleport(layer, tile_data)
-				return
+					await teleport(layer, tile_data)
+					return
 
 
 func teleport(layer, target):
+	var required_flag = target.get_custom_data(\"required_flag\")
+	if required_flag != null and required_flag != \"\":
+		var required_value = target.get_custom_data(\"required_value\")
+		if flags.get(required_flag, null) != required_value:
+			print(\"cant teleport flag requirement not met\")
+			return
 	if is_teleporting:
 		return
 
@@ -785,6 +798,8 @@ texture_region_size = Vector2i(32, 32)
 5:4/0/custom_data_0 = Vector2i(82, 115)
 5:4/0/custom_data_2 = "NORMAL DOORS FULL"
 5:4/0/custom_data_3 = "pavement"
+5:4/0/custom_data_4 = "time_of_day"
+5:4/0/custom_data_5 = "morning"
 6:4/0 = 0
 6:4/0/physics_layer_0/polygon_0/points = PackedVector2Array(8.284401, 16, 8.284401, -16, -16, -16, -16, -1.9117851)
 6:4/0/custom_data_3 = "pavement"
@@ -1175,6 +1190,10 @@ custom_data_layer_2/name = "teleportSound"
 custom_data_layer_2/type = 4
 custom_data_layer_3/name = "footstep_sound"
 custom_data_layer_3/type = 4
+custom_data_layer_4/name = "required_flag"
+custom_data_layer_4/type = 4
+custom_data_layer_5/name = "required_value"
+custom_data_layer_5/type = 4
 sources/0 = SubResource("TileSetAtlasSource_qsp4k")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0odxb"]
@@ -1899,26 +1918,44 @@ texture_region_size = Vector2i(32, 32)
 texture = ExtResource("15_0odxb")
 texture_region_size = Vector2i(32, 32)
 0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-10.8334465, -11.152077, 13.382492, -10.833445, 13.382492, 0.63726044, -10.8334465, 0.63726044)
 1:0/0 = 0
+1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-10.8334465, -10.833445, 13.382492, -10.833445, 13.063862, -0.31863022, -11.470707, -0.31863022)
 2:0/0 = 0
+2:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-12.107969, -12.107969, 13.063862, -10.514814, 12.745232, -0.31863022, -11.789339, -0.63726044)
 0:1/0 = 0
+0:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-9.877554, -0.63726044, 12.426598, 0, 13.063862, 10.8334465, -11.470707, 10.8334465)
 1:1/0 = 0
+1:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-11.789339, -0.63726044, 12.745232, 0.31863022, 16, 11.152077, -12.107969, 11.152077)
 2:1/0 = 0
+2:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-10.514814, -0.63726044, 12.745232, 0.63726044, 13.382492, 10.514816, -12.74523, 10.196186)
 0:2/0 = 0
+0:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-9.240292, 10.196186, 13.063862, 10.8334465, 13.063862, 16, -9.877554, 16)
 1:2/0 = 0
+1:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-9.240292, 10.196186, 13.063862, 11.152077, 13.063862, 16, -9.877554, 16, -9.558924, 16)
 2:2/0 = 0
+2:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-11.152077, 10.8334465, 12.745232, 10.8334465, 12.426598, 16, -11.152077, 16)
 0:3/0 = 0
+0:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-11.789339, -16, 16, -16, 16, -8.603029, -11.152077, -7.965769)
 1:3/0 = 0
+1:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-11.470707, -16, 16, -16, 16, -9.877554, -11.152077, -9.558922)
 2:3/0 = 0
+2:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-11.789339, -16, 13.063862, -16, 13.382492, -8.921661, -11.789339, -8.284399)
 0:4/0 = 0
+0:4/0/physics_layer_0/polygon_0/points = PackedVector2Array(-10.196184, -9.558922, 13.382492, -9.877554, 16, 1.2745247, -11.470707, 0.95589066)
 1:4/0 = 0
+1:4/0/physics_layer_0/polygon_0/points = PackedVector2Array(-10.514814, -9.240292, 13.382492, -9.877554, 16, 0.31863022, -12.4265995, 1.2745247)
 2:4/0 = 0
+2:4/0/physics_layer_0/polygon_0/points = PackedVector2Array(-11.470707, -10.196184, 12.745232, -10.514814, 13.382492, 0, -12.4265995, 1.2745247)
 0:5/0 = 0
 1:5/0 = 0
 2:5/0 = 0
 0:6/0 = 0
+0:6/0/physics_layer_0/polygon_0/points = PackedVector2Array(-10.514814, -5.098091, 16, -5.4167233, 16, 16, -10.514814, 16)
 1:6/0 = 0
+1:6/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -5.098091, 12.745232, -5.098091, 13.063862, 16, -16, 16)
 2:6/0 = 0
+2:6/0/physics_layer_0/polygon_0/points = PackedVector2Array(-7.0098763, 4.779461, 6.372616, 4.779461, 7.6471367, 12.745232, -8.921661, 13.063862)
 3:6/0 = 0
 4:6/0 = 0
 0:7/0 = 0
@@ -1927,7 +1964,9 @@ texture_region_size = Vector2i(32, 32)
 3:7/0 = 0
 4:7/0 = 0
 0:8/0 = 0
+0:8/0/physics_layer_0/polygon_0/points = PackedVector2Array(-6.372616, -16, 16, -16, 16, -1.2745228, -5.098093, -1.593153)
 1:8/0 = 0
+1:8/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 2.5490456, -16, 3.186306, 0.31863022, -16, -0.31863022)
 2:8/0 = 0
 3:8/0 = 0
 4:8/0 = 0
@@ -2458,6 +2497,47 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": ExtResource("75_ovcoh")
+}],
+"loop": 1,
+"name": &"walkUp",
+"speed": 5.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_n5t1e"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("76_1yv1y")
+}],
+"loop": 1,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("77_5yh34")
+}],
+"loop": 1,
+"name": &"lookUp",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("78_pjuso")
+}, {
+"duration": 1.0,
+"texture": ExtResource("79_23xmf")
+}],
+"loop": 1,
+"name": &"walkDown",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("80_swlj1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("81_yysqy")
 }],
 "loop": 1,
 "name": &"walkUp",
@@ -3389,10 +3469,11 @@ unique_name_in_owner = true
 position = Vector2(-352, 248)
 dialog_key = "david_school_cond"
 required_flags = {
+"david_there_evening": 1,
 "neighbor_visit_story": 1,
 "time_of_day": "afternoon"
 }
-entity_id = "David"
+entity_id = "David_evening"
 
 [node name="AnimatedSprite2D" parent="Entities/cm1DavidEvening" index="0" unique_id=41462874]
 sprite_frames = SubResource("SpriteFrames_facbu")
@@ -3405,6 +3486,7 @@ dialog_key = ""
 required_flags = {
 "time_of_day": "morning"
 }
+entity_id = "Candy"
 
 [node name="AnimatedSprite2D" parent="Entities/cm2Candy" index="0" unique_id=41462874]
 sprite_frames = SubResource("SpriteFrames_4w656")
@@ -3420,6 +3502,7 @@ position = Vector2(2096, 3528)
 required_flags = {
 "time_of_day": "morning"
 }
+entity_id = "Lisa"
 
 [node name="AnimatedSprite2D" parent="Entities/cm3Lisa" index="0" unique_id=41462874]
 position = Vector2(0, 8)
@@ -3437,6 +3520,7 @@ position = Vector2(2288, 3440)
 required_flags = {
 "time_of_day": "morning"
 }
+entity_id = "Tony"
 
 [node name="AnimatedSprite2D" parent="Entities/cm4Tony" index="0" unique_id=41462874]
 sprite_frames = SubResource("SpriteFrames_rnkwl")
@@ -3447,6 +3531,7 @@ position = Vector2(2296, 3416)
 required_flags = {
 "time_of_day": "morning"
 }
+entity_id = "Jake"
 
 [node name="AnimatedSprite2D" parent="Entities/cm5Jake" index="0" unique_id=41462874]
 sprite_frames = SubResource("SpriteFrames_rm4vd")
@@ -3460,6 +3545,18 @@ dialog_key = "factory_cond"
 [node name="AnimatedSprite2D" parent="Entities/postOfficeManager" index="0" unique_id=41462874]
 sprite_frames = SubResource("SpriteFrames_1yv1y")
 
+[node name="cm6Boniface" parent="Entities" unique_id=617191674 instance=ExtResource("21_ryguw")]
+unique_name_in_owner = true
+position = Vector2(2200, 3416)
+required_flags = {
+"time_of_day": "morning"
+}
+entity_id = "Boniface"
+
+[node name="AnimatedSprite2D" parent="Entities/cm6Boniface" index="0" unique_id=41462874]
+sprite_frames = SubResource("SpriteFrames_n5t1e")
+animation = &"walkUp"
+
 [node name="GroundItems" type="Node2D" parent="." unique_id=1337509049]
 z_index = 15
 
@@ -3468,6 +3565,9 @@ layer = 15
 
 [node name="Transitioner" parent="LoadingScreen" unique_id=1259505775 instance=ExtResource("16_2cqfq")]
 layer = 11
+
+[node name="TransitionerControl" parent="LoadingScreen/Transitioner" index="0"]
+visible = false
 
 [node name="TextureRect" parent="LoadingScreen/Transitioner/TransitionerControl" index="1"]
 z_index = 11
@@ -3487,6 +3587,7 @@ layer = 15
 
 [node name="TextureRect" type="TextureRect" parent="DialogUI" unique_id=1689734304]
 process_mode = 3
+visible = false
 anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
@@ -3721,4 +3822,5 @@ label_settings = SubResource("LabelSettings_0odxb")
 [editable path="Entities/cm4Tony"]
 [editable path="Entities/cm5Jake"]
 [editable path="Entities/postOfficeManager"]
+[editable path="Entities/cm6Boniface"]
 [editable path="LoadingScreen/Transitioner"]

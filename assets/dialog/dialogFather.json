@@ -514,41 +514,6 @@ Shame mom is still away. \n"
 	]
 	},
 
-"father_money_descision_have_money_neighbor_hates": {
-	"lines": [
-	{ "speaker": "jessie", "text": "The new neighbors." },
-	{ "speaker": "father", "text": "Yeah, what about him?" },
-	{ "speaker": "jessie", "text": "Did a favour for him." },
-	{ "speaker": "jessie", "text": "And one thing i noticed. Their son must have some sort of a condition or something." },
-	{ "speaker": "father", "text": "Yeah?" },
-	{ "speaker": "jessie", "text": "I dont know. I havent noticed anything. Its just that-" },
-	{ "speaker": "jessie", "text": "The father mentioned something about him missing school for a reason." },
-	{ "speaker": "jessie", "text": "But he didnt finish it so im not sure." },
-	{ "speaker": "father", "text": "Well whatever it is I hope I dont have to tell you to be respectfull and accepting." },
-	{ "speaker": "jessie", "text": "Dont worry. He asked me for a favour actually." },
-	{ "speaker": "father", "text": "What was it?" },
-	{ "speaker": "jessie", "text": "He sent me to the hospital to get some medicine. I wonder if it is for something serious because its the hospital." },
-	{ "speaker": "father", "text": "Could be. You better not be asking dumb questions though." },
-	{ "speaker": "jessie", "text": "Who do you take me for? I know human decency." },
-	{ "speaker": "neutral", "text": "Youre lying" },
-	{ "speaker": "father", "text": "Did he give you any money? Theres this new legislation that allows hospitals to charge money for providing meds." },
-	{ "speaker": "jessie", "text": "Yeah I asked for some. He bitched and moaned about it but gave me exactly 11 dollars..." },
-	{ "speaker": "jessie", "text": "Just enough to buy it, not even a cent more." },
-	{ "speaker": "father", "text": "Well thats what you get for helping old men, haha. And language young man!" },
-	{ "speaker": "father", "text": "But no really, Im proud of you for helping him." },
-	],
-	"choices": [
-	  {
-		"text": "Gee, thanks dad. I love praise. Its the best immaterial form of reward",
-		"next": "father_mocking"
-	  },
-	  {
-		"text": "Though",
-		"next": "father_ask_neighbor_for_money"
-	  }
-	]
-	},
-
 "father_money_descision_dont_have_money_neighbor_likes": {
 	"lines": [
 	{ "speaker": "jessie", "text": "The new neighbors." },
@@ -582,6 +547,45 @@ Shame mom is still away. \n"
 	},
 
 "father_money_descision_have_money_neighbor_hates": {
+	"lines": [
+	{ "speaker": "jessie", "text": "The new neighbors." },
+	{ "speaker": "father", "text": "Yeah, what about him?" },
+	{ "speaker": "jessie", "text": "Did a favour for him." },
+	{ "speaker": "jessie", "text": "And one thing i noticed. Their son must have some sort of a condition or something." },
+	{ "speaker": "father", "text": "Yeah?" },
+	{ "speaker": "jessie", "text": "I dont know. I havent noticed anything. Its just that-" },
+	{ "speaker": "jessie", "text": "The father mentioned something about him missing school for a reason." },
+	{ "speaker": "jessie", "text": "But he didnt finish it so im not sure." },
+	{ "speaker": "father", "text": "Well whatever it is I hope I dont have to tell you to be respectfull and accepting." },
+	{ "speaker": "jessie", "text": "Dont worry. He asked me for a favour actually." },
+	{ "speaker": "father", "text": "What was it?" },
+	{ "speaker": "jessie", "text": "He sent me to the hospital to get some medicine. I wonder if it is for something serious because its the hospital." },
+	{ "speaker": "father", "text": "Could be. You better not be asking dumb questions though." },
+	{ "speaker": "jessie", "text": "Who do you take me for? I know human decency." },
+	{ "speaker": "father", "text": "Did he give you any money? Theres this new legislation that allows hospitals to charge money for providing meds." },
+	{ "speaker": "jessie", "text": "Yeah I asked for some. He bitched and moaned about it but gave me exactly 11 dollars..." },
+	{ "speaker": "jessie", "text": "Just enough to buy it, not even a cent more." },
+	{ "speaker": "father", "text": "Well thats what you get for helping old men, haha. And language young man!" },
+	{ "speaker": "father", "text": "But no really, Im proud of you for helping him." },
+	],
+	"choices": [
+	  {
+		"text": "Gee, thanks dad. I love praise. Its the best immaterial form of reward",
+		"next": "father_mocking"
+	  },
+	  {
+		"text": "Im doing it for the connections.",
+		"next": "father_connections"
+	  },
+	{
+		"text": "Yeah, I mean its nice to help people from time to time.",
+		"next": "father_goodness"
+		
+	}
+	]
+	},
+
+"father_money_descision_have_money_neighbor_likes": {
 	"lines": [
 	{ "speaker": "jessie", "text": "The new neighbors." },
 	{ "speaker": "father", "text": "Yeah, what about him?" },
