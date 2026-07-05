@@ -1,89 +1,11 @@
 [gd_scene format=3 uid="uid://dnp301oc2ra7i"]
 
 [ext_resource type="Texture2D" uid="uid://bnorqc0jftoys" path="res://assets/NPCs/father_animations/New Piskel (0).png" id="1_657i6"]
+[ext_resource type="Script" uid="uid://cx5s2ji6ixa3m" path="res://Entities/entity_npc.gd" id="1_lp4f8"]
 [ext_resource type="Texture2D" uid="uid://csitvvge1g64x" path="res://assets/NPCs/father_animations/New Piskel (1).png" id="2_lp4f8"]
 [ext_resource type="Texture2D" uid="uid://cqkd53aqmd755" path="res://assets/NPCs/father_animations/New Piskel (2).png" id="3_0rd1l"]
 [ext_resource type="Texture2D" uid="uid://d3kea684hc3ma" path="res://assets/NPCs/father_animations/New Piskel (3).png" id="4_ruj17"]
 [ext_resource type="Texture2D" uid="uid://dsvnaqyb1rxba" path="res://assets/NPCs/father_animations/New Piskel (4).png" id="5_p844v"]
-
-[sub_resource type="GDScript" id="GDScript_e67l2"]
-resource_name = "NPCBase"
-script/source = "extends EntityBase
-
-@export var dialog_key: String = \"\"
-@onready var player = $\"../../player\"
-@onready var collisionShape = $CollisionShape2D
-
-
-@export var required_flags = {
-	\"time_of_day\": \"morning\"
-}
-
-@export var required_items = {
-}
-
-
-
-func _ready():
-	add_to_group(\"entities\")
-	refresh_availability()
-
-func interact(interactor):
-	print(\"ENTITY dialog_key =\", dialog_key)
-	if not can_interact:
-		print(\"cant interact\")
-		return
-	if dialog_key.is_empty():
-		push_warning(\"NPC has no dialog_key assigned.\")
-		return
-	
-	var dialog_ui = get_node(\"../../DialogUI/TextureRect\")
-	if dialog_ui == null:
-		push_warning(\"DialogUI node not found in current scene.\")
-		return
-	
-	dialog_ui.open_dialog(dialog_key)
-
-func refresh_availability():
-	if meets_requirements():
-		enable()
-	else:
-		disable()
-
-func meets_requirements() -> bool:
-	if not check_flag_requirements():
-		return false
-	if not check_item_requirements():
-		return false
-	return true
-
-func check_flag_requirements() -> bool:
-	for flag_name in required_flags.keys():
-		var required_value = required_flags[flag_name]
-		var current_value = player.flags.get(flag_name)
-		if current_value != required_value:
-			return false
-	return true
-
-func check_item_requirements() -> bool:
-	for item_name in required_items.keys():
-		var required_amount = int(required_items[item_name])
-		
-		if not InventoryManager.has_item(item_name, required_amount):
-			return false
-	
-	return true
-
-func enable():
-	visible = true
-	set_can_interact(true)
-	collisionShape.disabled = false
-
-func disable():
-	visible = false
-	set_can_interact(false)
-	collisionShape.disabled = true
-"
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_r7i86"]
 animations = [{
@@ -155,11 +77,7 @@ radius = 16.0
 z_index = 2
 collision_layer = 4
 collision_mask = 3
-script = SubResource("GDScript_e67l2")
-dialog_key = "sleep"
-required_flags = {}
-entity_id = "NPC"
-display_name = "enpece"
+script = ExtResource("1_lp4f8")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=41462874]
 z_index = 2
