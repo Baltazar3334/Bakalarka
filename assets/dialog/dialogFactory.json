@@ -205,17 +205,27 @@ You can leave whenever but if you do, the job is reset.|\n"
 	},
 	{
 		"text": "Yup. All done!",
-		"next": "factory_get_paid",
+		"next": "factory_get_paid_cond",
 	},
 	],
 	},
 
 
+
+
+"factory_get_paid_cond": {
+	"conditions": [
+	{"flag_compare": [{"flag": "factory_successful_boxes_multiplier", "operator": ">=", "value": 3}], "dialog": "factory_get_paid_suspicious"},
+	{"flag_compare": [{"flag": "factory_successful_boxes_multiplier", "operator": ">=", "value": 1}, {"flag": "factory_successful_boxes_multiplier", "operator": "<=", "value": 2}], "dialog": "factory_get_paid_more"},
+	{"dialog": "factory_get_paid"},
+	]
+  	},
+
 "factory_get_paid": {
 	"lines": [
 	{ "speaker": "factoryWorker", "text": "Alright lets see.." },
 	{ "speaker": "factoryWorker", "text": "You correctly sorted {factory_successful_boxes} boxes." },
-	{ "speaker": "factoryWorker", "text": "Youll get one dollar for each. Enjoy!" },
+	{ "speaker": "factoryWorker", "text": "And heres the money." },
 	{ "speaker": "jessie", "text": "Gee, thanks." },
 	],
 	"on_finish": [
@@ -239,6 +249,88 @@ You can leave whenever but if you do, the job is reset.|\n"
 			{
 			"factory_reset_box_piles": true
 			},
+		]
+	},
+	
+"factory_get_paid_more": {
+	"lines": [
+	{ "speaker": "factoryWorker", "text": "Alright lets see.." },
+	{ "speaker": "factoryWorker", "text": "You correctly sorted {factory_successful_boxes} boxes." },
+	{ "speaker": "factoryWorker", "text": "And heres the money." },
+	{ "speaker": "jessie", "text": "Gee, thanks." },
+	],
+	"on_finish": [
+			{
+				"flag": "factory_work_started",
+				"set": 0 
+			},
+			{
+			"give_item": {
+			"name": "money",
+			"amount": {
+				"value": "factory_successful_boxes",
+				"multiply_by": "factory_successful_boxes_multiplier"
+					}
+				}
+			},
+			{
+				"flag": "factory_successful_boxes",
+				"set": 0 
+			},
+			{
+			"factory_reset_box_piles": true
+			},
+			{
+			"menu_entry": {
+			"id": "factory_noticed_changes",
+			"path": ["lore", "Journal.txt"],
+			"text": "\nDamn. I changed the thing in the state..or dream? I dont know what it was but It changed in REAL life! Wonder how much I could do. But I better be careful.\n"
+				}
+			}
+		]
+	},
+
+"factory_get_paid_suspicious": {
+	"lines": [
+	{ "speaker": "factoryWorker", "text": "Alright lets see.." },
+	{ "speaker": "factoryWorker", "text": "You correctly sorted {factory_successful_boxes} boxes." },
+	{ "speaker": "factoryWorker", "text": "And heres the money.." },
+	{ "speaker": "factoryWorker", "text": "Hold on..Are we actually paying you guys this much?" },
+	{ "speaker": "jessie", "text": "Umm..I dont know." },
+	{ "speaker": "factoryWorker", "text": "Let me check in the system." },
+	{ "speaker": "neutral", "text": "the man looks at the computer and browses something for a minute" },
+	{ "speaker": "factoryWorker", "text": "Yeah somethings not correct here. Youre not supposed to get that much." },
+	{ "speaker": "jessie", "text": "Well if it says that much on the computer then thats how much youre supposed to pay me no?" },
+	{ "speaker": "factoryWorker", "text": "You think we are made of money here?" },
+	{ "speaker": "factoryWorker", "text": "Look Ill give you one dollar for each box you did. Just like before we shut down last year." },
+	],
+	"on_finish": [
+			{
+				"flag": "factory_work_started",
+				"set": 0 
+			},
+			{
+			"give_item": {
+			"name": "money",
+			"amount": {
+				"value": "factory_successful_boxes"
+					}
+				}
+			},
+			{
+				"flag": "factory_successful_boxes",
+				"set": 0 
+			},
+			{
+			"factory_reset_box_piles": true
+			},
+			{
+			"menu_entry": {
+			"id": "factory_noticed_changes",
+			"path": ["lore", "Journal.txt"],
+			"text": "\nI cant believe it. I changed the thing in the...dream? state? and it actually changed something in the real world..I just need to lower it I guess. I overdid it. But still holy smokes..\n"
+				}
+			}
 		]
 	},
 

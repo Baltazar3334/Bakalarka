@@ -795,10 +795,6 @@ Should meet the new guy in school, see what hes made of. That sounded better in 
 	  {
 		"text": "The neighbor is drugging his wife so she keeps silent and does what he wants.",
 		"next": "father_spill_the_beans"
-	  },
-	  {
-		"text": "Just...I love you. Thats all I wanted to say.",
-		"next": "father_keep_the_secret"
 	  }
 	]
 	},
@@ -824,13 +820,13 @@ Should meet the new guy in school, see what hes made of. That sounded better in 
 
 "father_hint_finish": {
 	"lines": [
-	{ "speaker": "father", "text": "Okay..He seems like a stand up guy but ill keep an eye out." },
+	{ "speaker": "father", "text": "Okay..He seemed like a stand up guy but ill keep an eye out." },
 	{ "speaker": "jessie", "text": "Id tell you but I swore I wouldnt tell anybody." },
 	{ "speaker": "father", "text": "Was that vow made to their son?" },
 	{ "speaker": "jessie", "text": "Yes..please dont hint at that or anything to the father." },
 	{ "speaker": "jessie", "text": "It would really freak up the dude life." },
 	{ "speaker": "father", "text": "Dont worry...but whatever it is, be careful..or just avoid them all together." },
-	{ "speaker": "jessie", "text": "Dont worry dad, Ill be alright." },
+	{ "speaker": "jessie", "text": "Okay dad. Ill be alright." },
 	],
 	"on_finish": [
 			{
@@ -880,9 +876,9 @@ Should meet the new guy in school, see what hes made of. That sounded better in 
 	{ "speaker": "jessie", "text": "What? No way!" },
 	{ "speaker": "father", "text": "That is not a question. That is an order. Dont talk to them. Dont look at them. Dont stand near them." },
 	{ "speaker": "father", "text": "Last thing I need is for you to get drugged or worse." },
-	{ "speaker": "father", "text": "What would I tell your mother? That a bad guy came into town and abducted our son?" },
 	{ "speaker": "father", "text": "Dont touch this or youre done, undestand?" },
 	{ "speaker": "jessie", "text": "Yes.." },
+	{ "speaker": "father", "text": "I mean it. DONT. SPEAK. TO. THEM." },
 	],
 	"on_finish": [
 			{

@@ -20,14 +20,17 @@
 	{ "flags": { "neighbor_story": 2,"time_of_day": "morning" }, "dialog": "neighbor_giving_medicine" },
 	{ "flags": { "neighbor_story": 3,"time_of_day": "morning" }, "dialog": "neighbor_giving_medicine" },
 	
-	{ "flags": { "neighbor_opinion": 1 ,"time_of_day": "afternoon" }, "dialog": "neighbor_evening_visit" },
+	{ "flags": { "neighbor_opinion": 1 ,"time_of_day": "afternoon", "neighbor_visit_story": 0 }, "dialog": "neighbor_evening_visit" },
 	{ "flags": { "neighbor_opinion": 0 ,"time_of_day": "afternoon" }, "dialog": "neighbor_evening_visit_dont_like_you" },
+	
+	{ "flags": { "neighbor_story": 4,"time_of_day": "morning", "neighbor_visit_story": 0 }, "dialog": "neighbor_invite_visit_forgot" },
 	
 	{ "flags": { "neighbor_opinion": 1 ,"time_of_day": "morning",  "neighbor_story": 4, "neighbor_visit_story": 1}, "dialog": "neighbor_ask_about_medicine_repeat" },
 	{ "flags": { "time_of_day": "morning",  "neighbor_story": 6 }, "dialog": "neighbor_give_medicine_again" },
 	
 	]
   },
+
 
 
 "neighbor_intro_repair": {
@@ -453,6 +456,10 @@ and why hospital anyway? What kind of medicine for back pain you go to the hospi
 	]
 	},
 
+
+
+
+
 "neighbor_ask_about_the_medicine": {
 	"lines": [
 	{ "speaker": "jessie", "text": "Where did you say I should go get the medicine from?" },
@@ -630,6 +637,15 @@ and why hospital anyway? What kind of medicine for back pain you go to the hospi
 
 
 
+"neighbor_invite_visit_forgot": {
+	"lines": [
+	{ "speaker": "jessie", "text": "Hey." },
+	{ "speaker": "neighbor", "text": "Hey kid. Again, thanks for the medicine..And dont forget to visit one of these evenings. " },
+	{ "speaker": "jessie", "text": "Will do." },
+	]
+	},
+
+
 
 "neighbor_evening_visit_dont_like_you": {
 	"lines": [
@@ -658,27 +674,26 @@ and why hospital anyway? What kind of medicine for back pain you go to the hospi
 	{ "speaker": "jessie", "text": "Hello?" },
 	{ "speaker": "neutral", "text": "You hear somebody shuffling to the door." },
 	{ "speaker": "neighbor", "text": "Hey kid. You here to see Adam right?" },
-	{ "speaker": "jessie", "text": "Yeah. I told you id stop by. So Im here." },
+	{ "speaker": "jessie", "text": "Yeah. I told you Id stop by. So Im here." },
 	{ "speaker": "neighbor", "text": "Hold on hes right upstairs. Let me hollar at im." },
 	{ "speaker": "neighbor", "text": "Adaaaaam!!" },
-	{ "speaker": "neutral", "text": "The sound of his voice is so loud youd swear you just got a tinnitus from it" },
-	{ "speaker": "neutral", "text": "Nonetheless nobody comes..." },
+	{ "speaker": "neutral", "text": "the sound of his voice is so loud youd swear you just got tinnitus from it" },
+	{ "speaker": "neutral", "text": "nonetheless nobody comes" },
 	{ "speaker": "jessie", "text": "Maybe hes sleeping?" },
 	{ "speaker": "neighbor", "text": "No hes must be doing something important. Wait here for a bit, would ya?" },
 	{ "speaker": "neutral", "text": "The man turns around to walk away and you see a pistol behind his belt" },
 	{ "speaker": "jessie", "text": "*just what I need*" },
-	{ "speaker": "janette", "text": "Oh hello sweetie.*" },
-	{ "speaker": "jessie", "text": "Oh, good evening. Your Adams mom I presume?" },
+	{ "speaker": "janette", "text": "Oh hello sweetie." },
+	{ "speaker": "jessie", "text": "Oh, good evening. Youre Adams mom I presume?" },
 	{ "speaker": "janette", "text": "Step mom actually. But yes, youre correct. Ive raised him from 2 years old so basically you can call me his mom." },
 	{ "speaker": "janette", "text": "But sometimes I feel like his doorman, waitress and detail crew with how much I do around here." },
 	{ "speaker": "janette", "text": "Not to say he isnt a good boy. Hes the best boy. Thats why hes so good." },
-	{ "speaker": "janette", "text": "...And Michael as well!" },
-	{ "speaker": "jessie", "text": "Okay..." },
+	{ "speaker": "janette", "text": "-And Michael as well!" },
+	{ "speaker": "jessie", "text": "Okay.." },
 	{ "speaker": "neutral", "text": "an awkward silence fills the room" },
 	{ "speaker": "neutral", "text": "..." },
-	{ "speaker": "neutral", "text": "..." },
-	{ "speaker": "janette", "text": "Did my husband..." },
-	{ "speaker": "janette", "text": "...well..say something about me?" },
+	{ "speaker": "janette", "text": "Did my husband.." },
+	{ "speaker": "janette", "text": "..well..say something about me?" },
 	],
 	"choices": [
 	  {
@@ -707,7 +722,6 @@ and why hospital anyway? What kind of medicine for back pain you go to the hospi
 	{ "speaker": "janette", "text": "Adam is gonna be just as stoic and caring as he is." },
 	{ "speaker": "neutral", "text": "You hear walking from upstair" },
 	{ "speaker": "janette", "text": "IN A GOOD WAY. Stoic as in logical and deliberate!" },
-	{ "speaker": "jessie", "text": "..." },
 	],
   	"next_dialog": "neighbor_after_son_comes"
 	},
@@ -729,7 +743,7 @@ and why hospital anyway? What kind of medicine for back pain you go to the hospi
 	"lines": [
 	{ "speaker": "janette", "text": "What? What medicine?" },
 	{ "speaker": "janette", "text": "Oh I know! Its his back. Hes been working so hard to get all the furniture in order. Poor man." },
-	{ "speaker": "janette", "text": "We just moved into the city and I told him not to but he had to and he said he must." },
+	{ "speaker": "janette", "text": "We just moved into the city and I told him not to but he had to and he said he musts." },
 	{ "speaker": "jessie", "text": "Must what?" },
 	{ "speaker": "janette", "text": "Move the furniture in!" },
 	{ "speaker": "janette", "text": "Why didnt he tell me I know just the person for that..." },
@@ -750,14 +764,15 @@ and why hospital anyway? What kind of medicine for back pain you go to the hospi
 "neighbor_after_son_comes": {
 	"lines": [
 	{ "speaker": "neighbor", "text": "Stop talking his ear off Jane. I told you to keep it down when theres people around." },
-	{ "speaker": "neutral", "text": "The wife steps back in embarassment" },
+	{ "speaker": "neutral", "text": "Jane steps back in embarassment" },
+	{ "speaker": "neutral", "text": "the person youve been waiting for finaly comes" },
 	{ "speaker": "david", "text": "So hi..." },
 	{ "speaker": "jessie", "text": "Hey." },
 	{ "speaker": "david", "text": "So uhhh.." },
 	{ "speaker": "david", "text": "Wanna come upstairs?" },
 	{ "speaker": "jessie", "text": "Sure." },
 	{ "speaker": "neutral", "text": "You finally leave the awkward situation" },
-	{ "speaker": "neutral", "text": "you feel like the balance of awkwardness has shifted in this room tonight"},
+	{ "speaker": "neutral", "text": "you feel like the worlds balance of awkwardness shifted tonight"},
 	{ "speaker": "david", "text": "Weird family huh?" },
 	{ "speaker": "jessie", "text": "Glad Im not the only one that has noticed haha." },
 	{ "speaker": "david", "text": "Father sent you for the medicine right?" },
@@ -889,19 +904,18 @@ and why hospital anyway? What kind of medicine for back pain you go to the hospi
 
 "neighbor_son_confession": {
 	"lines": [
-	{ "speaker": "david", "text": "Its Nervine sedative" },
-	{ "speaker": "jessie", "text": "Whats that?" },
-	{ "speaker": "david", "text": "A sort of calm down medication for histerical women" },
-	{ "speaker": "david", "text": "horribly ddictive and not healthy." },
+	{ "speaker": "david", "text": "Its medication for my mom" },
+	{ "speaker": "jessie", "text": "What kind?" },
+	{ "speaker": "david", "text": "A sort of calm down medication for histerical women." },
+	{ "speaker": "david", "text": "Horribly ddictive and not healthy." },
 	{ "speaker": "jessie", "text": "What? Why does she take it?" },
 	{ "speaker": "david", "text": "Are you living under a rock?" },
 	{ "speaker": "jessie", "text": "Funny. My father tells me that all the time." },
-	{ "speaker": "david", "text": "Theres absolutely nothing funny about this." },
-	{ "speaker": "jessie", "text": "I feel like Patrick Star over here. What is this Nervine sedative deal about?" },
-	{ "speaker": "neutral", "text": "you try to lighten up the mood unsucessfuly" },
+	{ "speaker": "david", "text": "Theres absolutely nothing funny about it." },
+	{ "speaker": "jessie", "text": "I feel like Patrick Star over here. What is this all about?" },
 	{ "speaker": "david", "text": "Dude you asked about it so either listen or just stop." },
 	{ "speaker": "jessie", "text": "Sorry Im listening" },
-	{ "speaker": "david", "text": "Its the so called state of the art medicine for histerical woman." },
+	{ "speaker": "david", "text": "Mom started taking it for medical purposes." },
 	{ "speaker": "david", "text": "But its anything but medicine." },
 	{ "speaker": "david", "text": "It makes my mom all..." },
 	{ "speaker": "david", "text": "Well youve seen how she is." },
@@ -911,13 +925,14 @@ and why hospital anyway? What kind of medicine for back pain you go to the hospi
 	{ "speaker": "david", "text": "Its a drug. Like heroin or something you know?" },
 	{ "speaker": "jessie", "text": "Wow..thats some heavy stuff." },
 	{ "speaker": "jessie", "text": "Why dont you tell her?" },
-	{ "speaker": "david", "text": "Like she...or they..would ever listen." },
+	{ "speaker": "david", "text": "Like she...or they would ever listen." },
 	{ "speaker": "david", "text": "My father would go crazy anyway if I argued anything." },
 	{ "speaker": "david", "text": "Even if he like..knew I knew?" },
 	{ "speaker": "david", "text": "I dont know what hed do about it." },
 	{ "speaker": "david", "text": "And honestly Im surprised you didnt know about the tablets.." },
-	{ "speaker": "jessie", "text": "Never heard about it. But Im really sorry for all this happening to you." },
-	{ "speaker": "david", "text": "Its my mom you should be worrying about not me. But we all have to play the cards we get right?" },
+	{ "speaker": "jessie", "text": "Wow. First of all Im sorry. But why in hell would I know about them?" },
+	{ "speaker": "david", "text": "Its my mom you should be worrying about not me." },
+	{ "speaker": "david", "text": "And its not exactly an underground drug. Its prescribed often when the husband complains about their wife." },
 	{ "speaker": "jessie", "text": "..." },
 	{ "speaker": "david", "text": "You can keep bringing the medicine for her. Not like you can change much." },
 	],
@@ -953,8 +968,8 @@ and why hospital anyway? What kind of medicine for back pain you go to the hospi
 
 "neighbor_son_finish": {
 	"lines": [
-	{ "speaker": "neutral", "text": "Theres a long silence only broken up by davids mother deciding to start vacuuming in the middle of the night" },
-	{ "speaker": "neutral", "text": "David looks at you. Sadness in his eyes is now clearly visible where it was hidden before" },
+	{ "speaker": "neutral", "text": "Theres a long silence only broken up by davids mother deciding to start vacuuming the ceiling in the middle of the night" },
+	{ "speaker": "neutral", "text": "David looks at you. The sadness in his eyes is now clearly visible" },
 	{ "speaker": "david", "text": "I think you should get going now." },
 	{ "speaker": "jessie", "text": "Sure." },
 	{ "speaker": "david", "text": "We can meet in school if youd like to." },
@@ -964,6 +979,7 @@ and why hospital anyway? What kind of medicine for back pain you go to the hospi
 	{ "speaker": "neutral", "text": "As you exit the neighbors residence you greet Davids mom and silently leave" },
 	{ "speaker": "jessie", "text": "This has been one hell of an evening." },
 	{ "speaker": "jessie", "text": "I have to tell dad...or?" },
+	{ "speaker": "jessie", "text": "Well I definitely have to at least try to help. Ill meet him in school" },
 	],
 	"on_finish": [
 		{
