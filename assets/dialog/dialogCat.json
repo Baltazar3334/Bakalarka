@@ -1,0 +1,178 @@
+{
+"cat_cond": {
+	"conditions": [
+	{"flags": {"cat_introduction": 0},"dialog": "cat_intro"},
+	{"flags": {"cat_introduction": 1},"dialog": "cat_basic"},
+	]
+  	},
+
+"cat_intro": {
+	"lines": [
+	{ "speaker": "neutral", "text": "the family cat, unnaturaly golden and too fluffy for its own good." },
+	{ "speaker": "jessie", "text": "Hey, Goldie." },
+	{ "speaker": "goldie", "text": "Meow." },
+	{ "speaker": "jessie", "text": "You hungry?" },
+	{ "speaker": "goldie", "text": "Meeeow." },
+	{ "speaker": "jessie", "text": "Suppose not. Father already fed you didnt he?" },
+	{ "speaker": "goldie", "text": "..." },
+	{ "speaker": "jessie", "text": "What? We dont need you to get fat now do we?" },
+	{ "speaker": "jessie", "text": "You fluffy little beast." },
+	{ "speaker": "goldie", "text": "Mrrrp." },
+	{ "speaker": "jessie", "text": "All you do is sleep and look cute." },
+	{ "speaker": "jessie", "text": "You better start providing for the family soon." },
+	{ "speaker": "neutral", "text": "Goldie pretends like he doesnt care about your presence" },
+	{ "speaker": "jessie", "text": "Naah. I think being cute is enough work for you, huh?" },
+	{ "speaker": "jessie", "text": "Having to clean yourself all the time and keep your perfect posture." },
+	{ "speaker": "jessie", "text": "Youre alright Goldie." },
+	],
+	"on_finish": [
+			{
+				"flag": "cat_introduction",
+				"set": 1
+			},
+			{
+			"menu_entry": {
+			"id": "goldie_introduction",
+			"path": ["lore", "Journal.txt"],
+			"text": "\nEvery time I see that cat I cant believe how majestic he is, and that pompous feline knows it. Especially when he sits beneath the window Goldie looks like hes painted gold.\n"
+				}
+			}
+		]
+	},
+
+"cat_basic": {
+	"lines": [
+	{ "speaker": "jessie", "text": "Hey, Garry the golden." },
+	{ "speaker": "goldie", "text": "Meow!" },
+	{ "speaker": "jessie", "text": "I know, I know..you dont like that nickname." },
+	],
+	"choices": [
+	{
+		"text": "So uhhh..hows life? Sleepy?",
+		"next": "cat_ask",
+		"requires_flag": {
+			"cat_hint_key": 0
+		}
+	},
+	{
+		"text": "Want a treat?",
+		"next": "cat_give_treat_helped",
+		"requires_item": {
+		"name": "cat treat",
+		"amount": 1
+		},
+		"requires_flag": {
+			"cat_helped_jessie": 1,
+			"cat_gave_treat": 0
+			}
+	},
+	{
+		"text": "Want a treat?",
+		"next": "cat_give_treat",
+		"requires_item": {
+		"name": "cat treat",
+		"amount": 1
+		},
+		"requires_flag": {
+			"cat_helped_jessie": 0
+			}
+	},
+	{
+		"text": "Ill see you later Goldie.",
+		"next": "cat_leave",
+	},
+	
+	],
+	},
+
+
+"cat_leave": {
+	"lines": [
+	{ "speaker": "goldie", "text": "Meow..." },
+	]
+	},
+
+"cat_ask": {
+	"lines": [
+	{ "speaker": "goldie", "text": "Meow..." },
+	{ "speaker": "jessie", "text": "Yeah. Tell me about it." },
+	{ "speaker": "jessie", "text": "Not much company around..with father at work and me at school." },
+	{ "speaker": "jessie", "text": "Gotta grit your teeth until mom arrives." },
+	{ "speaker": "goldie", "text": "Mrrp." },
+	{ "speaker": "jessie", "text": "What?" },
+	{ "speaker": "neutral", "text": "the cat looks at the cutting board on the kitchen table like hes seeing something" },
+	{ "speaker": "goldie", "text": "Meeeooow." },
+	{ "speaker": "jessie", "text": "What is it? Something on the table?" },
+	{ "speaker": "goldie", "text": "..." },
+	{ "speaker": "jessie", "text": "Hmm..thats weird." },
+	],
+	"on_finish": [
+			{
+				"flag": "cat_hint_key",
+				"set": 1
+			},
+			
+		]
+	},
+
+"cat_give_treat": {
+	"lines": [
+	{ "speaker": "goldie", "text": "Meeeoow, meoow, meow." },
+	{ "speaker": "jessie", "text": "Oh, now youre all animated huh?" },
+	{ "speaker": "jessie", "text": "Seems like you only want to be my friend when theres something to be gained." },
+	{ "speaker": "neutral", "text": "Goldie does his signature 'innocent little baby' face" },
+	{ "speaker": "jessie", "text": "Im not convinced. You better give me something in return for this." },
+	{ "speaker": "goldie", "text": "Mrrp." },
+	{ "speaker": "jessie", "text": "Is that a yes?" },
+	{ "speaker": "goldie", "text": "Meeeooow." },
+	{ "speaker": "jessie", "text": "I take it as a yes." },
+	{ "speaker": "neutral", "text": "you give the treat to Goldie. He eats it seemingly without even chewing" },
+	{ "speaker": "jessie", "text": "Damn try not to choke to death.." },
+	],
+	"on_finish": [
+			{
+			"remove_item": {
+				"name": "cat treat",
+				"amount": 1
+				}
+			},
+			{
+			"flag": "cat_gave_treat",
+			"set": 1 
+			}
+		]
+	},
+
+"cat_give_treat_helped": {
+	"lines": [
+	{ "speaker": "goldie", "text": "Meeeoow, meoow, meow." },
+	{ "speaker": "jessie", "text": "Oh, now youre all animated huh?" },
+	{ "speaker": "jessie", "text": "Seems like you only want to be my friend when theres something to be gained." },
+	{ "speaker": "neutral", "text": "Goldie does his signature 'innocent little baby' face" },
+	{ "speaker": "jessie", "text": "Well you did show me the hiding spot.." },
+	{ "speaker": "goldie", "text": "Mrrp." },
+	{ "speaker": "jessie", "text": "Okay, were good." },
+	{ "speaker": "jessie", "text": "Lets keep this relationship productive, you know?" },
+	{ "speaker": "neutral", "text": "you give the treat to Goldie. He eats it seemingly without even chewing" },
+	{ "speaker": "jessie", "text": "You scratch my back. I scratch yours." },
+	{ "speaker": "jessie", "text": "But like..not literally. Like last time, you little-" },
+	{ "speaker": "jessie", "text": "No scrtching or youre done for." },
+	{ "speaker": "goldie", "text": "Meeeoow." },
+	],
+	"on_finish": [
+			{
+			"remove_item": {
+				"name": "cat treat",
+				"amount": 1
+				}
+			},
+			{
+			"flag": "cat_gave_treat",
+			"set": 1 
+			}
+		]
+	},
+
+
+
+}

@@ -47,6 +47,13 @@ var lore_keywords = {
 	\"mikes\": \"#6A6D40\",
 	\"mike\": \"#6A6D40\",
 	
+	\"cat\": \"#ffcd05\",
+	\"goldie\": \"#ffcd05\",
+	\"goldies\": \"#ffcd05\",
+	\"garry the golden\": \"#ffcd05\",
+	\"garry the goldens\": \"#ffcd05\",
+	
+	
 	\"hospital lady\": \"#a61414\",
 	\"hospital\": \"#a61414\",
 	

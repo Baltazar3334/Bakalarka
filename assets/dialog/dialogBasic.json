@@ -1,5 +1,5 @@
 {
-	"sleep": {
+"sleep": {
 	"lines": [
 	{ "speaker": "neutral", "text": "Rest in bed for a bit?" },
 	],
@@ -14,7 +14,8 @@
 	  }
 	]
   },
-	"sleep_yes": {
+
+"sleep_yes": {
 	"lines": [
 	{ "speaker": "jessie", "text": "Some rest never killed anybody." }
 	],
@@ -49,8 +50,9 @@
 		{
 		"flag": "day_of_the_week"
 	}
-]
+	]
   },
+
 "sleep_no": {
 	"lines": [
 	{ "speaker": "jessie", "text": "I still have stuff to do." }
@@ -58,6 +60,37 @@
   },
 
 
+"treats_cond": {
+	"conditions": [
+	{"flags": { "took_treat": 1 }, "dialog": "treat_have_already"},
+	{"dialog": "treat_take"}
+	
+	]
+  },
+
+"treat_take": {
+	"lines": [
+	{ "speaker": "jessie", "text": "cat treats left on the table..weird that Goldie didnt eat them all already" }
+	],
+	"on_finish": [
+		{
+		"give_item": {
+			"name": "cat treat",
+			"amount": 1
+		}
+		},
+		{
+		"flag": "took_treat",
+		"set": 1
+		}
+	]
+  },
+
+"treat_have_already": {
+	"lines": [
+	{ "speaker": "jessie", "text": "cat treats left on the table..weird that Goldie didnt eat them all already" }
+	]
+  },
 
 
 
@@ -128,6 +161,7 @@
 		}
 	]
   },
+
 "cigarets_not_take": {
 	"lines": [
 	{ "speaker": "neutral", "text": "You leave the cigarets there. You can return to take them later if you change your mind." }
@@ -247,6 +281,8 @@ If theres any truth to what moms saying it should..lets just say that I dont tak
 "key_p_cond": {
 	"conditions": [
 	{ "requires_item": { "name": "key to parents room", "amount": 1 },"dialog": "key_p_have"},
+	{ "flags": {"cat_hint_key": 1},"dialog": "key_p_not_have_cat"},
+	
 	{"dialog": "key_p_not_have"}
 	]
   },
@@ -304,11 +340,45 @@ If theres any truth to what moms saying it should..lets just say that I dont tak
 			"menu_entry": {
 			"id": "key_p_discovered_it",
 			"path": ["lore", "Journal.txt"],
-			"text": "\nI found where parents hide their key. Shit why am I writing it down fuck me....Anyway dad if youre reading this, your hiding spot was shit. It was just a matter of time.\n"
+			"text": "\nI found where parents hide their key. Shit why am I writing it down fuck....Anyway dad if youre reading this, your hiding spot was shit and sorry for swearing.\n"
 				}
 			}
 	]
   },
+
+"key_p_not_have_cat": {
+	"lines": [
+	{ "speaker": "neutral", "text": "You look under the cutting board that Goldie was suspicious of." },
+	{ "speaker": "neutral", "text": "You find a key. It looks similar to the one youve seen your dad lock the door to their room with." },
+	{ "speaker": "jessie", "text": "Hmmm.." },
+	{ "speaker": "jessie", "text": "Goldie you magnificent little guy." },
+	{ "speaker": "jessie", "text": "Youre the best!" },
+	{ "speaker": "goldie", "text": "Meow!" },
+	{ "speaker": "jessie", "text": "Ok now I have to get you something in return." },
+	],
+	"on_finish": [
+		{
+		"give_item": {
+			"name": "key to parents room",
+			"amount": 1
+		}
+		},
+		{
+		"flag": "cat_helped_jessie",
+		"set": 1
+		},
+		{
+			"menu_entry": {
+			"id": "key_p_discovered_it",
+			"path": ["lore", "Journal.txt"],
+			"text": "\nI found where parents hide their key THANKS TO GOLDIE. Shit why am I writing it down fuck....Anyway dad if youre reading this, your hiding spot was shit and sorry for swearing and Its actually Goldies fault.\n"
+				}
+		}
+	]
+  },
+
+
+
 
 "parents_room_cond": {
 	"conditions": [

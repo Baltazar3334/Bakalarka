@@ -4,7 +4,6 @@ const PLAYER_FILESYSTEM_PATH = "user://menu_filesystem.json"
 const UNLOCKED_ENTRIES_PATH = "user://unlocked_menu_entries.json"
 const GLOBAL_DATA_PATH = "user://global_data.json"
 
-#function for game start
 func initialize():
 	Global.set_permission_level(MenuFileManager.get_global_value("permission_level",0))
 

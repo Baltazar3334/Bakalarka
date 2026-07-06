@@ -51,6 +51,11 @@ const DEFAULT_FLAGS := {
 	"father_caught_cigarets": 0,
 	"father_told_about_post_office": 0,
 	
+	"cat_introduction": 0,
+	"cat_hint_key": 0,
+	"cat_helped_jessie": 0,
+	"cat_gave_treat": 0,
+	
 	"took_cigarets_from_campfire": 0,
 	
 	"med_lady_friendly": 0,
