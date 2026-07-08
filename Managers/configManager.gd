@@ -29,7 +29,17 @@ const CONFIG_SCHEMAS = {
 			
 			"apply":"_apply_player_walk_speed"
 		},
-	}
+	},
+	"school.cfg": {
+		"school_days": {
+			"type": "int",
+			"min": 3,
+			"max": 7,
+			"permission":2,
+			
+			"apply":"_apply_player_school_days"
+		},
+	},
 }
 
 const PERMISSION_UNLOCKS = {
@@ -247,3 +257,6 @@ func _apply_post_office_salary(value):
 
 func _apply_post_office_work_days(value):
 	Global.post_office_work_days = int(value)
+
+func _apply_player_school_days(value):
+	Global.school_days = int(value)

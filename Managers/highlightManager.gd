@@ -44,7 +44,6 @@ func stop_highlight(node: Node):
 
 
 func find_canvas_item(node: Node):
-
 	if node is CanvasItem:
 		return node
 

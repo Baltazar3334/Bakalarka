@@ -21,7 +21,10 @@ var player_max_speed = 150:
 		player_max_speed = value
 		player_config_changed.emit()
 
-
+var school_days = 5:
+	set(value):
+		school_days = value
+		player_config_changed.emit()
 
 const DEFAULT_FLAGS := {
 	"neighbor_story": 0,
@@ -65,6 +68,9 @@ const DEFAULT_FLAGS := {
 	"money_6_taken": 0,
 	"money_5_taken": 0,
 	"time_of_day": "morning",
+	"school_completed": 0,
+	"school_first_day": 1,
+	"school_days": 5,
 	
 	"post_office_work_days": 5,
 	

@@ -1,0 +1,117 @@
+{
+	"school_introduction": {
+	"lines": [
+	{ "speaker": "jessie", "text": "First day in school in a long time. Better start off on a the right foot.." },
+	{ "speaker": "jessie", "text": "Lets see what the guys are up to." },
+	{ "speaker": "neutral", "text": "when youre ready to start your school day sit at your table: second row, second column" },
+	],
+	"on_finish": [
+		{
+		"flag": "school_first_day",
+		"set": 0
+		},
+		{
+			"menu_entry": {
+			"id": "school_tutorial",
+			"path": ["tutorials", "school.txt"],
+			"text": "|School days take up most of the day. Make sure to do everything you needed to do before going to school.|\n"
+			}
+		},
+		{
+			"menu_entry": {
+				"id": "school_first_day",
+				"path": ["lore", "Journal.txt"],
+				"text": "I hate this place. School is like prison just less criminals and more insecure and power-hungry teachers. Especially Miss Carter.\n"
+				}
+		},
+	]
+  },
+
+
+
+"school_start_cond": {
+	"conditions": [
+	{"flags": { "school_completed": 0}, "dialog": "school_teacher_start_day"},
+	
+	{"flags": { "school_completed": 1}, "dialog": "school_teacher_day_ended"},
+	],
+  	},
+
+"school_teacher_start_day": {
+	"lines": [
+	{ "speaker": "teacher", "text": "Okay everyone!" },
+	{ "speaker": "teacher", "text": "Please sit down at your desks." },
+	{ "speaker": "teacher", "text": "Seems like everybodys here.." },
+	],
+	"on_finish": [
+	{
+	"moveNPC": [
+		{
+			"NPCid": "teacher",
+			"marker": "ClassroomTeacher"
+		},
+		{
+			"NPCid": "Candy",
+			"marker": "ClassroomCandy"
+		},
+		{
+			"NPCid": "Lisa",
+			"marker": "ClassroomLisa"
+		},
+		{
+			"NPCid": "Tony",
+			"marker": "ClassroomTony"
+		},
+		{
+			"NPCid": "Jake",
+			"marker": "ClassroomJake"
+		},
+		{
+			"NPCid": "Boniface",
+			"marker": "ClassroomBoniface"
+		}
+	],
+	}
+	],
+	"next_dialog": "school_teacher_start_day2"
+  },
+
+
+"school_teacher_start_day2": {
+	"lines": [
+	{ "speaker": "teacher", "text": "So lets start the lesson." },
+	{ "speaker": "neutral", "text": "Miss carter, the history teacher, a well mannered but just as strict teacher" },
+	{ "speaker": "neutral", "text": "Better not stand out too much" },
+	{ "speaker": "teacher", "text": "Anybody willing to take the hit and volunteer for the oral exam?" },
+	{ "speaker": "neutral", "text": "everybody acts like theyre didnt hear her" },
+	{ "speaker": "teacher", "text": "Oh what a surprise.." },
+	{ "speaker": "teacher", "text": "You know, its not that hard to study and come prepared people!" },
+	{ "speaker": "teacher", "text": "If you applied yourself at home, you wouldnt have to be sweating right now.." },
+	{ "speaker": "teacher", "text": ".." },
+	{ "speaker": "teacher", "text": "Well, if nobody want to be the tribute today. Im afraid Ill have to chose one of you myself.." },
+	{ "speaker": "teacher", "text": "It doesnt bring me any satisfaction to do this, but you left me no choice." },
+	],
+	"on_finish": [
+		{
+		"flag": "school_completed",
+		"set": 1
+		},
+		{
+		"flag": "time_of_day",
+		"toggle": ["morning", "afternoon"]
+		},
+	]
+},
+
+
+
+"school_teacher_day_ended": {
+	"lines": [
+	{ "speaker": "neutral", "text": "theres nothing for you to do here now. School is over" },
+	],
+	"on_finish": [
+	
+	]
+  },
+
+}

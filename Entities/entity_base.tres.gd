@@ -11,6 +11,7 @@ class_name EntityBase
 var is_moving = false
 var target_position
 var move_speed = 100
+var looking_up = false
 
 signal move_finished
 
@@ -31,8 +32,10 @@ func move_to(pos: Vector2, speed: int):
 	is_moving = true
 
 func update_animation(direction: Vector2):
-
 	if direction == Vector2.ZERO:
+		if looking_up:
+			anim.play("lookUp")
+			return
 		anim.play("idle")
 		return
 

@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://bsbdjska12x7q" path="res://assets/Player/player sprites/sprite_2.png" id="3_w48qg"]
 [ext_resource type="Texture2D" uid="uid://b7eleihevovvc" path="res://assets/Player/player sprites/carrying/New Piskel.png" id="4_ntx8l"]
 [ext_resource type="Texture2D" uid="uid://ddnj61syy43w8" path="res://assets/Player/player sprites/sprite_4.png" id="4_w48qg"]
+[ext_resource type="Texture2D" uid="uid://bf1iaua8n24eu" path="res://assets/Player/player sprites/sprite_3.png" id="5_dij0e"]
 [ext_resource type="Texture2D" uid="uid://d07rc4nrskwkg" path="res://assets/Player/player sprites/sprite_5.png" id="5_vivmo"]
 [ext_resource type="Texture2D" uid="uid://dckfnvg4n0h3u" path="res://assets/Player/player sprites/carrying/New Piskel (1).png" id="7_uatky"]
 [ext_resource type="Texture2D" uid="uid://dxoidk4hx4pj1" path="res://assets/Player/player sprites/carrying/New Piskel (2).png" id="8_rqtf5"]
@@ -32,6 +33,7 @@
 [ext_resource type="FontFile" uid="uid://b8gyyc8nnthmp" path="res://UI/Fonts/AurulentSansMNerdFontMono-Regular.otf" id="21_getpj"]
 [ext_resource type="PackedScene" uid="uid://dnp301oc2ra7i" path="res://Entities/entity_base.tscn" id="21_ryguw"]
 [ext_resource type="Texture2D" uid="uid://d1hhpmn3obsmr" path="res://assets/tiles/misc/work_room3_high.png" id="21_yjja3"]
+[ext_resource type="Texture2D" uid="uid://bohc1nx6kbusm" path="res://assets/tiles/School/school_classroom_chairs.png" id="22_jcxqu"]
 [ext_resource type="Texture2D" uid="uid://bu7mauhbfcvgy" path="res://assets/NPCs/classmate1/New Piskel.png" id="22_seu75"]
 [ext_resource type="Texture2D" uid="uid://dfna2ko75usq4" path="res://assets/NPCs/classmate1/New Piskel (3).png" id="23_htxhm"]
 [ext_resource type="Texture2D" uid="uid://cj3lsk8pdtop1" path="res://assets/NPCs/classmate1/New Piskel (1).png" id="24_jq2sk"]
@@ -57,6 +59,7 @@
 [ext_resource type="Texture2D" uid="uid://dsc8bsqoy6xlt" path="res://assets/NPCs/classmate3/New Piskel (1).png" id="36_uypp3"]
 [ext_resource type="Texture2D" uid="uid://ceuh4ow20pmwh" path="res://assets/NPCs/neighbor_animations/neighbor walk down.png" id="36_yysqy"]
 [ext_resource type="Texture2D" uid="uid://cjk11xr87qkat" path="res://assets/NPCs/classmate3/New Piskel.png" id="37_blkrb"]
+[ext_resource type="Script" uid="uid://e218r3eqler4" path="res://NPCMarker.gd" id="37_k1udn"]
 [ext_resource type="Texture2D" uid="uid://bkhqx8t08d5mb" path="res://assets/NPCs/neighbor_animations/neighbor walk down 2.png" id="37_n5t1e"]
 [ext_resource type="Texture2D" uid="uid://bbx1k2tsyhbxd" path="res://assets/NPCs/classmate3/New Piskel (3).png" id="38_abqjc"]
 [ext_resource type="Texture2D" uid="uid://bru5tls2j4p6t" path="res://assets/NPCs/neighbor_animations/neighbor walk up 1.png" id="38_h6isl"]
@@ -100,6 +103,9 @@
 [ext_resource type="Texture2D" uid="uid://ceo63sgf7djjs" path="res://assets/NPCs/teacher_animations/teacher walk down 2.png" id="89_vieuh"]
 [ext_resource type="Texture2D" uid="uid://sstij5lyg655" path="res://assets/NPCs/teacher_animations/teacher walk up 2.png" id="90_yjja3"]
 [ext_resource type="Texture2D" uid="uid://ch75gily8ycdf" path="res://assets/NPCs/teacher_animations/teacher walk up.png" id="91_l0gw7"]
+[ext_resource type="Script" uid="uid://7j25xjcob5gi" path="res://school_door.gd" id="97_inymm"]
+[ext_resource type="Texture2D" uid="uid://b6pjnqnk7s344" path="res://assets/interactible/school_door.png" id="97_l0gw7"]
+[ext_resource type="Script" uid="uid://dpry5yvfhfk8p" path="res://school_chair.gd" id="100_0arob"]
 
 [sub_resource type="GDScript" id="GDScript_0xm2m"]
 script/source = "extends CharacterBody2D
@@ -147,6 +153,9 @@ var flags := {
 	\"money_6_taken\": 0,
 	\"money_5_taken\": 0,
 	\"time_of_day\": \"morning\",
+	\"school_completed\": 0,
+	\"school_first_day\": 1,
+	\"school_days\": 5,
 	
 	\"post_office_work_days\": 5,
 	
@@ -184,6 +193,7 @@ var nearby_items: Array = []
 
 var can_move := true
 var is_teleporting := false
+var is_sitting := false
 
 @onready var carry_sprite = $CarrySprite
 var carried_item_name := \"\"
@@ -218,6 +228,7 @@ func _on_player_config_changed():
 func _on_post_office_changed():
 	flags[\"factory_successful_boxes_multiplier\"] = Global.post_office_salary
 	flags[\"post_office_work_days\"] = Global.post_office_work_days
+	flags[\"school_days\"] = Global.school_days
 	
 
 func _apply_data():
@@ -315,6 +326,8 @@ func _unhandled_input(event):
 		SaveManager.perform_quick_save()
 	
 	if event.is_action_pressed(\"inventory\"):
+		if dialog_ui.is_open:
+			return
 		print(\"Current flags:\", flags)
 		print(global_position)
 		if !inventory_ui.visible:
@@ -338,6 +351,8 @@ func _unhandled_input(event):
 		return
 
 	if event.is_action_pressed(\"interact\"):
+		if dialog_ui.is_open:
+			return
 		if is_carrying:
 			drop_carried_item()
 			return
@@ -434,7 +449,8 @@ func teleport(layer, target):
 	await get_tree().create_timer(0.8).timeout
 	Transitioner.set_next_animation(false)
 
-	can_move = true
+	if !dialog_ui.is_open:
+		can_move = true
 	is_teleporting = false
 
 
@@ -445,6 +461,8 @@ func register_interactable(interactable):
 		return
 	if not nearby_interactables.has(interactable):
 		nearby_interactables.append(interactable)
+		print(\"interactable registered\")
+		print(interactable)
 
 func unregister_interactable(interactable):
 	if interactable == null:
@@ -564,6 +582,7 @@ func set_time_of_day(time: String):
 	if time == \"morning\":
 		flags.set(\"neighbor_there\", 1)
 		flags.set(\"father_greeted\", 0)
+		school_prepare() #set school day to not be done if its not weekend
 		time_filter.color = Color(0.006, 0.015, 0.076, 0)
 		time_image.texture = morning_texture
 	elif time == \"afternoon\":
@@ -581,6 +600,10 @@ func set_time_of_day_fast(time: String):
 		time_image.texture = evening_texture
 		time_filter.color = Color(0.006, 0.015, 0.076, 0.746)
 	time_image.visible = true
+
+func school_prepare():
+	if flags[\"day_of_the_week\"] != 6 and flags[\"day_of_the_week\"] != 7:
+		flags[\"school_completed\"] = 0
 
 func change_day():
 	
@@ -644,6 +667,14 @@ animations = [{
 }],
 "loop": 1,
 "name": &"idleCarry",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_dij0e")
+}],
+"loop": 1,
+"name": &"idleLookingUp",
 "speed": 5.0
 }, {
 "frames": [{
@@ -730,6 +761,180 @@ size = Vector2(1488, 4616)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_34ol3"]
 size = Vector2(6496, 2992)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0arob"]
+texture = ExtResource("15_0odxb")
+texture_region_size = Vector2i(32, 32)
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+4:2/0 = 0
+5:2/0 = 0
+6:2/0 = 0
+7:2/0 = 0
+8:2/0 = 0
+9:2/0 = 0
+10:2/0 = 0
+0:3/0 = 0
+1:3/0 = 0
+2:3/0 = 0
+4:3/0 = 0
+5:3/0 = 0
+6:3/0 = 0
+7:3/0 = 0
+8:3/0 = 0
+9:3/0 = 0
+10:3/0 = 0
+0:4/0 = 0
+1:4/0 = 0
+2:4/0 = 0
+4:4/0 = 0
+5:4/0 = 0
+6:4/0 = 0
+7:4/0 = 0
+8:4/0 = 0
+9:4/0 = 0
+10:4/0 = 0
+0:5/0 = 0
+1:5/0 = 0
+2:5/0 = 0
+5:5/0 = 0
+6:5/0 = 0
+7:5/0 = 0
+8:5/0 = 0
+9:5/0 = 0
+10:5/0 = 0
+11:5/0 = 0
+12:5/0 = 0
+13:5/0 = 0
+0:6/0 = 0
+1:6/0 = 0
+2:6/0 = 0
+5:6/0 = 0
+6:6/0 = 0
+7:6/0 = 0
+8:6/0 = 0
+9:6/0 = 0
+10:6/0 = 0
+11:6/0 = 0
+12:6/0 = 0
+13:6/0 = 0
+0:7/0 = 0
+1:7/0 = 0
+2:7/0 = 0
+3:7/0 = 0
+5:7/0 = 0
+6:7/0 = 0
+7:7/0 = 0
+8:7/0 = 0
+9:7/0 = 0
+10:7/0 = 0
+0:8/0 = 0
+1:8/0 = 0
+2:8/0 = 0
+3:8/0 = 0
+13:13/0 = 0
+14:13/0 = 0
+15:13/0 = 0
+13:14/0 = 0
+14:14/0 = 0
+15:14/0 = 0
+13:15/0 = 0
+14:15/0 = 0
+15:15/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_dij0e"]
+texture = ExtResource("22_jcxqu")
+texture_region_size = Vector2i(32, 32)
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+4:2/0 = 0
+5:2/0 = 0
+6:2/0 = 0
+7:2/0 = 0
+8:2/0 = 0
+9:2/0 = 0
+10:2/0 = 0
+0:3/0 = 0
+1:3/0 = 0
+2:3/0 = 0
+4:3/0 = 0
+5:3/0 = 0
+6:3/0 = 0
+7:3/0 = 0
+8:3/0 = 0
+9:3/0 = 0
+10:3/0 = 0
+0:4/0 = 0
+1:4/0 = 0
+2:4/0 = 0
+4:4/0 = 0
+5:4/0 = 0
+6:4/0 = 0
+7:4/0 = 0
+8:4/0 = 0
+9:4/0 = 0
+10:4/0 = 0
+0:5/0 = 0
+1:5/0 = 0
+2:5/0 = 0
+5:5/0 = 0
+6:5/0 = 0
+7:5/0 = 0
+8:5/0 = 0
+9:5/0 = 0
+10:5/0 = 0
+11:5/0 = 0
+12:5/0 = 0
+13:5/0 = 0
+0:6/0 = 0
+1:6/0 = 0
+2:6/0 = 0
+5:6/0 = 0
+6:6/0 = 0
+7:6/0 = 0
+8:6/0 = 0
+9:6/0 = 0
+10:6/0 = 0
+11:6/0 = 0
+12:6/0 = 0
+13:6/0 = 0
+0:7/0 = 0
+1:7/0 = 0
+2:7/0 = 0
+3:7/0 = 0
+5:7/0 = 0
+6:7/0 = 0
+7:7/0 = 0
+8:7/0 = 0
+9:7/0 = 0
+10:7/0 = 0
+0:8/0 = 0
+1:8/0 = 0
+2:8/0 = 0
+3:8/0 = 0
+13:13/0 = 0
+14:13/0 = 0
+15:13/0 = 0
+13:14/0 = 0
+14:14/0 = 0
+15:14/0 = 0
+13:15/0 = 0
+14:15/0 = 0
+15:15/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_l0gw7"]
 texture = ExtResource("21_yjja3")
@@ -889,6 +1094,8 @@ texture_region_size = Vector2i(32, 32)
 tile_size = Vector2i(32, 32)
 sources/5 = SubResource("TileSetAtlasSource_l0gw7")
 sources/6 = SubResource("TileSetAtlasSource_yjja3")
+sources/0 = SubResource("TileSetAtlasSource_0arob")
+sources/1 = SubResource("TileSetAtlasSource_dij0e")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_qsp4k"]
 texture = ExtResource("8_xuqvo")
@@ -1869,6 +2076,8 @@ texture_region_size = Vector2i(32, 32)
 1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, 10.196186, -12.426598, 9.558922, -11.789337, 12.426601, 11.789341, 12.745232, 12.426601, 10.196186, 16, 10.196186, 16, 16, -16, 16)
 1:0/0/custom_data_0 = Vector2i(68, 115)
 1:0/0/custom_data_2 = "NORMAL DOORS FULL"
+1:0/0/custom_data_4 = "school_completed"
+1:0/0/custom_data_5 = 1
 2:0/0 = 0
 2:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, 9.877552, 16, 10.196186, 16, 16, -16, 16)
 3:0/0 = 0
@@ -2142,9 +2351,9 @@ texture_region_size = Vector2i(32, 32)
 1:5/0 = 0
 2:5/0 = 0
 0:6/0 = 0
-0:6/0/physics_layer_0/polygon_0/points = PackedVector2Array(-10.514814, -5.098091, 16, -5.4167233, 16, 16, -10.514814, 16)
+0:6/0/physics_layer_0/polygon_0/points = PackedVector2Array(-11.152077, 12.745232, 16, 12.745232, 16, 16, -10.514814, 16)
 1:6/0 = 0
-1:6/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -5.098091, 12.745232, -5.098091, 13.063862, 16, -16, 16)
+1:6/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, 13.063862, 12.426598, 16, 13.063862, 16, -16, 16)
 2:6/0 = 0
 2:6/0/physics_layer_0/polygon_0/points = PackedVector2Array(-7.0098763, 4.779461, 6.372616, 4.779461, 7.6471367, 12.745232, -8.921661, 13.063862)
 3:6/0 = 0
@@ -2303,6 +2512,10 @@ custom_data_layer_2/name = "teleportSound"
 custom_data_layer_2/type = 4
 custom_data_layer_3/name = "footstep_sound"
 custom_data_layer_3/type = 4
+custom_data_layer_4/name = "required_flag"
+custom_data_layer_4/type = 4
+custom_data_layer_5/name = "required_value"
+custom_data_layer_5/type = 2
 sources/0 = SubResource("TileSetAtlasSource_0odxb")
 sources/1 = SubResource("TileSetAtlasSource_seu75")
 sources/2 = SubResource("TileSetAtlasSource_lswn8")
@@ -2550,6 +2763,39 @@ size = Vector2(16, 8)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_d3qtv"]
 size = Vector2(208, 82)
 
+[sub_resource type="SpriteFrames" id="SpriteFrames_1yv1y"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("75_41lik")
+}],
+"loop": 1,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("72_birbe")
+}, {
+"duration": 1.0,
+"texture": ExtResource("73_f1p13")
+}],
+"loop": 1,
+"name": &"walkDown",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("74_4obbf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("75_ovcoh")
+}],
+"loop": 1,
+"name": &"walkUp",
+"speed": 5.0
+}]
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_lwnsi"]
 animations = [{
 "frames": [{
@@ -2577,6 +2823,47 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": ExtResource("44_53bls")
+}],
+"loop": 1,
+"name": &"walkUp",
+"speed": 5.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_inymm"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("86_jbvwl")
+}],
+"loop": 1,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("87_sn1fb")
+}],
+"loop": 1,
+"name": &"lookUp",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("88_yvsr8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("89_vieuh")
+}],
+"loop": 1,
+"name": &"walkDown",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("90_yjja3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("91_l0gw7")
 }],
 "loop": 1,
 "name": &"walkUp",
@@ -2788,39 +3075,6 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_1yv1y"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("75_41lik")
-}],
-"loop": 1,
-"name": &"idle",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("72_birbe")
-}, {
-"duration": 1.0,
-"texture": ExtResource("73_f1p13")
-}],
-"loop": 1,
-"name": &"walkDown",
-"speed": 4.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("74_4obbf")
-}, {
-"duration": 1.0,
-"texture": ExtResource("75_ovcoh")
-}],
-"loop": 1,
-"name": &"walkUp",
-"speed": 5.0
-}]
-
 [sub_resource type="SpriteFrames" id="SpriteFrames_n5t1e"]
 animations = [{
 "frames": [{
@@ -2862,46 +3116,24 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_inymm"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_557es"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("86_jbvwl")
+"texture": ExtResource("97_l0gw7")
 }],
 "loop": 1,
-"name": &"idle",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("87_sn1fb")
-}],
-"loop": 1,
-"name": &"lookUp",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("88_yvsr8")
-}, {
-"duration": 1.0,
-"texture": ExtResource("89_vieuh")
-}],
-"loop": 1,
-"name": &"walkDown",
-"speed": 4.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("90_yjja3")
-}, {
-"duration": 1.0,
-"texture": ExtResource("91_l0gw7")
-}],
-"loop": 1,
-"name": &"walkUp",
+"name": &"door",
 "speed": 5.0
 }]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p2uql"]
+size = Vector2(512, 112)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kef6u"]
+size = Vector2(224, 104)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0arob"]
 
 [sub_resource type="GDScript" id="GDScript_yaehf"]
 resource_name = "TransitionButton"
@@ -3200,6 +3432,12 @@ func is_choice_available(choice: Dictionary) -> bool:
 	return true
 
 func close_dialog():
+	var next_key := \"\"
+	var has_next_dialog := current_dialog.has(\"next_dialog\")
+
+	if has_next_dialog:
+		next_key = current_dialog[\"next_dialog\"]
+	
 	if current_dialog.has(\"on_finish\"):
 		var changes = current_dialog[\"on_finish\"]
 		
@@ -3271,35 +3509,48 @@ func close_dialog():
 				var item = change[\"remove_item\"]
 				InventoryManager.remove_item(item[\"name\"], item.get(\"amount\", 1))
 			
-			#MOVE NPC
+			# MOVE NPC
 			if change.has(\"moveNPC\"):
-				var data = change[\"moveNPC\"]
-				var NPCid = data[\"NPCid\"]
-				var tile_x = data[\"x\"]
-				var tile_y = data[\"y\"]
-				var speed
-				if data.has(\"move_speed\"):
-					speed = data[\"move_speed\"]
-				else:
-					speed = 100
-				var targetEntity = EntityManager.get_entity(NPCid)
+				var moved_entities = []
+				var npc_list = change[\"moveNPC\"]
+				var marker
+
+				if npc_list is Dictionary:
+					npc_list = [npc_list]
+
+				for data in npc_list:
+					var NPCid = data[\"NPCid\"]
+					var speed = data.get(\"move_speed\", 100)
+
+					var targetEntity = EntityManager.get_entity(NPCid)
+					if targetEntity == null:
+						print(\"Target NPC not found: \" + NPCid)
+						continue
+
+					marker = EntityManager.get_marker(data[\"marker\"])
+					if marker == null:
+						print(\"Marker not found: \" + data[\"marker\"])
+						continue
+
+					if data.has(\"change_after_move\"):
+						apply_flags_after_entity_move(targetEntity,data[\"change_after_move\"])
+					targetEntity.looking_up = false
+					targetEntity.move_to(marker.global_position, speed)
+					moved_entities.append({\"entity\": targetEntity,\"marker\": marker})
 				
-				if targetEntity == null:
-					print(\"target npc for move not found: \" + NPCid)
-					return
+				if has_next_dialog:
+					visible = false
+					lines.clear()
+					choices.clear()
+					line_index = 0
+					selected_choice = 0
+					choices_box.visible = false
 				
-				var tilemap = get_node(\"../../LayerColission\")
-				if tilemap == null:
-					print(\"TileMap not found\")
-					return
-				
-				var cell = Vector2i(tile_x, tile_y)
-				var target_pos = tilemap.to_global(tilemap.map_to_local(cell))
-				if data.has(\"change_after_move\"):
-					var changes_after_move = data[\"change_after_move\"]
-					apply_flags_after_entity_move(targetEntity, changes_after_move)
-				targetEntity.move_to(target_pos, speed)
-				
+				for data in moved_entities:
+					await data[\"entity\"].move_finished
+					if data[\"marker\"].facing == \"up\":
+						data[\"entity\"].looking_up = true
+						data[\"entity\"].update_animation(Vector2.ZERO)
 				
 			# TELEPORT
 			if change.has(\"teleport\"):
@@ -3338,21 +3589,15 @@ func close_dialog():
 				SaveManager.perform_quick_save()
 				Transitioner.change_scene(\"res://Menus/intro.tscn\",Transitioner.TransitionType.SIMPLE,5.0)
 			
-	if current_dialog.has(\"next_dialog\"):
-		var next_key = current_dialog[\"next_dialog\"]
-		
-		lines.clear()
-		choices.clear()
-		line_index = 0
-		selected_choice = 0
-		choices_box.visible = false
-	
+	if has_next_dialog:
 		open_dialog(next_key)
 		return
 
 	is_open = false
 	visible = false
 	player.can_move = true
+	if player.is_sitting:
+		player.is_sitting = false
 
 	lines.clear()
 	choices.clear()
@@ -3620,7 +3865,7 @@ position_smoothing_speed = 7.0
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="player" unique_id=1449061935]
 z_index = 2
 sprite_frames = SubResource("SpriteFrames_4c57u")
-animation = &"walkUpCarry"
+animation = &"idleLookingUp"
 
 [node name="PickupArea" type="Area2D" parent="player" unique_id=1183755856]
 
@@ -3714,7 +3959,7 @@ shape = SubResource("RectangleShape2D_34ol3")
 
 [node name="LayerHighTextures" type="TileMapLayer" parent="." unique_id=1980100893]
 z_index = 16
-tile_map_data = PackedByteArray("AACd/2oABQAGAAQAAGCg/2oABQAGAAUAAGCj/2oABQAHAAUAAGCd/2kABQAEAAUAAACg/2kABQAEAAUAAACj/2kABQAEAAUAAACc/2kABQADAAIAAACe/2kABQADAAIAAACf/2kABQADAAIAAACh/2kABQADAAIAAACi/2kABQADAAIAAACk/2kABQADAAIAAACl/2kABQADAAIAAACc/2gABQADAAEAAACd/2gABQADAAEAAACe/2gABQADAAEAAACf/2gABQADAAEAAACg/2gABQADAAEAAACh/2gABQADAAEAAACi/2gABQADAAEAAACj/2gABQADAAEAAACk/2gABQADAAEAAACl/2gABQADAAEAAACl/2oABQAGAAIAAACk/2oABQAGAAIAAACi/2oABQAGAAIAAACh/2oABQAGAAIAAACf/2oABQAGAAIAAACe/2oABQAGAAIAAACc/2oABQAGAAIAAABLAHAABgANAA0AAABLAHEABgANAA4AAABLAHIABgANAA8AAABMAHAABgAOAA0AAABMAHEABgAOAA4AAABMAHIABgAOAA8AAABNAHAABgAPAA0AAABNAHEABgAPAA4AAABNAHIABgAPAA8AAAA=")
+tile_map_data = PackedByteArray("AACd/2oABQAGAAQAAGCg/2oABQAGAAUAAGCj/2oABQAHAAUAAGCd/2kABQAEAAUAAACg/2kABQAEAAUAAACj/2kABQAEAAUAAACc/2kABQADAAIAAACe/2kABQADAAIAAACf/2kABQADAAIAAACh/2kABQADAAIAAACi/2kABQADAAIAAACk/2kABQADAAIAAACl/2kABQADAAIAAACc/2gABQADAAEAAACd/2gABQADAAEAAACe/2gABQADAAEAAACf/2gABQADAAEAAACg/2gABQADAAEAAACh/2gABQADAAEAAACi/2gABQADAAEAAACj/2gABQADAAEAAACk/2gABQADAAEAAACl/2gABQADAAEAAACl/2oABQAGAAIAAACk/2oABQAGAAIAAACi/2oABQAGAAIAAACh/2oABQAGAAIAAACf/2oABQAGAAIAAACe/2oABQAGAAIAAACc/2oABQAGAAIAAABLAHAABgANAA0AAABLAHEABgANAA4AAABLAHIABgANAA8AAABMAHAABgAOAA0AAABMAHEABgAOAA4AAABMAHIABgAOAA8AAABNAHAABgAPAA0AAABNAHEABgAPAA4AAABNAHIABgAPAA8AAABCAGsAAQAAAAAAAABCAGwAAQAAAAEAAABCAG0AAQAAAAIAAABCAG4AAQAAAAMAAABCAG8AAQAAAAQAAABCAHAAAQAAAAUAAABEAGsAAQABAAAAAABEAGwAAQABAAEAAABEAG0AAQABAAIAAABEAG4AAQABAAMAAABEAG8AAQABAAQAAABEAHAAAQABAAUAAABGAGsAAQACAAAAAABGAGwAAQACAAEAAABGAG0AAQACAAIAAABGAG4AAQACAAMAAABGAG8AAQACAAQAAABGAHAAAQACAAUAAABCAGkAAQAAAAYAAABDAGkAAQABAAYAAAA=")
 tile_set = SubResource("TileSet_557es")
 
 [node name="LayerColission" type="TileMapLayer" parent="." unique_id=177453866]
@@ -3824,6 +4069,37 @@ shape = SubResource("RectangleShape2D_ntx8l")
 [node name="AnimatedSprite2D" parent="boxes1" index="1" unique_id=420023155]
 sprite_frames = SubResource("SpriteFrames_ppx11")
 
+[node name="NPCMarkers" type="Node" parent="." unique_id=433796263]
+
+[node name="ClassroomTeacher" type="Marker2D" parent="NPCMarkers" unique_id=1764257914 groups=["npc_markers"]]
+position = Vector2(2140, 3376)
+script = ExtResource("37_k1udn")
+facing = "down"
+
+[node name="ClassroomJake" type="Marker2D" parent="NPCMarkers" unique_id=1019412596 groups=["npc_markers"]]
+position = Vector2(2198, 3448)
+script = ExtResource("37_k1udn")
+
+[node name="ClassroomBoniface" type="Marker2D" parent="NPCMarkers" unique_id=32851741 groups=["npc_markers"]]
+position = Vector2(2134, 3448)
+script = ExtResource("37_k1udn")
+
+[node name="ClassroomCandy" type="Marker2D" parent="NPCMarkers" unique_id=85046603 groups=["npc_markers"]]
+position = Vector2(2134, 3490)
+script = ExtResource("37_k1udn")
+
+[node name="ClassroomLisa" type="Marker2D" parent="NPCMarkers" unique_id=2026507614 groups=["npc_markers"]]
+position = Vector2(2134, 3525)
+script = ExtResource("37_k1udn")
+
+[node name="ClassroomTony" type="Marker2D" parent="NPCMarkers" unique_id=1680898886 groups=["npc_markers"]]
+position = Vector2(2261, 3448)
+script = ExtResource("37_k1udn")
+
+[node name="ClassroomDavid" type="Marker2D" parent="NPCMarkers" unique_id=799749791 groups=["npc_markers"]]
+position = Vector2(2261, 3491)
+script = ExtResource("37_k1udn")
+
 [node name="Entities" type="Node2D" parent="." unique_id=1262058160]
 
 [node name="neighbor" parent="Entities" unique_id=1366682959 instance=ExtResource("21_ryguw")]
@@ -3868,6 +4144,14 @@ shape = SubResource("RectangleShape2D_d3qtv")
 wait_time = 3.0
 one_shot = true
 
+[node name="postOfficeManager" parent="Entities" unique_id=1485847481 instance=ExtResource("21_ryguw")]
+position = Vector2(-2552, 3456)
+up_direction = Vector2(-0.99999994, -0.00035816614)
+dialog_key = "factory_cond"
+
+[node name="AnimatedSprite2D" parent="Entities/postOfficeManager" index="0" unique_id=41462874]
+sprite_frames = SubResource("SpriteFrames_1yv1y")
+
 [node name="father" parent="Entities" unique_id=623068032 instance=ExtResource("21_ryguw")]
 position = Vector2(208, 3728)
 dialog_key = "father_cond"
@@ -3881,6 +4165,15 @@ display_name = "father"
 [node name="AnimatedSprite2D" parent="Entities/father" index="0" unique_id=41462874]
 sprite_frames = SubResource("SpriteFrames_lwnsi")
 animation = &"walkUp"
+
+[node name="teacher" parent="Entities" unique_id=126254249 instance=ExtResource("21_ryguw")]
+unique_name_in_owner = true
+position = Vector2(2184, 3376)
+dialog_key = "school_start_cond"
+entity_id = "teacher"
+
+[node name="AnimatedSprite2D" parent="Entities/teacher" index="0" unique_id=41462874]
+sprite_frames = SubResource("SpriteFrames_inymm")
 
 [node name="cm1David" parent="Entities" unique_id=1514564425 instance=ExtResource("21_ryguw")]
 position = Vector2(2280, 3760)
@@ -3909,8 +4202,7 @@ entity_id = "David_evening"
 
 [node name="AnimatedSprite2D" parent="Entities/cm1DavidEvening" index="0" unique_id=41462874]
 sprite_frames = SubResource("SpriteFrames_facbu")
-animation = &"walkDown"
-frame_progress = 0.5748393
+animation = &"lookUp"
 
 [node name="cm2Candy" parent="Entities" unique_id=97280934 instance=ExtResource("21_ryguw")]
 position = Vector2(2088, 3560)
@@ -3956,14 +4248,6 @@ entity_id = "Jake"
 sprite_frames = SubResource("SpriteFrames_rm4vd")
 animation = &"walkUp"
 
-[node name="postOfficeManager" parent="Entities" unique_id=1485847481 instance=ExtResource("21_ryguw")]
-position = Vector2(-2552, 3456)
-up_direction = Vector2(-0.99999994, -0.00035816614)
-dialog_key = "factory_cond"
-
-[node name="AnimatedSprite2D" parent="Entities/postOfficeManager" index="0" unique_id=41462874]
-sprite_frames = SubResource("SpriteFrames_1yv1y")
-
 [node name="cm6Boniface" parent="Entities" unique_id=617191674 instance=ExtResource("21_ryguw")]
 unique_name_in_owner = true
 position = Vector2(2220, 3450)
@@ -3972,13 +4256,45 @@ entity_id = "Boniface"
 [node name="AnimatedSprite2D" parent="Entities/cm6Boniface" index="0" unique_id=41462874]
 sprite_frames = SubResource("SpriteFrames_n5t1e")
 
-[node name="teacher" parent="Entities" unique_id=126254249 instance=ExtResource("21_ryguw")]
-unique_name_in_owner = true
-position = Vector2(2184, 3376)
-entity_id = "teacher"
+[node name="InteractibleZones" type="Node2D" parent="." unique_id=738966380]
+position = Vector2(2193, 3648)
 
-[node name="AnimatedSprite2D" parent="Entities/teacher" index="0" unique_id=41462874]
-sprite_frames = SubResource("SpriteFrames_inymm")
+[node name="SchoolDoor" type="Node2D" parent="InteractibleZones" unique_id=745514499]
+z_index = 3
+script = ExtResource("97_inymm")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="InteractibleZones/SchoolDoor" unique_id=1171669794]
+z_index = 1
+sprite_frames = SubResource("SpriteFrames_557es")
+animation = &"door"
+
+[node name="Area2D" type="Area2D" parent="InteractibleZones/SchoolDoor" unique_id=1442033259]
+position = Vector2(-1, 0)
+collision_mask = 7
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractibleZones/SchoolDoor/Area2D" unique_id=635439268]
+z_index = 1
+position = Vector2(143, 72)
+shape = SubResource("RectangleShape2D_p2uql")
+
+[node name="SchoolClassroomDetectionZone" type="Area2D" parent="InteractibleZones/SchoolDoor" unique_id=337041139]
+collision_mask = 7
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractibleZones/SchoolDoor/SchoolClassroomDetectionZone" unique_id=2011471296]
+position = Vector2(-1, -84)
+shape = SubResource("RectangleShape2D_kef6u")
+
+[node name="SchoolChair" type="Node2D" parent="InteractibleZones" unique_id=1609537052]
+position = Vector2(4, -155)
+script = ExtResource("100_0arob")
+
+[node name="Area2D" type="Area2D" parent="InteractibleZones/SchoolChair" unique_id=1465321484]
+position = Vector2(0, 5)
+collision_mask = 7
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractibleZones/SchoolChair/Area2D" unique_id=1471170100]
+z_index = 1
+shape = SubResource("CircleShape2D_0arob")
 
 [node name="GroundItems" type="Node2D" parent="." unique_id=1337509049]
 z_index = 15
@@ -4086,13 +4402,14 @@ texture = ExtResource("18_074og")
 script = SubResource("GDScript_82xsv")
 
 [node name="TimeFilter" type="ColorRect" parent="TimeUI" unique_id=123244893]
+modulate = Color(0.21900877, 0.21900877, 0.21900877, 0.53000003)
 z_index = -1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 0.012920001, 0.07846785, 0)
+color = Color(0, 0.0018551481, 0.012986036, 0)
 
 [node name="InventoryUI" type="CanvasLayer" parent="." unique_id=1296431695]
 layer = 10
@@ -4227,6 +4544,12 @@ label_settings = SubResource("LabelSettings_0odxb")
 [connection signal="body_entered" from="Entities/cat/DetectionArea" to="Entities/cat" method="_on_detection_area_body_entered"]
 [connection signal="body_exited" from="Entities/cat/DetectionArea" to="Entities/cat" method="_on_detection_area_body_exited"]
 [connection signal="timeout" from="Entities/cat/Timer" to="Entities/cat" method="_on_timer_timeout"]
+[connection signal="body_entered" from="InteractibleZones/SchoolDoor/Area2D" to="InteractibleZones/SchoolDoor" method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="InteractibleZones/SchoolDoor/Area2D" to="InteractibleZones/SchoolDoor" method="_on_area_2d_body_exited"]
+[connection signal="body_entered" from="InteractibleZones/SchoolDoor/SchoolClassroomDetectionZone" to="InteractibleZones/SchoolDoor" method="_on_school_classroom_detection_zone_body_entered"]
+[connection signal="body_exited" from="InteractibleZones/SchoolDoor/SchoolClassroomDetectionZone" to="InteractibleZones/SchoolDoor" method="_on_school_classroom_detection_zone_body_exited"]
+[connection signal="body_entered" from="InteractibleZones/SchoolChair/Area2D" to="InteractibleZones/SchoolChair" method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="InteractibleZones/SchoolChair/Area2D" to="InteractibleZones/SchoolChair" method="_on_area_2d_body_exited"]
 [connection signal="toggled" from="LoadingScreen/Transitioner/CheckButton" to="LoadingScreen/Transitioner/CheckButton" method="_on_toggled"]
 
 [editable path="FactoryAmbientSoundZone2"]
@@ -4240,14 +4563,14 @@ label_settings = SubResource("LabelSettings_0odxb")
 [editable path="boxes1"]
 [editable path="Entities/neighbor"]
 [editable path="Entities/cat"]
+[editable path="Entities/postOfficeManager"]
 [editable path="Entities/father"]
+[editable path="Entities/teacher"]
 [editable path="Entities/cm1David"]
 [editable path="Entities/cm1DavidEvening"]
 [editable path="Entities/cm2Candy"]
 [editable path="Entities/cm3Lisa"]
 [editable path="Entities/cm4Tony"]
 [editable path="Entities/cm5Jake"]
-[editable path="Entities/postOfficeManager"]
 [editable path="Entities/cm6Boniface"]
-[editable path="Entities/teacher"]
 [editable path="LoadingScreen/Transitioner"]

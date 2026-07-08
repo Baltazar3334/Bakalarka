@@ -130,23 +130,12 @@
 			"set": 0
 		},
 		{
-			"moveNPC": {
-			"NPCid": "neighbor_npc",
-			"x": -5,
-			"y": 1,
-			"move_speed": 50,
-			"change_after_move": {
-				"neighbor_there": 0
-				}
-			}
-		},
-			{
 			"menu_entry": {
 			"id": "neighbor_lied_redo",
 			"path": ["lore", "Journal.txt"],
 			"text": "\nWow, what a guy this new neighbor. Its none of his business why Im not at school...still maybe I could have played that better.\n"
 				}
-			}
+		}
 	]
   },
 
@@ -168,17 +157,6 @@
 		{
 			"flag": "neighbor_opinion",
 			"set": 1
-		},
-		{
-			"moveNPC": {
-			"NPCid": "neighbor_npc",
-			"x": -5,
-			"y": 1,
-			"move_speed": 50,
-			"change_after_move": {
-				"neighbor_there": 0
-				}
-			}
 		},
 			{
 			"menu_entry": {
@@ -346,17 +324,6 @@
 			"flag": "neighbor_opinion",
 			"set": 1
 		},
-		{
-			"moveNPC": {
-			"NPCid": "neighbor_npc",
-			"x": -5,
-			"y": 1,
-			"move_speed": 50,
-			"change_after_move": {
-				"neighbor_there": 0
-				}
-			}
-		},
 			{
 			"menu_entry": {
 			"id": "neighbor_gave_medicine",
@@ -387,17 +354,6 @@ and why hospital anyway? What kind of medicine for back pain you go to the hospi
 		{
 			"flag": "neighbor_opinion",
 			"set": 1
-		},
-		{
-			"moveNPC": {
-			"NPCid": "neighbor_npc",
-			"x": -5,
-			"y": 1,
-			"move_speed": 50,
-			"change_after_move": {
-				"neighbor_there": 0
-				}
-			}
 		},
 			{
 			"menu_entry": {
@@ -433,17 +389,6 @@ and why hospital anyway? What kind of medicine for back pain you go to the hospi
 		{
 			"flag": "neighbor_opinion",
 			"set": 1
-		},
-		{
-			"moveNPC": {
-			"NPCid": "neighbor_npc",
-			"x": -5,
-			"y": 1,
-			"move_speed": 50,
-			"change_after_move": {
-				"neighbor_there": 0
-				}
-			}
 		},
 			{
 			"menu_entry": {
