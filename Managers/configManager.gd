@@ -39,6 +39,14 @@ const CONFIG_SCHEMAS = {
 			
 			"apply":"_apply_player_school_days"
 		},
+		"recap_tribute": {
+			"type": "int",
+			"min": 0,
+			"max": 7,
+			"permission":2,
+			
+			"apply":"_apply_player_recap_tribute"
+		},
 	},
 }
 
@@ -260,3 +268,6 @@ func _apply_post_office_work_days(value):
 
 func _apply_player_school_days(value):
 	Global.school_days = int(value)
+
+func _apply_player_recap_tribute(value):
+	Global.recap_tribute = int(value)

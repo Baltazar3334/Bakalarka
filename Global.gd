@@ -26,6 +26,11 @@ var school_days = 5:
 		school_days = value
 		player_config_changed.emit()
 
+var recap_tribute = 5:
+	set(value):
+		recap_tribute = value
+		player_config_changed.emit()
+
 const DEFAULT_FLAGS := {
 	"neighbor_story": 0,
 	"neighbor_visit_story": 0,
@@ -46,6 +51,7 @@ const DEFAULT_FLAGS := {
 	"david_cinema_visit_planned": 0,
 	"david_cinema_tonight": 0,
 	"david_there_evening": 1,
+	"david_school_messed_up": 0,
 	
 	"parents_at_home": 1,
 	"father_story": 0,
@@ -65,14 +71,18 @@ const DEFAULT_FLAGS := {
 	"med_lady_story": 0,
 	
 	"day_of_the_week": 1,
+	"time_of_day": "morning",
+	
 	"money_6_taken": 0,
 	"money_5_taken": 0,
-	"time_of_day": "morning",
+	
 	"school_completed": 0,
 	"school_first_day": 1,
 	"school_days": 5,
+	"recap_tribute": 0,
 	
 	"post_office_work_days": 5,
+	
 	
 	"permission_level": 0,
 }

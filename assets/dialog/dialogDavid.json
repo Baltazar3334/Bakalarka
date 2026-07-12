@@ -338,9 +338,8 @@
 	{ "speaker": "jessie", "text": "Or I really dont want somebody to die living opposite to where I live." },
 	{ "speaker": "jessie", "text": "Doesnt really matter no?" },
 	{ "speaker": "david", "text": "Guess not." },
-	{ "speaker": "jessie", "text": "Which class do you go to?" },
-	{ "speaker": "david", "text": "A13" },
 	{ "speaker": "jessie", "text": "Nice. Sit by my right theres an empty spot usually." },
+	{ "speaker": "david", "text": "Sure" },
 	],
 	"on_finish": [
 			{

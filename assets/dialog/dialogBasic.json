@@ -28,25 +28,6 @@
 				"flag": "david_cinema_tonight",
 				"set": 0
 			},
-	{
-				"moveNPC": {
-				"NPCid": "father_npc",
-				"x": -1,
-				"y": 113,
-				"move_speed": 50,
-				"change_after_move": {
-					"father_there": 1
-					}
-				}	
-			},
-			{
-				"moveNPC": {
-				"NPCid": "neighbor_npc",
-				"x": -4,
-				"y": 1,
-				"move_speed": 50,
-				}	
-			},
 		{
 		"flag": "day_of_the_week"
 	}

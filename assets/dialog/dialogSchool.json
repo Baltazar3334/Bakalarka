@@ -1,5 +1,5 @@
 {
-	"school_introduction": {
+"school_introduction": {
 	"lines": [
 	{ "speaker": "jessie", "text": "First day in school in a long time. Better start off on a the right foot.." },
 	{ "speaker": "jessie", "text": "Lets see what the guys are up to." },
@@ -25,19 +25,29 @@
 				}
 		},
 	]
-  },
+  	},
 
 
 
 "school_start_cond": {
 	"conditions": [
-	{"flags": { "school_completed": 0}, "dialog": "school_teacher_start_day"},
-	
 	{"flags": { "school_completed": 1}, "dialog": "school_teacher_day_ended"},
+	
+	{"flags": { "school_completed": 0, "david_school_messed_up": 0}, "dialog": "school_teacher_start_day01"},
+	
+	{"flags": { "school_completed": 0, "david_school_messed_up": 1, "recap_tribute": 1}, "dialog": "school_teacher_start_boniface"},
+	{"flags": { "school_completed": 0, "david_school_messed_up": 1, "recap_tribute": 2}, "dialog": "school_teacher_start_candy"},
+	{"flags": { "school_completed": 0, "david_school_messed_up": 1, "recap_tribute": 3}, "dialog": "school_teacher_start_david"},
+	{"flags": { "school_completed": 0, "david_school_messed_up": 1, "recap_tribute": 4}, "dialog": "school_teacher_start_jake"},
+	{"flags": { "school_completed": 0, "david_school_messed_up": 1, "recap_tribute": 5}, "dialog": "school_teacher_start_jessie"},
+	{"flags": { "school_completed": 0, "david_school_messed_up": 1, "recap_tribute": 6}, "dialog": "school_teacher_start_lisa"},
+	{"flags": { "school_completed": 0, "david_school_messed_up": 1, "recap_tribute": 7}, "dialog": "school_teacher_start_tony"},
+	
+	{"flags": { "school_completed": 0, "david_school_messed_up": 1, "recap_tribute": 0}, "dialog": "school_teacher_start_default"},
 	],
   	},
 
-"school_teacher_start_day": {
+"school_teacher_start_day01": {
 	"lines": [
 	{ "speaker": "teacher", "text": "Okay everyone!" },
 	{ "speaker": "teacher", "text": "Please sit down at your desks." },
@@ -52,15 +62,18 @@
 		},
 		{
 			"NPCid": "Candy",
-			"marker": "ClassroomCandy"
+			"marker": "ClassroomCandy",
+			"move_speed": 50,
 		},
 		{
 			"NPCid": "Lisa",
-			"marker": "ClassroomLisa"
+			"marker": "ClassroomLisa",
+			"move_speed": 50,
 		},
 		{
 			"NPCid": "Tony",
-			"marker": "ClassroomTony"
+			"marker": "ClassroomTony",
+			"move_speed": 50,
 		},
 		{
 			"NPCid": "Jake",
@@ -68,16 +81,21 @@
 		},
 		{
 			"NPCid": "Boniface",
-			"marker": "ClassroomBoniface"
+			"marker": "ClassroomBoniface",
+			"move_speed": 50,
+		},
+		{
+			"NPCid": "David",
+			"marker": "ClassroomDavid",
+			"move_speed": 50,
 		}
 	],
 	}
 	],
-	"next_dialog": "school_teacher_start_day2"
+	"next_dialog": "school_teacher_start_day02"
   },
 
-
-"school_teacher_start_day2": {
+"school_teacher_start_day02": {
 	"lines": [
 	{ "speaker": "teacher", "text": "So lets start the lesson." },
 	{ "speaker": "neutral", "text": "Miss carter, the history teacher, a well mannered but just as strict teacher" },
@@ -90,6 +108,98 @@
 	{ "speaker": "teacher", "text": ".." },
 	{ "speaker": "teacher", "text": "Well, if nobody want to be the tribute today. Im afraid Ill have to chose one of you myself.." },
 	{ "speaker": "teacher", "text": "It doesnt bring me any satisfaction to do this, but you left me no choice." },
+	{ "speaker": "teacher", "text": "Lets do it the old fashion way." },
+	{ "speaker": "teacher", "text": "Its the mopst fair. Ill add up the day of the month, the month of the year.." },
+	{ "speaker": "teacher", "text": "And decrease by the amount of empty seats." },
+	{ "speaker": "teacher", "text": "That comes up to number three." },
+	{ "speaker": "teacher", "text": "Lets see.." },
+	{ "speaker": "teacher", "text": "David. Is David here today?" },
+	{ "speaker": "david", "text": "Yes.." },
+	{ "speaker": "neutral", "text": "Everybody looks at David." },
+	{ "speaker": "neutral", "text": "Jake looks at you from the table in front of you." },
+	{ "speaker": "jake", "text": "Thats the new guy right? The one everybodys talking about?" },
+	{ "speaker": "jessie", "text": "Yeah." },
+	{ "speaker": "jake", "text": "He looks like a weirdo. Where is he-" },
+	{ "speaker": "teacher", "text": "Jake, would you like to replace David? With the amount of talking youre currently doing it would seem so." },
+	{ "speaker": "jake", "text": "No miss carter. Im sorry. Please continue." },
+	{ "speaker": "teacher", "text": "Well david. Come up here so that i can hear you better." },
+	{ "speaker": "teacher", "text": "Im old Im afraid and you speak very soflty." },
+	],
+	"next_dialog": "school_teacher_start_day03"
+	},
+
+"school_teacher_start_day03": {
+	"lines": [
+	{ "speaker": "neutral", "text": "David slowly gets up. Its clear the stress is not coming from the lack of knowledge but the amount of attention drawn to him." },
+	],
+	"on_finish": [
+		{
+			"moveNPC": [
+		{
+			"NPCid": "David",
+			"marker": "ClassroomDavid3",
+			"move_speed": 50,
+		}
+	],
+	},
+	],
+	"next_dialog": "school_teacher_start_day04"
+	},
+
+"school_teacher_start_day04": {
+	"lines": [
+	{ "speaker": "neutral", "text": "He trips over himself as he shuffles towards the whiteboard" },
+	],
+	"on_finish": [
+		{
+			"moveNPC": [
+		{
+			"NPCid": "David",
+			"marker": "ClassroomDavid4",
+			"move_speed": 50,
+		}
+	],
+	},
+	],
+	"next_dialog": "school_teacher_start_day05"
+	},
+
+"school_teacher_start_day05": {
+	"lines": [
+	{ "speaker": "teacher", "text": "So lets start from the begining. Please tell us what we have gone through last week?" },
+	{ "speaker": "david", "text": "I.." },
+	{ "speaker": "teacher", "text": "Its chapter 7 young man..if you have studied you will surely recall." },
+	{ "speaker": "david", "text": "Im sorry but I.." },
+	{ "speaker": "teacher", "text": "Speak clearly, David." },
+	{ "speaker": "david", "text": "My family just moved here and I didnt have the time to review the material for todays lesson." },
+	{ "speaker": "teacher", "text": "Well at least you took the time to come up with a good excuse." },
+	{ "speaker": "david", "text": "..." },
+	{ "speaker": "teacher", "text": "David..since youre new to my class, Ill explain how things work here." },
+	{ "speaker": "teacher", "text": "Each day one person has to recap what we leared last lesson. They are graded for it according to how well they perform." },
+	{ "speaker": "teacher", "text": "Since youre new, I will not give you an F. But I will remeber this performance of yours. And next time the pen lands on your name I wont be this merciful." },
+	{ "speaker": "teacher", "text": "And yes, this time I specificaly chose you instead of randomly choosing just to make it clear youre not excluded out of our raffle." },
+	{ "speaker": "david", "text": "..." },
+	{ "speaker": "teacher", "text": "Go sit child." },
+	
+	],
+	"on_finish": [
+		{
+			"moveNPC": [
+		{
+			"NPCid": "David",
+			"marker": "ClassroomDavid3",
+			"move_speed": 50,
+		}
+	],
+	},
+	],
+	"next_dialog": "school_teacher_start_day06"
+	},
+
+
+"school_teacher_start_day06": {
+	"lines": [
+	{ "speaker": "neutral", "text": "David looks like hes about to die. Sweat dripping, heart pounding." },
 	],
 	"on_finish": [
 		{
@@ -97,11 +207,278 @@
 		"set": 1
 		},
 		{
+		"flag": "david_school_messed_up",
+		"set": 1
+		},
+		{
 		"flag": "time_of_day",
 		"toggle": ["morning", "afternoon"]
 		},
+		{
+			"moveNPC": [
+		{
+			"NPCid": "David",
+			"marker": "ClassroomDavid",
+			"move_speed": 50,
+		}
+	],
+	},
+	],
+	"next_dialog": "school_teacher_start_day07"
+	},
+
+
+"school_teacher_start_day07": {
+	"lines": [
+	{ "speaker": "neutral", "text": "After todays recap the lesson proceeds further. Nothing of importance happenes" },
+	{ "speaker": "teacher", "text": "Well, Pupils. It seems that our time is up. Make sure to prepare yourself for the test next week." },
+	{ "speaker": "teacher", "text": "And dont forget to study for all the other subjects too! I dont want a situation like that one to happen again." },
+	{ "speaker": "neutral", "text": "Miss carter was smiling and energetic even after an hour of teaching. She clearly enjoys her work." },
+	],
+	"on_finish": [
+		{
+			"moveNPC": [
+		{
+			"NPCid": "Candy",
+			"marker": "ClassroomCandy2",
+			"move_speed": 50,
+		},
+		{
+			"NPCid": "Lisa",
+			"marker": "ClassroomLisa2",
+			"move_speed": 50,
+		},
+		{
+			"NPCid": "Tony",
+			"marker": "ClassroomTony2",
+			"move_speed": 50,
+		},
+		{
+			"NPCid": "Jake",
+			"marker": "ClassroomJake2"
+		},
+		{
+			"NPCid": "Boniface",
+			"marker": "ClassroomBoniface2",
+			"move_speed": 50,
+		},
+		{
+			"NPCid": "David",
+			"marker": "ClassroomDavid2",
+			"move_speed": 50,
+		}
+	],
+	}
 	]
-},
+	},
+
+
+
+"school_teacher_start_default": {
+	"lines": [
+	{ "speaker": "teacher", "text": "Okay everyone!" },
+	{ "speaker": "teacher", "text": "Please sit down at your desks." },
+	{ "speaker": "teacher", "text": "Seems like everybodys here.." },
+	],
+	"on_finish": [
+	{
+	"moveNPC": [
+		{
+			"NPCid": "teacher",
+			"marker": "ClassroomTeacher"
+		},
+		{
+			"NPCid": "Candy",
+			"marker": "ClassroomCandy",
+			"move_speed": 50,
+		},
+		{
+			"NPCid": "Lisa",
+			"marker": "ClassroomLisa",
+			"move_speed": 50,
+		},
+		{
+			"NPCid": "Tony",
+			"marker": "ClassroomTony",
+			"move_speed": 50,
+		},
+		{
+			"NPCid": "Jake",
+			"marker": "ClassroomJake"
+		},
+		{
+			"NPCid": "Boniface",
+			"marker": "ClassroomBoniface",
+			"move_speed": 50,
+		},
+		{
+			"NPCid": "David",
+			"marker": "ClassroomDavid",
+			"move_speed": 50,
+		}
+	],
+	}
+	],
+	"next_dialog": "school_teacher_start_default2"
+  },
+
+
+"school_teacher_start_default2": {
+	"lines": [
+	{ "speaker": "neutral", "text": "After todays recap the lesson proceeds further. Nothing of importance happenes" },
+	],
+	"on_finish": [
+		{
+		"flag": "school_completed",
+		"set": 1
+		},
+		{
+		"flag": "david_school_messed_up",
+		"set": 1
+		},
+		{
+		"flag": "time_of_day",
+		"toggle": ["morning", "afternoon"]
+		},
+	],
+	"next_dialog": "school_teacher_start_default3"
+	},
+
+
+"school_teacher_start_default3": {
+	"lines": [
+	{ "speaker": "teacher", "text": "Well, Pupils. It seems that our time is up." },
+	{ "speaker": "teacher", "text": "Dont forget to study! A mind needs books like a.." },
+	{ "speaker": "teacher", "text": "Uhh..well- a minds needs books thats for certain." },
+	{ "speaker": "neutral", "text": "Miss carter was smiling and energetic even after an hour of teaching. She clearly enjoys her work." },
+	],
+	"on_finish": [
+		{
+			"moveNPC": [
+		{
+			"NPCid": "Candy",
+			"marker": "ClassroomCandy2",
+			"move_speed": 50,
+		},
+		{
+			"NPCid": "Lisa",
+			"marker": "ClassroomLisa2",
+			"move_speed": 50,
+		},
+		{
+			"NPCid": "Tony",
+			"marker": "ClassroomTony2",
+			"move_speed": 50,
+		},
+		{
+			"NPCid": "Jake",
+			"marker": "ClassroomJake2"
+		},
+		{
+			"NPCid": "Boniface",
+			"marker": "ClassroomBoniface2",
+			"move_speed": 50,
+		},
+		{
+			"NPCid": "David",
+			"marker": "ClassroomDavid2",
+			"move_speed": 50,
+		}
+	],
+	}
+	]
+	},
+
+
+
+
+"school_teacher_start_boniface": {
+	"lines": [
+	{ "speaker": "teacher", "text": "Okay everyone!" },
+	{ "speaker": "teacher", "text": "Please sit down at your desks." },
+	{ "speaker": "teacher", "text": "Seems like everybodys here.." },
+	],
+	"on_finish": [
+	{
+	"moveNPC": [
+		{
+			"NPCid": "teacher",
+			"marker": "ClassroomTeacher"
+		},
+		{
+			"NPCid": "Candy",
+			"marker": "ClassroomCandy",
+			"move_speed": 50,
+		},
+		{
+			"NPCid": "Lisa",
+			"marker": "ClassroomLisa",
+			"move_speed": 50,
+		},
+		{
+			"NPCid": "Tony",
+			"marker": "ClassroomTony",
+			"move_speed": 50,
+		},
+		{
+			"NPCid": "Jake",
+			"marker": "ClassroomJake"
+		},
+		{
+			"NPCid": "Boniface",
+			"marker": "ClassroomBoniface",
+			"move_speed": 50,
+		},
+		{
+			"NPCid": "David",
+			"marker": "ClassroomDavid",
+			"move_speed": 50,
+		}
+	],
+	}
+	],
+	"next_dialog": "school_teacher_start_boniface2"
+  },
+
+
+"school_teacher_start_boniface2": {
+	"lines": [
+	{ "speaker": "teacher", "text": "So lets start the lesson." },
+	{ "speaker": "neutral", "text": "Miss carter, the history teacher, a well mannered but just as strict teacher" },
+	{ "speaker": "neutral", "text": "Better not stand out too much" },
+	{ "speaker": "teacher", "text": "Anybody willing to take the hit and volunteer for the oral exam?" },
+	{ "speaker": "neutral", "text": "everybody acts like theyre didnt hear her" },
+	{ "speaker": "teacher", "text": "Oh what a surprise.." },
+	{ "speaker": "teacher", "text": "You know, its not that hard to study and come prepared people!" },
+	{ "speaker": "teacher", "text": "If you applied yourself at home, you wouldnt have to be sweating right now.." },
+	{ "speaker": "teacher", "text": ".." },
+	{ "speaker": "teacher", "text": "Well, if nobody want to be the tribute today. Im afraid Ill have to chose one of you myself.." },
+	{ "speaker": "teacher", "text": "It doesnt bring me any satisfaction to do this, but you left me no choice." },
+	{ "speaker": "teacher", "text": "Lets do it the old fashion way." },
+	{ "speaker": "teacher", "text": "Its the mopst fair. Ill add up the day of the month, the month of the year.." },
+	{ "speaker": "teacher", "text": "And decrease by the amount of empty seats." },
+	{ "speaker": "teacher", "text": "That comes up to number three." },
+	{ "speaker": "teacher", "text": "Lets see.." },
+	{ "speaker": "teacher", "text": "David. Is David here today?" },
+	{ "speaker": "david", "text": "Yes.." },
+	{ "speaker": "neutral", "text": "Everybody looks at David." },
+	{ "speaker": "neutral", "text": "Jake looks at you from the table in front of you." },
+	{ "speaker": "jake", "text": "Thats the new guy right? The one everybodys talking about?" },
+	{ "speaker": "jessie", "text": "Yeah." },
+	{ "speaker": "jake", "text": "He looks like a weirdo. Where is he-" },
+	{ "speaker": "teacher", "text": "Jake, would you like to replace David? With the amount of talking youre currently doing it would seem so." },
+	{ "speaker": "jake", "text": "No miss carter. Im sorry. Please continue." },
+	{ "speaker": "teacher", "text": "Well david. Come up here so that i can hear you better." },
+	{ "speaker": "teacher", "text": "Im old Im afraid and you speak very soflty." },
+	],
+	"next_dialog": "school_teacher_start_day03"
+	},
+
+
+
+
+
+
 
 
 
@@ -113,5 +490,9 @@
 	
 	]
   },
+
+
+
+
 
 }
