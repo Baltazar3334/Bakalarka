@@ -81,6 +81,9 @@ const DEFAULT_FLAGS := {
 	"school_days": 5,
 	"recap_tribute": 0,
 	
+	"candy_meeting": 0,
+	"boniface_expelled": 0,
+	
 	"post_office_work_days": 5,
 	
 	

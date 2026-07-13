@@ -24,6 +24,9 @@
 		"flag": "time_of_day",
 		"toggle": ["morning", "afternoon"]
 	},
+	{
+		"choose_student": true
+	},
 			{
 				"flag": "david_cinema_tonight",
 				"set": 0

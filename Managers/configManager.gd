@@ -35,7 +35,7 @@ const CONFIG_SCHEMAS = {
 			"type": "int",
 			"min": 3,
 			"max": 7,
-			"permission":2,
+			"permission":1,
 			
 			"apply":"_apply_player_school_days"
 		},
@@ -43,7 +43,7 @@ const CONFIG_SCHEMAS = {
 			"type": "int",
 			"min": 0,
 			"max": 7,
-			"permission":2,
+			"permission":1,
 			
 			"apply":"_apply_player_recap_tribute"
 		},
@@ -59,18 +59,60 @@ const PERMISSION_UNLOCKS = {
 		{
 			"path": ["config", "player.cfg"],
 			"template": "player"
-		}
-	],
-
-	2: [
+		},
 		{
 			"path": ["config", "school.cfg"],
 			"template": "school"
 		}
+	],
+	2: [
+		
 	]
 }
 
+func set_config_value(file_name: String, key: String, value) -> bool:
+	var filesystem = MenuFileManager.load_filesystem()
+	if !filesystem.has("config"):
+		push_warning("Config directory not found.")
+		return false
 
+	var config_dir = filesystem["config"]
+	if !config_dir.has(file_name):
+		push_warning("Config file not found: " + file_name)
+		return false
+
+	var file = config_dir[file_name]
+	if !file.has("content"):
+		push_warning("Config file has no content: " + file_name)
+		return false
+
+	var lines = file["content"].split("\n")
+	var found := false
+	for i in range(lines.size()):
+		var line = lines[i]
+		var trimmed = line.strip_edges()
+		if trimmed.is_empty() or trimmed.begins_with("#"):
+			continue
+
+		if trimmed.begins_with("["):
+			continue
+		var split = trimmed.split("=")
+		if split.size() != 2:
+			continue
+
+		var current_key = split[0].strip_edges()
+		if current_key == key:
+			lines[i] = "%s = %s" % [key, str(value)]
+			found = true
+			break
+
+	if !found:
+		lines.append("%s = %s" % [key, str(value)])
+	file["content"] = "\n".join(lines)
+	MenuFileManager.save_filesystem(filesystem)
+	on_config_saved(["config", file_name])
+
+	return true
 
 func on_config_saved(path: Array):
 	var filesystem = MenuFileManager.load_filesystem()

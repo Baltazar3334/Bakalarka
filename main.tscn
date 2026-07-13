@@ -161,6 +161,9 @@ var flags := {
 	\"school_days\": 5,
 	\"recap_tribute\": 0,
 	
+	\"candy_meeting\": 0,
+	\"boniface_expelled\": 0,
+	
 	\"post_office_work_days\": 5,
 	
 	
@@ -231,7 +234,7 @@ func _on_player_config_changed():
 	if Global.recap_tribute == 0:
 		flags[\"recap_tribute\"] = randi_range(1, 7)
 	else:
-		flags[\"recap_tribute\"] = Global.teacher_recap_tribute
+		flags[\"recap_tribute\"] = Global.recap_tribute
 
 func _on_post_office_changed():
 	flags[\"factory_successful_boxes_multiplier\"] = Global.post_office_salary
@@ -3576,12 +3579,14 @@ func close_dialog():
 			if change.has(\"menu_entry\"):
 				var data = change[\"menu_entry\"]
 
-				MenuFileManager.unlock_menu_entry(
-					data[\"id\"],
-					data[\"path\"],
-					data[\"text\"]
-				)
-
+				MenuFileManager.unlock_menu_entry(data[\"id\"],data[\"path\"],data[\"text\"])
+			
+			# CHOOSE STUDENT TRIBUTE
+			if change.has(\"choose_student\"):
+				var selected = randi_range(1, 7)
+				Global.recap_tribute = selected
+				ConfigManager.set_config_value(\"school.cfg\",\"recap_tribute\",selected)
+			
 			#RAISE PERMISSION LEVEL
 			if change.has(\"permission_raised\"):
 				print(\"PERMISSION RAISING\")
@@ -4106,12 +4111,25 @@ position = Vector2(2134, 3448)
 script = ExtResource("37_k1udn")
 facing = "down"
 
+[node name="ClassroomBoniface3" type="Marker2D" parent="NPCMarkers" unique_id=556825146 groups=["npc_markers"]]
+position = Vector2(2171, 3597)
+script = ExtResource("37_k1udn")
+
 [node name="ClassroomCandy" type="Marker2D" parent="NPCMarkers" unique_id=85046603 groups=["npc_markers"]]
 position = Vector2(2134, 3490)
 script = ExtResource("37_k1udn")
 
 [node name="ClassroomCandy2" type="Marker2D" parent="NPCMarkers" unique_id=123765759 groups=["npc_markers"]]
 position = Vector2(2122, 3505)
+script = ExtResource("37_k1udn")
+facing = "down"
+
+[node name="ClassroomCandy3" type="Marker2D" parent="NPCMarkers" unique_id=450385044 groups=["npc_markers"]]
+position = Vector2(2160, 3494)
+script = ExtResource("37_k1udn")
+
+[node name="ClassroomCandy4" type="Marker2D" parent="NPCMarkers" unique_id=2088171067 groups=["npc_markers"]]
+position = Vector2(2160, 3412)
 script = ExtResource("37_k1udn")
 facing = "down"
 
@@ -4268,6 +4286,25 @@ frame_progress = 0.19418772
 [node name="CollisionShape2D" parent="Entities/cm2Candy" index="1" unique_id=956324]
 position = Vector2(0, 5)
 
+[node name="cm2CandyOutside" parent="Entities" unique_id=1691094330 instance=ExtResource("21_ryguw")]
+unique_name_in_owner = true
+position = Vector2(728, 200)
+dialog_key = "candy_cond"
+required_flags = {
+"candy_meeting": 1,
+"time_of_day": "afternoon"
+}
+entity_id = "Candy"
+
+[node name="AnimatedSprite2D" parent="Entities/cm2CandyOutside" index="0" unique_id=41462874]
+sprite_frames = SubResource("SpriteFrames_4w656")
+animation = &"walkUp"
+frame = 1
+frame_progress = 0.19418772
+
+[node name="CollisionShape2D" parent="Entities/cm2CandyOutside" index="1" unique_id=956324]
+position = Vector2(0, 5)
+
 [node name="cm3Lisa" parent="Entities" unique_id=229618787 instance=ExtResource("21_ryguw")]
 position = Vector2(2096, 3528)
 entity_id = "Lisa"
@@ -4302,9 +4339,23 @@ animation = &"walkUp"
 [node name="cm6Boniface" parent="Entities" unique_id=617191674 instance=ExtResource("21_ryguw")]
 unique_name_in_owner = true
 position = Vector2(2220, 3450)
+required_flags = {
+"boniface_expelled": 0
+}
 entity_id = "Boniface"
 
 [node name="AnimatedSprite2D" parent="Entities/cm6Boniface" index="0" unique_id=41462874]
+sprite_frames = SubResource("SpriteFrames_n5t1e")
+
+[node name="cm6BonifaceOutside" parent="Entities" unique_id=254524971 instance=ExtResource("21_ryguw")]
+unique_name_in_owner = true
+position = Vector2(-171, 1323)
+required_flags = {
+"boniface_expelled": 1
+}
+entity_id = "Boniface"
+
+[node name="AnimatedSprite2D" parent="Entities/cm6BonifaceOutside" index="0" unique_id=41462874]
 sprite_frames = SubResource("SpriteFrames_n5t1e")
 
 [node name="InteractibleZones" type="Node2D" parent="." unique_id=738966380]
@@ -4620,8 +4671,10 @@ label_settings = SubResource("LabelSettings_0odxb")
 [editable path="Entities/cm1David"]
 [editable path="Entities/cm1DavidEvening"]
 [editable path="Entities/cm2Candy"]
+[editable path="Entities/cm2CandyOutside"]
 [editable path="Entities/cm3Lisa"]
 [editable path="Entities/cm4Tony"]
 [editable path="Entities/cm5Jake"]
 [editable path="Entities/cm6Boniface"]
+[editable path="Entities/cm6BonifaceOutside"]
 [editable path="LoadingScreen/Transitioner"]

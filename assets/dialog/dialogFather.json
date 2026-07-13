@@ -247,13 +247,14 @@
 				"name": "pack of cigarets",
 				"amount": 1
 			},
-			"menu_entry": {
+			},
+			{
+				"menu_entry": {
 			"id": "inventory_tutorial",
 			"path": ["tutorials", "inventory.txt"],
 			"text": "|You can move your items inside of your inventory using 'c' and 'p' keys. You can also drop them with 'q'. Use these so that your father doesnt chatch you holding cigarets in your hands like a moron.|\n"
 			}
-			
-		}
+			}
 		]
 },
 	
