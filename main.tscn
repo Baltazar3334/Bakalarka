@@ -37,6 +37,7 @@
 [ext_resource type="Texture2D" uid="uid://bu7mauhbfcvgy" path="res://assets/NPCs/classmate1/New Piskel.png" id="22_seu75"]
 [ext_resource type="Texture2D" uid="uid://dfna2ko75usq4" path="res://assets/NPCs/classmate1/New Piskel (3).png" id="23_htxhm"]
 [ext_resource type="Texture2D" uid="uid://cj3lsk8pdtop1" path="res://assets/NPCs/classmate1/New Piskel (1).png" id="24_jq2sk"]
+[ext_resource type="Texture2D" uid="uid://dhtfstr7lt5im" path="res://assets/tiles/OutSide World/merged.png" id="24_wat4s"]
 [ext_resource type="Texture2D" uid="uid://dvxh3fjgsek8l" path="res://assets/NPCs/classmate1/New Piskel (2).png" id="25_4k2k6"]
 [ext_resource type="Texture2D" uid="uid://c2abg5ubd41bc" path="res://assets/NPCs/classmate1/New Piskel (4).png" id="26_0rl1p"]
 [ext_resource type="Texture2D" uid="uid://d25ycnl51nnw2" path="res://assets/NPCs/classmate1/New Piskel (5).png" id="27_ok6jj"]
@@ -132,6 +133,7 @@ var flags := {
 	\"david_cinema_tonight\": 0,
 	\"david_there_evening\": 1,
 	\"david_school_messed_up\": 0,
+	\"david_woke_up_from_meds\": 0,
 	
 	\"parents_at_home\": 1,
 	\"father_story\": 0,
@@ -163,6 +165,14 @@ var flags := {
 	
 	\"candy_meeting\": 0,
 	\"boniface_expelled\": 0,
+	\"jake_recapped\": 0,
+	\"jake_intro\": 0,
+	\"jake_cinema_planned\": 0,
+	\"jake_know_secret\": 1,
+	\"jake_borrow_possible\": 0,
+	\"jake_borrowed_money\": 0,
+	\"jake_borrowed_for_david\": 0,
+	\"jake_how_much_knows\": 0,
 	
 	\"post_office_work_days\": 5,
 	
@@ -949,6 +959,516 @@ texture_region_size = Vector2i(32, 32)
 14:15/0 = 0
 15:15/0 = 0
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ywjan"]
+texture = ExtResource("24_wat4s")
+texture_region_size = Vector2i(32, 32)
+4:0/0 = 0
+5:0/0 = 0
+6:0/0 = 0
+7:0/0 = 0
+8:0/0 = 0
+9:0/0 = 0
+10:0/0 = 0
+11:0/0 = 0
+12:0/0 = 0
+20:0/0 = 0
+21:0/0 = 0
+22:0/0 = 0
+23:0/0 = 0
+24:0/0 = 0
+25:0/0 = 0
+26:0/0 = 0
+27:0/0 = 0
+28:0/0 = 0
+5:1/0 = 0
+7:1/0 = 0
+8:1/0 = 0
+9:1/0 = 0
+10:1/0 = 0
+11:1/0 = 0
+12:1/0 = 0
+13:1/0 = 0
+21:1/0 = 0
+23:1/0 = 0
+24:1/0 = 0
+25:1/0 = 0
+26:1/0 = 0
+27:1/0 = 0
+28:1/0 = 0
+29:1/0 = 0
+8:2/0 = 0
+9:2/0 = 0
+10:2/0 = 0
+11:2/0 = 0
+12:2/0 = 0
+13:2/0 = 0
+14:2/0 = 0
+24:2/0 = 0
+25:2/0 = 0
+26:2/0 = 0
+27:2/0 = 0
+28:2/0 = 0
+29:2/0 = 0
+30:2/0 = 0
+4:3/0 = 0
+5:3/0 = 0
+6:3/0 = 0
+8:3/0 = 0
+9:3/0 = 0
+10:3/0 = 0
+11:3/0 = 0
+12:3/0 = 0
+13:3/0 = 0
+24:3/0 = 0
+25:3/0 = 0
+26:3/0 = 0
+27:3/0 = 0
+28:3/0 = 0
+29:3/0 = 0
+2:4/0 = 0
+3:4/0 = 0
+4:4/0 = 0
+5:4/0 = 0
+6:4/0 = 0
+10:4/0 = 0
+11:4/0 = 0
+12:4/0 = 0
+13:4/0 = 0
+14:4/0 = 0
+15:4/0 = 0
+18:4/0 = 0
+19:4/0 = 0
+26:4/0 = 0
+27:4/0 = 0
+28:4/0 = 0
+29:4/0 = 0
+30:4/0 = 0
+31:4/0 = 0
+2:5/0 = 0
+3:5/0 = 0
+4:5/0 = 0
+5:5/0 = 0
+6:5/0 = 0
+10:5/0 = 0
+11:5/0 = 0
+12:5/0 = 0
+13:5/0 = 0
+14:5/0 = 0
+15:5/0 = 0
+18:5/0 = 0
+19:5/0 = 0
+20:5/0 = 0
+21:5/0 = 0
+22:5/0 = 0
+26:5/0 = 0
+27:5/0 = 0
+28:5/0 = 0
+29:5/0 = 0
+30:5/0 = 0
+31:5/0 = 0
+2:6/0 = 0
+3:6/0 = 0
+4:6/0 = 0
+5:6/0 = 0
+6:6/0 = 0
+7:6/0 = 0
+10:6/0 = 0
+11:6/0 = 0
+12:6/0 = 0
+13:6/0 = 0
+14:6/0 = 0
+15:6/0 = 0
+18:6/0 = 0
+19:6/0 = 0
+20:6/0 = 0
+21:6/0 = 0
+22:6/0 = 0
+23:6/0 = 0
+26:6/0 = 0
+27:6/0 = 0
+28:6/0 = 0
+29:6/0 = 0
+30:6/0 = 0
+31:6/0 = 0
+2:7/0 = 0
+3:7/0 = 0
+4:7/0 = 0
+5:7/0 = 0
+6:7/0 = 0
+7:7/0 = 0
+10:7/0 = 0
+11:7/0 = 0
+12:7/0 = 0
+13:7/0 = 0
+14:7/0 = 0
+15:7/0 = 0
+18:7/0 = 0
+19:7/0 = 0
+20:7/0 = 0
+21:7/0 = 0
+22:7/0 = 0
+23:7/0 = 0
+26:7/0 = 0
+27:7/0 = 0
+28:7/0 = 0
+29:7/0 = 0
+30:7/0 = 0
+31:7/0 = 0
+2:8/0 = 0
+3:8/0 = 0
+4:8/0 = 0
+5:8/0 = 0
+6:8/0 = 0
+7:8/0 = 0
+10:8/0 = 0
+11:8/0 = 0
+12:8/0 = 0
+13:8/0 = 0
+14:8/0 = 0
+15:8/0 = 0
+18:8/0 = 0
+19:8/0 = 0
+20:8/0 = 0
+21:8/0 = 0
+22:8/0 = 0
+23:8/0 = 0
+26:8/0 = 0
+27:8/0 = 0
+28:8/0 = 0
+29:8/0 = 0
+30:8/0 = 0
+31:8/0 = 0
+2:9/0 = 0
+3:9/0 = 0
+4:9/0 = 0
+5:9/0 = 0
+6:9/0 = 0
+7:9/0 = 0
+10:9/0 = 0
+11:9/0 = 0
+12:9/0 = 0
+13:9/0 = 0
+14:9/0 = 0
+15:9/0 = 0
+18:9/0 = 0
+19:9/0 = 0
+20:9/0 = 0
+21:9/0 = 0
+22:9/0 = 0
+23:9/0 = 0
+26:9/0 = 0
+27:9/0 = 0
+28:9/0 = 0
+29:9/0 = 0
+30:9/0 = 0
+31:9/0 = 0
+2:10/0 = 0
+3:10/0 = 0
+4:10/0 = 0
+5:10/0 = 0
+6:10/0 = 0
+7:10/0 = 0
+8:10/0 = 0
+9:10/0 = 0
+10:10/0 = 0
+11:10/0 = 0
+12:10/0 = 0
+13:10/0 = 0
+14:10/0 = 0
+15:10/0 = 0
+18:10/0 = 0
+19:10/0 = 0
+20:10/0 = 0
+21:10/0 = 0
+22:10/0 = 0
+23:10/0 = 0
+24:10/0 = 0
+25:10/0 = 0
+26:10/0 = 0
+27:10/0 = 0
+28:10/0 = 0
+29:10/0 = 0
+30:10/0 = 0
+31:10/0 = 0
+2:11/0 = 0
+3:11/0 = 0
+4:11/0 = 0
+5:11/0 = 0
+6:11/0 = 0
+7:11/0 = 0
+8:11/0 = 0
+9:11/0 = 0
+10:11/0 = 0
+11:11/0 = 0
+12:11/0 = 0
+13:11/0 = 0
+14:11/0 = 0
+15:11/0 = 0
+18:11/0 = 0
+19:11/0 = 0
+20:11/0 = 0
+21:11/0 = 0
+22:11/0 = 0
+23:11/0 = 0
+24:11/0 = 0
+25:11/0 = 0
+26:11/0 = 0
+27:11/0 = 0
+28:11/0 = 0
+29:11/0 = 0
+30:11/0 = 0
+31:11/0 = 0
+2:12/0 = 0
+3:12/0 = 0
+4:12/0 = 0
+5:12/0 = 0
+6:12/0 = 0
+7:12/0 = 0
+8:12/0 = 0
+9:12/0 = 0
+10:12/0 = 0
+11:12/0 = 0
+12:12/0 = 0
+13:12/0 = 0
+14:12/0 = 0
+15:12/0 = 0
+18:12/0 = 0
+19:12/0 = 0
+20:12/0 = 0
+21:12/0 = 0
+22:12/0 = 0
+23:12/0 = 0
+24:12/0 = 0
+25:12/0 = 0
+26:12/0 = 0
+27:12/0 = 0
+28:12/0 = 0
+29:12/0 = 0
+30:12/0 = 0
+31:12/0 = 0
+1:13/0 = 0
+2:13/0 = 0
+3:13/0 = 0
+4:13/0 = 0
+5:13/0 = 0
+6:13/0 = 0
+7:13/0 = 0
+8:13/0 = 0
+9:13/0 = 0
+10:13/0 = 0
+11:13/0 = 0
+12:13/0 = 0
+13:13/0 = 0
+14:13/0 = 0
+15:13/0 = 0
+19:13/0 = 0
+20:13/0 = 0
+21:13/0 = 0
+22:13/0 = 0
+23:13/0 = 0
+24:13/0 = 0
+25:13/0 = 0
+26:13/0 = 0
+27:13/0 = 0
+28:13/0 = 0
+1:14/0 = 0
+2:14/0 = 0
+3:14/0 = 0
+4:14/0 = 0
+5:14/0 = 0
+6:14/0 = 0
+7:14/0 = 0
+9:14/0 = 0
+10:14/0 = 0
+11:14/0 = 0
+12:14/0 = 0
+13:14/0 = 0
+14:14/0 = 0
+15:14/0 = 0
+19:14/0 = 0
+20:14/0 = 0
+21:14/0 = 0
+22:14/0 = 0
+23:14/0 = 0
+1:15/0 = 0
+2:15/0 = 0
+3:15/0 = 0
+4:15/0 = 0
+5:15/0 = 0
+6:15/0 = 0
+7:15/0 = 0
+9:15/0 = 0
+10:15/0 = 0
+11:15/0 = 0
+12:15/0 = 0
+13:15/0 = 0
+14:15/0 = 0
+15:15/0 = 0
+19:15/0 = 0
+20:15/0 = 0
+21:15/0 = 0
+22:15/0 = 0
+23:15/0 = 0
+4:16/0 = 0
+5:16/0 = 0
+6:16/0 = 0
+7:16/0 = 0
+8:16/0 = 0
+9:16/0 = 0
+10:16/0 = 0
+11:16/0 = 0
+12:16/0 = 0
+5:17/0 = 0
+7:17/0 = 0
+8:17/0 = 0
+9:17/0 = 0
+10:17/0 = 0
+11:17/0 = 0
+12:17/0 = 0
+13:17/0 = 0
+8:18/0 = 0
+9:18/0 = 0
+10:18/0 = 0
+11:18/0 = 0
+12:18/0 = 0
+13:18/0 = 0
+14:18/0 = 0
+8:19/0 = 0
+9:19/0 = 0
+10:19/0 = 0
+11:19/0 = 0
+12:19/0 = 0
+13:19/0 = 0
+2:20/0 = 0
+3:20/0 = 0
+10:20/0 = 0
+11:20/0 = 0
+12:20/0 = 0
+13:20/0 = 0
+14:20/0 = 0
+15:20/0 = 0
+2:21/0 = 0
+3:21/0 = 0
+4:21/0 = 0
+5:21/0 = 0
+6:21/0 = 0
+10:21/0 = 0
+11:21/0 = 0
+12:21/0 = 0
+13:21/0 = 0
+14:21/0 = 0
+15:21/0 = 0
+2:22/0 = 0
+3:22/0 = 0
+4:22/0 = 0
+5:22/0 = 0
+6:22/0 = 0
+7:22/0 = 0
+10:22/0 = 0
+11:22/0 = 0
+12:22/0 = 0
+13:22/0 = 0
+14:22/0 = 0
+15:22/0 = 0
+2:23/0 = 0
+3:23/0 = 0
+4:23/0 = 0
+5:23/0 = 0
+6:23/0 = 0
+7:23/0 = 0
+10:23/0 = 0
+11:23/0 = 0
+12:23/0 = 0
+13:23/0 = 0
+14:23/0 = 0
+15:23/0 = 0
+2:24/0 = 0
+3:24/0 = 0
+4:24/0 = 0
+5:24/0 = 0
+6:24/0 = 0
+7:24/0 = 0
+10:24/0 = 0
+11:24/0 = 0
+12:24/0 = 0
+13:24/0 = 0
+14:24/0 = 0
+15:24/0 = 0
+2:25/0 = 0
+3:25/0 = 0
+4:25/0 = 0
+5:25/0 = 0
+6:25/0 = 0
+7:25/0 = 0
+10:25/0 = 0
+11:25/0 = 0
+12:25/0 = 0
+13:25/0 = 0
+14:25/0 = 0
+15:25/0 = 0
+2:26/0 = 0
+3:26/0 = 0
+4:26/0 = 0
+5:26/0 = 0
+6:26/0 = 0
+7:26/0 = 0
+8:26/0 = 0
+9:26/0 = 0
+10:26/0 = 0
+11:26/0 = 0
+12:26/0 = 0
+13:26/0 = 0
+14:26/0 = 0
+15:26/0 = 0
+2:27/0 = 0
+3:27/0 = 0
+4:27/0 = 0
+5:27/0 = 0
+6:27/0 = 0
+7:27/0 = 0
+8:27/0 = 0
+9:27/0 = 0
+10:27/0 = 0
+11:27/0 = 0
+12:27/0 = 0
+13:27/0 = 0
+14:27/0 = 0
+15:27/0 = 0
+2:28/0 = 0
+3:28/0 = 0
+4:28/0 = 0
+5:28/0 = 0
+6:28/0 = 0
+7:28/0 = 0
+8:28/0 = 0
+9:28/0 = 0
+10:28/0 = 0
+11:28/0 = 0
+12:28/0 = 0
+13:28/0 = 0
+14:28/0 = 0
+15:28/0 = 0
+3:29/0 = 0
+4:29/0 = 0
+5:29/0 = 0
+6:29/0 = 0
+7:29/0 = 0
+8:29/0 = 0
+9:29/0 = 0
+10:29/0 = 0
+11:29/0 = 0
+12:29/0 = 0
+3:30/0 = 0
+4:30/0 = 0
+5:30/0 = 0
+6:30/0 = 0
+7:30/0 = 0
+3:31/0 = 0
+4:31/0 = 0
+5:31/0 = 0
+6:31/0 = 0
+7:31/0 = 0
+
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_l0gw7"]
 texture = ExtResource("21_yjja3")
 texture_region_size = Vector2i(32, 32)
@@ -1109,6 +1629,7 @@ sources/5 = SubResource("TileSetAtlasSource_l0gw7")
 sources/6 = SubResource("TileSetAtlasSource_yjja3")
 sources/0 = SubResource("TileSetAtlasSource_0arob")
 sources/1 = SubResource("TileSetAtlasSource_dij0e")
+sources/2 = SubResource("TileSetAtlasSource_ywjan")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_qsp4k"]
 texture = ExtResource("8_xuqvo")
@@ -1268,7 +1789,6 @@ texture_region_size = Vector2i(32, 32)
 15:6/0 = 0
 15:6/0/custom_data_3 = "pavement"
 2:7/0 = 0
-2:7/0/physics_layer_0/polygon_0/points = PackedVector2Array(0.9558945, -6.372616, -5.7353516, 1.2745247, -6.372614, 4.779461, 5.416725, 4.1422005, 5.098095, 0)
 2:7/0/custom_data_1 = "neighbor_cond"
 2:7/0/custom_data_3 = "pavement"
 3:7/0 = 0
@@ -2333,7 +2853,7 @@ texture_region_size = Vector2i(32, 32)
 0:0/0 = 0
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-10.8334465, -11.152077, 13.382492, -10.833445, 13.382492, 0.63726044, -10.8334465, 0.63726044)
 1:0/0 = 0
-1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-10.8334465, -10.833445, 13.382492, -10.833445, 13.063862, -0.31863022, -11.470707, -0.31863022)
+1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-10.8334465, -10.833445, 2.5490456, -10.833445, 2.5490456, -0.63726044, -11.470707, -0.31863022)
 2:0/0 = 0
 2:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-12.107969, -12.107969, 13.063862, -10.514814, 12.745232, -0.31863022, -11.789339, -0.63726044)
 0:1/0 = 0
@@ -3173,6 +3693,8 @@ var selected_choice := 0
 
 var is_open := false
 
+var changes_applying = false
+
 signal dialog_closed
 
 
@@ -3303,6 +3825,10 @@ func open_dialog(key: String):
 	next_line()
 
 func next_line():
+	if changes_applying:
+		print(\"changes are applying wait for interact input\")
+		return
+		
 	player_choosing = false
 	if line_index < lines.size():
 		show_line()
@@ -3452,6 +3978,7 @@ func close_dialog():
 		next_key = current_dialog[\"next_dialog\"]
 	
 	if current_dialog.has(\"on_finish\"):
+		changes_applying = true
 		var changes = current_dialog[\"on_finish\"]
 		
 		if changes is Dictionary:
@@ -3560,10 +4087,21 @@ func close_dialog():
 					choices_box.visible = false
 				
 				for data in moved_entities:
-					await data[\"entity\"].move_finished
-					if data[\"marker\"].facing == \"up\":
-						data[\"entity\"].looking_up = true
-						data[\"entity\"].update_animation(Vector2.ZERO)
+					print(data[\"entity\"].entity_id)
+				
+				while true:
+					var somebody_moving := false
+					for data in moved_entities:
+						if data[\"entity\"].is_moving:
+							somebody_moving = true
+							break
+						else:
+							if data[\"marker\"].facing == \"up\":
+								data[\"entity\"].looking_up = true
+								data[\"entity\"].update_animation(Vector2.ZERO)
+					if !somebody_moving:
+						break
+					await get_tree().process_frame
 				
 			# TELEPORT
 			if change.has(\"teleport\"):
@@ -3581,7 +4119,7 @@ func close_dialog():
 
 				MenuFileManager.unlock_menu_entry(data[\"id\"],data[\"path\"],data[\"text\"])
 			
-			# CHOOSE STUDENT TRIBUTE
+			# CHOOSE RECAP TRIBUTE
 			if change.has(\"choose_student\"):
 				var selected = randi_range(1, 7)
 				Global.recap_tribute = selected
@@ -3603,7 +4141,7 @@ func close_dialog():
 			if change.has(\"restart_game\"):
 				SaveManager.perform_quick_save()
 				Transitioner.change_scene(\"res://Menus/intro.tscn\",Transitioner.TransitionType.SIMPLE,5.0)
-			
+	changes_applying = false
 	if has_next_dialog:
 		open_dialog(next_key)
 		return
@@ -3976,7 +4514,7 @@ shape = SubResource("RectangleShape2D_34ol3")
 
 [node name="LayerHighTextures" type="TileMapLayer" parent="." unique_id=1980100893]
 z_index = 16
-tile_map_data = PackedByteArray("AACd/2oABQAGAAQAAGCg/2oABQAGAAUAAGCj/2oABQAHAAUAAGCd/2kABQAEAAUAAACg/2kABQAEAAUAAACj/2kABQAEAAUAAACc/2kABQADAAIAAACe/2kABQADAAIAAACf/2kABQADAAIAAACh/2kABQADAAIAAACi/2kABQADAAIAAACk/2kABQADAAIAAACl/2kABQADAAIAAACc/2gABQADAAEAAACd/2gABQADAAEAAACe/2gABQADAAEAAACf/2gABQADAAEAAACg/2gABQADAAEAAACh/2gABQADAAEAAACi/2gABQADAAEAAACj/2gABQADAAEAAACk/2gABQADAAEAAACl/2gABQADAAEAAACl/2oABQAGAAIAAACk/2oABQAGAAIAAACi/2oABQAGAAIAAACh/2oABQAGAAIAAACf/2oABQAGAAIAAACe/2oABQAGAAIAAACc/2oABQAGAAIAAABLAHAABgANAA0AAABLAHEABgANAA4AAABLAHIABgANAA8AAABMAHAABgAOAA0AAABMAHEABgAOAA4AAABMAHIABgAOAA8AAABNAHAABgAPAA0AAABNAHEABgAPAA4AAABNAHIABgAPAA8AAABCAGsAAQAAAAAAAABCAGwAAQAAAAEAAABCAG0AAQAAAAIAAABCAG4AAQAAAAMAAABCAG8AAQAAAAQAAABCAHAAAQAAAAUAAABEAGsAAQABAAAAAABEAGwAAQABAAEAAABEAG0AAQABAAIAAABEAG4AAQABAAMAAABEAG8AAQABAAQAAABEAHAAAQABAAUAAABGAGsAAQACAAAAAABGAGwAAQACAAEAAABGAG0AAQACAAIAAABGAG4AAQACAAMAAABGAG8AAQACAAQAAABGAHAAAQACAAUAAABCAGkAAQAAAAYAAABDAGkAAQABAAYAAAA=")
+tile_map_data = PackedByteArray("AACd/2oABQAGAAQAAGCg/2oABQAGAAUAAGCj/2oABQAHAAUAAGCd/2kABQAEAAUAAACg/2kABQAEAAUAAACj/2kABQAEAAUAAACc/2kABQADAAIAAACe/2kABQADAAIAAACf/2kABQADAAIAAACh/2kABQADAAIAAACi/2kABQADAAIAAACk/2kABQADAAIAAACl/2kABQADAAIAAACc/2gABQADAAEAAACd/2gABQADAAEAAACe/2gABQADAAEAAACf/2gABQADAAEAAACg/2gABQADAAEAAACh/2gABQADAAEAAACi/2gABQADAAEAAACj/2gABQADAAEAAACk/2gABQADAAEAAACl/2gABQADAAEAAACl/2oABQAGAAIAAACk/2oABQAGAAIAAACi/2oABQAGAAIAAACh/2oABQAGAAIAAACf/2oABQAGAAIAAACe/2oABQAGAAIAAACc/2oABQAGAAIAAABLAHAABgANAA0AAABLAHEABgANAA4AAABLAHIABgANAA8AAABMAHAABgAOAA0AAABMAHEABgAOAA4AAABMAHIABgAOAA8AAABNAHAABgAPAA0AAABNAHEABgAPAA4AAABNAHIABgAPAA8AAABCAGsAAQAAAAAAAABCAGwAAQAAAAEAAABCAG0AAQAAAAIAAABCAG4AAQAAAAMAAABCAG8AAQAAAAQAAABCAHAAAQAAAAUAAABEAGsAAQABAAAAAABEAGwAAQABAAEAAABEAG0AAQABAAIAAABEAG4AAQABAAMAAABEAG8AAQABAAQAAABEAHAAAQABAAUAAABGAGsAAQACAAAAAABGAGwAAQACAAEAAABGAG0AAQACAAIAAABGAG4AAQACAAMAAABGAG8AAQACAAQAAABGAHAAAQACAAUAAABCAGkAAQAAAAYAAABDAGkAAQABAAYAAAD6/wEAAgACAAcAADA=")
 tile_set = SubResource("TileSet_557es")
 
 [node name="LayerColission" type="TileMapLayer" parent="." unique_id=177453866]
@@ -4102,6 +4640,11 @@ position = Vector2(2155, 3452)
 script = ExtResource("37_k1udn")
 facing = "down"
 
+[node name="ClassroomJake3" type="Marker2D" parent="NPCMarkers" unique_id=970012044 groups=["npc_markers"]]
+position = Vector2(2224, 3398)
+script = ExtResource("37_k1udn")
+facing = "down"
+
 [node name="ClassroomBoniface" type="Marker2D" parent="NPCMarkers" unique_id=32851741 groups=["npc_markers"]]
 position = Vector2(2134, 3448)
 script = ExtResource("37_k1udn")
@@ -4116,7 +4659,7 @@ position = Vector2(2171, 3597)
 script = ExtResource("37_k1udn")
 
 [node name="ClassroomCandy" type="Marker2D" parent="NPCMarkers" unique_id=85046603 groups=["npc_markers"]]
-position = Vector2(2134, 3490)
+position = Vector2(2134, 3491)
 script = ExtResource("37_k1udn")
 
 [node name="ClassroomCandy2" type="Marker2D" parent="NPCMarkers" unique_id=123765759 groups=["npc_markers"]]
@@ -4168,6 +4711,10 @@ facing = "down"
 position = Vector2(2221, 3389)
 script = ExtResource("37_k1udn")
 facing = "down"
+
+[node name="DavidEvening" type="Marker2D" parent="NPCMarkers" unique_id=1892489501 groups=["npc_markers"]]
+position = Vector2(-176, 47)
+script = ExtResource("37_k1udn")
 
 [node name="Entities" type="Node2D" parent="." unique_id=1262058160]
 
@@ -4238,7 +4785,6 @@ animation = &"walkUp"
 [node name="teacher" parent="Entities" unique_id=126254249 instance=ExtResource("21_ryguw")]
 unique_name_in_owner = true
 position = Vector2(2184, 3376)
-dialog_key = "school_start_cond"
 entity_id = "teacher"
 
 [node name="AnimatedSprite2D" parent="Entities/teacher" index="0" unique_id=41462874]
@@ -4330,6 +4876,7 @@ animation = &"walkUp"
 
 [node name="cm5Jake" parent="Entities" unique_id=354178072 instance=ExtResource("21_ryguw")]
 position = Vector2(2296, 3416)
+dialog_key = "jake_school_cond"
 entity_id = "Jake"
 
 [node name="AnimatedSprite2D" parent="Entities/cm5Jake" index="0" unique_id=41462874]

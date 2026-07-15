@@ -1,0 +1,424 @@
+{
+
+"comment_ignore_jake": {
+	"lines": [
+	{ "speaker": "neutral", "text": "jake_how_much_knows = 1 - nothing, 2 - told about david, 3 - 2+the david plan, 4 - 3+computer superpower" },
+	
+	],
+  	},
+
+
+"jake_school_cond": {
+	"conditions": [
+	{"flags": {"jake_intro": 0}, "dialog": "jake_intro"},
+	{"flags": {"jake_intro": 1}, "dialog": "jake_default"},
+		]
+	},
+	
+"jake_intro": {
+	"lines": [
+	{ "speaker": "jake", "text": "Hey dude." },
+	{ "speaker": "jake", "text": "Havent seen you around lately." },
+	{ "speaker": "jessie", "text": "Yeah, Ive been busy durring the weekend." },
+	{ "speaker": "jessie", "text": "Something new at school?" },
+	{ "speaker": "jake", "text": "Nothing much. Candy is still a nerd. Bone is still Bone and Tony still keeps to himself." },
+	{ "speaker": "jake", "text": "And Lisa is still..Lisa." },
+	{ "speaker": "jessie", "text": "When are you gonna ask her out dude?" },
+	{ "speaker": "jake", "text": "Probably never." },
+	{ "speaker": "jessie", "text": "..." },
+	],
+	"on_finish": [
+		{
+		"flag": "jake_intro",
+		"set": 1
+		},
+	],
+	"next_dialog": "jake_default"
+	},
+	
+"jake_default": {
+	"lines": [
+	{ "speaker": "jake", "text": "Anyway, Jake!" },
+	],
+	"choices": [
+	{
+		"text": "Ill see you around then.",
+		"next": "jake_goodbye",
+	},
+	{
+		"text": "Damn the teacher was really drilling you there huh?",
+		"next": "jake_recap_reaction",
+		"requires_flag": {
+			"jake_recapped": 1
+		}
+	},
+	{
+		"text": "You know of a place I could buy a camera at?",
+		"next": "jake_camera_inquire",
+		"requires_flag": {
+			"david_story": 2
+		}
+	  },
+	{
+		"text": "You know of a place I could buy a camera at?",
+		"next": "jake_camera_inquire",
+		"requires_flag": {
+			"david_story": 3
+		}
+	  },
+	{
+		"text": "You know of a place I could buy a camera at?",
+		"next": "jake_camera_inquire",
+		"requires_flag": {
+			"david_story": 4
+		}
+	  },
+	
+	
+		{
+		"text": "Jake I have something I have to tell you (tell him about the computer superpower)",
+		"next": "jake_tell_secret",
+		"requires_flag": {
+			"david_story": 4
+		}
+	  },
+	{
+		"text": "Jake I have something I have to tell you (tell him about David)",
+		"next": "jake_tell_secret",
+		"requires_flag": {
+			"david_story": 2
+		}
+	  },
+	{
+		"text": "Jake I have something I have to tell you (tell him about David and the plan)",
+		"next": "jake_tell_secret",
+		"requires_flag": {
+			"david_story": 3
+		}
+	  },
+	
+	
+	
+		{
+		"text": "Jake can you spot me a couple bucks?",
+		"next": "jake_borrow_money",
+		"requires_flag": {
+		}
+	  },
+	{
+		"text": "Wanna watch a movie in the evening?",
+		"next": "jake_movie",
+		"requires_flag": {
+			"jake_cinema_planned": 0
+		}
+	  },
+	],
+	},
+	
+
+
+"jake_goodbye": {
+	"lines": [
+	{ "speaker": "jake", "text": "See you around." }
+	]
+	},
+
+"jake_recap_reaction": {
+	"lines": [
+	{ "speaker": "jake", "text": "Man dont even start. She relishes in this." },
+	{ "speaker": "jessie", "text": "Haha you should have paid attention last lesson." },
+	{ "speaker": "jake", "text": "Oh youre the one to speak huh?" },
+	{ "speaker": "jake", "text": "If I remember correctly yours went about the same last time." },
+	{ "speaker": "jessie", "text": "At least I didnt end up like Boniface usually does." },
+	{ "speaker": "jake", "text": "Too true." },
+	{ "speaker": "jake", "text": "You cant do much when the teacher already dislikes you from day one." },
+	{ "speaker": "jessie", "text": "Wonder what the reason could be.." },
+	{ "speaker": "jake", "text": "Youre threading on thin ice here. If she heard you, youd end up like him just so she proves you wrong." },
+	{ "speaker": "jessie", "text": "Its wrong. And one day shell gets what she deserves for it." },
+	{ "speaker": "jake", "text": "Its a shame because I feel like shes a pretty good teacher. Well..compared to other teachers here." },
+	{ "speaker": "jessie", "text": "It is what it is." },
+	{ "speaker": "jake", "text": "Yeah." },
+	],
+	"next_dialog": "jake_default"
+	},
+
+"jake_camera_inquire": {
+	"conditions": [
+	{"flags": {"jake_know_secret": 1}, "dialog": "jake_camera_inquire_know_secret"},
+	{"flags": {"jake_know_secret": 0}, "dialog": "jake_camera_inquire_doesnt_know_secret"},
+		]
+	},
+
+"jake_camera_inquire_know_secret": {
+	"lines": [
+	{ "speaker": "jake", "text": "You asking because of the thing?" },
+	{ "speaker": "jessie", "text": "yeah." },
+	{ "speaker": "jake", "text": "Well its not gonna be cheap but theres is a store in town. You might have seen it. its basically on the opposite side to where school is." },
+	{ "speaker": "jessie", "text": "what are the prices?" },
+	{ "speaker": "jake", "text": "Dont know the exact numbers but its in the hundred at least for a decent one that can last longer." },
+	{ "speaker": "jessie", "text": "Well long lasting is what we need." },
+	{ "speaker": "jake", "text": "How is David?" },
+	{ "speaker": "jessie", "text": "Why dont you go ask him?" },
+	{ "speaker": "jake", "text": "Ehh..I-" },
+	{ "speaker": "jessie", "text": "You dont wanna be seen with a loser?" },
+	{ "speaker": "jake", "text": "NO!" },
+	{ "speaker": "jessie", "text": "What is it then?" },
+	{ "speaker": "jake", "text": "I dont think like that!" },
+	{ "speaker": "jessie", "text": "What is it then?" },
+	{ "speaker": "jake", "text": "I dont know." },
+	{ "speaker": "jessie", "text": "Well you clearly care so go ask. He would really apreciate it." },
+	{ "speaker": "jake", "text": "Okay ill ask." },
+	],
+	"on_finish": [
+		{
+		"flag": "jake_borrow_possible",
+		"set": 1
+		},
+	],
+	"next_dialog": "jake_default"
+	},
+
+"jake_camera_inquire_doesnt_know_secret": {
+	"lines": [
+	{ "speaker": "jake", "text": "Hmmm. Why you asking?" },
+	{ "speaker": "jessie", "text": "Because I need one. And I dont want to explain right now." },
+	{ "speaker": "jake", "text": "Sure, alright." },
+	{ "speaker": "jake", "text": "Theres a store, next to the river on the opsite side of town. But theyre not cheap. Just a warning." },
+	{ "speaker": "jessie", "text": "Whats the price? A couple hundred?" },
+	{ "speaker": "jake", "text": "For a midrange yeah. You could go cheaper though." },
+	{ "speaker": "jessie", "text": "I need one that has a good battery. A couple hours at least." },
+	{ "speaker": "jake", "text": "Yeah thats gonna be a couple hundred for sure." },
+	{ "speaker": "jessie", "text": "Welp. Can i uhh.." },
+	{ "speaker": "jake", "text": "Sorry dude I dont have any money. I would give you what I have but at least tell me what its for." },
+	{ "speaker": "jessie", "text": "Yeah.." },
+	],
+	"next_dialog": "jake_default"
+	},
+
+"jake_borrow_money": {
+	"lines": [
+	{ "speaker": "jake", "text": "What for?" },
+	],
+	"choices": [
+	{
+		"text": "For the camera im trying to buy.",
+		"next": "jake_borrow_money_camera",
+		"requires_flag": {
+			"jake_borrow_possible": 1
+		}
+	},
+	{
+		"text": "I forgot to pack lunch today. I wanna buy something from the vending machine.",
+		"next": "jake_borrow_money_food",
+		"requires_flag": {
+			"jake_borrowed_money": 0
+		}
+	  },
+	
+	{
+		"text": "forget it.",
+		"next": "jake_default",
+	  },
+	]
+	},
+
+"jake_borrow_money_camera": {
+	"lines": [
+	{ "speaker": "jake", "text": "Oh...sure. Could not look at myself in the mirror if I didnt." },
+	{ "speaker": "jessie", "text": "Thanks. Ill mention to David that you helped." },
+	{ "speaker": "neutral", "text": "Jake gives you 20 dollars." },
+	],
+	"on_finish": [
+		{
+		"flag": "jake_borrowed_for_david",
+		"set": 1
+		},
+		{
+		"flag": "jake_borrowed_money",
+		"set": 1
+		},
+		{
+		"give_item": {
+			"name": "money",
+			"amount": 20
+			},
+		},
+	],
+	"next_dialog": "jake_default"
+	},
+
+"jake_borrow_money_food": {
+	"lines": [
+	{ "speaker": "jake", "text": "Dude, why does this happen so often?" },
+	{ "speaker": "jessie", "text": "It doesnt!" },
+	{ "speaker": "jake", "text": "Last week you also 'forgot your lunch at home'." },
+	{ "speaker": "jessie", "text": "Pleaseee spot a friend." },
+	{ "speaker": "jake", "text": "Okay. But its the last time." },
+	{ "speaker": "neutral", "text": "Jake gives you 5 dollars." },
+	],
+	"on_finish": [
+		{
+		"flag": "jake_borrowed_money",
+		"set": 1
+		},
+		{
+		"give_item": {
+			"name": "money",
+			"amount": 5
+			},
+		},
+	],
+	"next_dialog": "jake_default"
+	},
+
+"jake_movie": {
+	"lines": [
+	{ "speaker": "jake", "text": "Sure, dude. Which one?" },
+	{ "speaker": "jessie", "text": "I saw they were screening The matrix in the cinema." },
+	{ "speaker": "jake", "text": "Ive seen that one already." },
+	{ "speaker": "jessie", "text": "Damn, fine. Then well see what next week maybe?" },
+	{ "speaker": "jake", "text": "What about at your place?" },
+	{ "speaker": "jessie", "text": "We could. But Ill have to ask dad.." },
+	{ "speaker": "jake", "text": "Well ask dad and you can tell me tomorrow or something" },
+	{ "speaker": "jessie", "text": "yeah." },
+	],
+	"on_finish": [
+		{
+		"flag": "jake_cinema_planned",
+		"set": 1
+		},
+	],
+	"next_dialog": "jake_default"
+	},
+
+
+
+
+
+"jake_tell_secret": {
+	"conditions": [
+	{"flags": {"jake_how_much_knows": 1}, "dialog": "jake_tell_david"},
+	{"flags": {"jake_how_much_knows": 2}, "dialog": "jake_tell_david_plan"},
+	{"flags": {"jake_how_much_knows": 3}, "dialog": "jake_tell_david_plan_computerpower"},
+	
+	{"flags": {}, "dialog": "jake_review_david_situation"},
+		]
+	},
+
+"jake_tell_david": {
+	"lines": [
+	{ "speaker": "jake", "text": "NOT FINISHED PLACE HOLDER david story tell 2" },
+	],
+	"choices": [
+	{
+		"text": "Yeah. Im now trying to figure out what to do next..",
+		"next": "jake_know_2_end",
+		"requires_flag": {
+			"david_story": 2
+		}
+	},
+	{
+		"text": "I have already talked to David about a plan",
+		"next": "jake_tell_david_plan",
+		"requires_flag": {
+			"david_story": 3
+		}
+	},
+	],
+	},
+
+"jake_know_2_end": {
+	"lines": [
+	{ "speaker": "jake", "text": "NOT FINISHED PLACE HOLDER david story tell 2 end" },
+	],
+	"on_finish": [
+		{
+		"flag": "jake_how_much_knows",
+		"set": 2
+		},
+		{
+		"flag": "jake_know_secret",
+		"set": 1
+		}
+	],
+	"next_dialog": "jake_default"
+	},
+
+"jake_tell_david_plan": {
+	"lines": [
+	{ "speaker": "jake", "text": "NOT FINISHED PLACE HOLDER david story tell 3" },
+	],
+	"choices": [
+	{
+		"text": "We decided to meet and try out the meds.",
+		"next": "jake_know_3_end",
+		"requires_flag": {
+			"david_story": 2
+		}
+	},
+	{
+		"text": "We have tested out the meds as well.",
+		"next": "jake_tell_david_plan_computerpower",
+		"requires_flag": {
+			"david_story": 3
+		}
+	},
+	]
+	},
+
+"jake_know_3_end": {
+	"lines": [
+	{ "speaker": "jake", "text": "NOT FINISHED PLACE HOLDER david story tell 3 end" },
+	],
+	"on_finish": [
+		{
+		"flag": "jake_how_much_knows",
+		"set": 3
+		},
+		{
+		"flag": "jake_know_secret",
+		"set": 1
+		}
+	],
+	"next_dialog": "jake_default"
+	},
+
+"jake_tell_david_plan_computerpower": {
+	"lines": [
+	{ "speaker": "jake", "text": "NOT FINISHED PLACE HOLDER david story tell 4" },
+	],
+	"on_finish": [
+		{
+		"flag": "jake_how_much_knows",
+		"set": 4
+		},
+		{
+		"flag": "jake_know_secret",
+		"set": 1
+		}
+	],
+	"next_dialog": "jake_default"
+	},
+
+"jake_review_david_situation": {
+	"lines": [
+	{ "speaker": "jake", "text": "What?" },
+	{ "speaker": "jessie", "text": "Wanted to tell you that secret that I already told you. Forgot you knew it already..." },
+	{ "speaker": "jake", "text": "Dude, you are demented.." },
+	],
+	"next_dialog": "jake_default"
+	},
+
+
+
+
+
+
+
+
+
+
+
+
+
+}

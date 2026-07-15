@@ -15,8 +15,13 @@
 	{"flags": { "david_story": 1}, "dialog": "david_school_casual"},
 	{"flags": { "david_story": 2}, "dialog": "david_school_casual"},
 	
-	{"flags": { "david_story": 3, "time_of_day": "afternoon"}, "dialog": "david_testing_medicine"},
-	{"flags": { "david_story": 4, "time_of_day": "afternoon"}, "dialog": "david_testing_medicine_wake_up"},
+	{"flags": { "david_story": 3, "time_of_day": "afternoon", "david_woke_up_from_meds": 0}, "dialog": "david_testing_medicine"},
+	{"flags": { "david_story": 4, "time_of_day": "afternoon", "david_woke_up_from_meds": 0}, "dialog": "david_testing_medicine_wake_up"},
+	
+	{"flags": { "david_story": 3}, "dialog": "david_school_casual"},
+	{"flags": { "david_story": 4}, "dialog": "david_school_casual"},
+	
+	
 		]
   			},
 	
@@ -703,16 +708,18 @@
 				"set": 4 
 			},
 			{
-			"moveNPC": {
-			"NPCid": "David_evening",
-			"x": -6,
-			"y": 1,
-			"move_speed": 50,
-			"change_after_move": {
-				"david_there_evening": 0
-				}
-			}
+				"flag": "david_woke_up_from_meds",
+				"set": 1 
 			},
+			{
+	"moveNPC": [
+			{
+				"NPCid": "David_evening",
+				"marker": "DavidEvening",
+				"move_speed": 70,
+			}
+			],
+		}
 		]
 	},
 

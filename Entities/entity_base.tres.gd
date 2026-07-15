@@ -57,6 +57,8 @@ func _physics_process(delta):
 			velocity = Vector2.ZERO
 			update_animation(Vector2.ZERO)
 			move_finished.emit()
+			print(entity_id)
+			print("sa zastavil")
 			return
 		
 		velocity = direction.normalized() * move_speed
