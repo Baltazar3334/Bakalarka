@@ -21,11 +21,14 @@
 	{ "speaker": "jake", "text": "Havent seen you around lately." },
 	{ "speaker": "jessie", "text": "Yeah, Ive been busy durring the weekend." },
 	{ "speaker": "jessie", "text": "Something new at school?" },
-	{ "speaker": "jake", "text": "Nothing much. Candy is still a nerd. Bone is still Bone and Tony still keeps to himself." },
-	{ "speaker": "jake", "text": "And Lisa is still..Lisa." },
-	{ "speaker": "jessie", "text": "When are you gonna ask her out dude?" },
+	{ "speaker": "jake", "text": "Nothing much. Lisa is still innocent. Bone is still Bone and Tony still keeps to himself." },
+	{ "speaker": "jake", "text": "And Candy is still...Candy." },
+	{ "speaker": "jessie", "text": "When are you gonna ask her out to the dance?" },
 	{ "speaker": "jake", "text": "Probably never." },
 	{ "speaker": "jessie", "text": "..." },
+	{ "speaker": "jake", "text": "Hey tough guy! Do you have a partner lined up?" },
+	{ "speaker": "jessie", "text": "..." },
+	{ "speaker": "jake", "text": "Thats what I thought." },
 	],
 	"on_finish": [
 		{

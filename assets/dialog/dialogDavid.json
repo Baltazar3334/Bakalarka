@@ -405,6 +405,13 @@
 			"neighbor_story": 7
 			}
 		},
+		{
+		"text": "Lisa likes you.",
+		"next": "david_school_lisa_likes_you",
+		"requires_flag": {
+			"candy_promise": 1
+			}
+		},
 		
 		
 		{
@@ -414,11 +421,86 @@
 		{
 		"text": "By the way, where do you hang out after school?",
 		"next": "david_school_where_hang_out"
+		},
+		{
+		"text": "Ill see you around.",
+		"next": "david_school_bye"
 		}
 	]
 	},
 
+"david_school_bye": {
+	"lines": [
+	{ "speaker": "david", "text": "See you." },
+	]
+	},
 
+
+"david_school_lisa_likes_you": {
+	"lines": [
+	{ "speaker": "david", "text": "What?" },
+	{ "speaker": "jessie", "text": "I saw her looking at you one too many times." },
+	{ "speaker": "david", "text": "That doesnt really mean anything." },
+	],
+	"choices": [
+	{
+		"text": "Candy told me.",
+		"next": "david_school_lisa_candy_hint",
+	  },
+	{
+		"text": "I just know trust me.",
+		"next": "david_school_lisa_trust",
+	  },
+	{
+		"text": "Lisa is really into guys like you.",
+		"next": "david_school_lisa_her_type",
+	  },
+	],
+	},
+
+
+"david_school_lisa_candy_hint": {
+	"lines": [
+	{ "speaker": "david", "text": "Really?" },
+	{ "speaker": "jessie", "text": "Yeah dude. She said it in a very...Candy way. But Lisa is a nice person. I think youd like her." },
+	{ "speaker": "jessie", "text": "Shes caring and kinda sweet to everybody." },
+	{ "speaker": "jessie", "text": "And I guess you charmed her haha." },
+	{ "speaker": "david", "text": "Dont know if I should even try. Since we move so often." },
+	{ "speaker": "jessie", "text": "Look, chances like this dont come every day. And you only live once so enjoy it Id say." },
+	{ "speaker": "jessie", "text": "Maybe you can go to the dance with her?" },
+	{ "speaker": "jessie", "text": "Yeah, theres a school dance coming. Its on the notice board in the hallway." },
+	{ "speaker": "david", "text": "Well...maybe. If she wants to go." },
+	{ "speaker": "jessie", "text": "She didnt tell me that. Only that she wants to get to know you. But im sure if you asks she will go with you." },
+	{ "speaker": "david", "text": "Okay Ill ask her after school." },
+	{ "speaker": "jessie", "text": "Yeah tell me how it went then." },
+	{ "speaker": "david", "text": "sure. And thanks for telling me." },
+	],
+	"on_finish": [
+			{
+				"flag": "david_asked_lisa_out",
+				"set": 1
+			},
+			{
+				"flag": "candy_promise",
+				"set": 2
+			},
+		],
+	"next_dialog": "david_school_casual"
+	},
+
+
+
+
+
+
+
+
+
+"david_school_bye": {
+	"lines": [
+	{ "speaker": "david", "text": "See you." },
+	]
+	},
 
 
 

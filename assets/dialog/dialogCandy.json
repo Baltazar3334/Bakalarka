@@ -1,0 +1,249 @@
+{
+	
+"candy_evening_cond": {
+	"conditions": [
+	{"flags": {"candy_promise": 0, "time_of_day": "afternoon"}, "dialog": "candy_deal"},
+	{"flags": {"candy_promise": 1, "time_of_day": "afternoon"}, "dialog": "candy_after_deal"},
+		]
+	},
+	
+"candy_deal": {
+	"lines": [
+	{ "speaker": "jessie", "text": "Hey." },
+	{ "speaker": "neutral", "text": "The perfectionist Candy. You have never seen her not be prepared for a situation. Be it an exam, an awkward moment or a deep conversation." },
+	{ "speaker": "neutral", "text": "Seen is the correct word. Since you havent spoken much in the past." },
+	{ "speaker": "neutral", "text": "And her mentality reflects her looks. Her clothing choices and makeup scream 'Im ready for whatever bullshit youve prepared for me'." },
+	{ "speaker": "candy", "text": "Hey. Thanks for coming." },
+	{ "speaker": "jessie", "text": "So..whats up?" },
+	{ "speaker": "candy", "text": "Youre friends with the new guy David. Correct?" },
+	{ "speaker": "jessie", "text": "Why?" },
+	{ "speaker": "candy", "text": "Just answer the question." },
+	{ "speaker": "jessie", "text": "I am." },
+	{ "speaker": "candy", "text": "I need you to do something for me." },
+	{ "speaker": "candy", "text": "Get him to talk to Lisa." },
+	{ "speaker": "jessie", "text": "What? Why?" },
+	{ "speaker": "candy", "text": "Dont ask question and do it." },
+	{ "speaker": "jessie", "text": "Hold on. We barely know each other, this past year you barely looked at me in class when I said 'hi'. And now you drag me IN THE MIDDLE OF THE NIGHT over here to tell me to do something?" },
+	{ "speaker": "candy", "text": "First of all I didnt drag you. You came here by yourself." },
+	{ "speaker": "jessie", "text": "If you-" },
+	{ "speaker": "candy", "text": "SECONDLY..there is something in it for you." },
+	{ "speaker": "jessie", "text": "..." },
+	{ "speaker": "candy", "text": "Thats right. So shut up and listen." },
+	{ "speaker": "candy", "text": "Get David to talk to Lisa and Ill go to the dance with you." },
+	{ "speaker": "jessie", "text": "What gave you the idea I would want to go to the dance with you?" },
+	{ "speaker": "candy", "text": "Oh because you have so many to chose from right?" },
+	{ "speaker": "jessie", "text": "I dont even wanna go to the dance.." },
+	{ "speaker": "candy", "text": "Because you have nobody to go with." },
+	{ "speaker": "candy", "text": "Do this for me. Or even better get him to like her-" },
+	{ "speaker": "jessie", "text": "What am I the Cupid?" },
+	{ "speaker": "candy", "text": "Im sure you can figure it out. Besides I can see that he likes her already." },
+	{ "speaker": "jessie", "text": "Oh so youre the Cupid. Now I get it." },
+	{ "speaker": "jessie", "text": "But anyway, why do you want them to be together so bad?" },
+	{ "speaker": "candy", "text": "Ask nicer and I might even tell you." },
+	{ "speaker": "jessie", "text": "..." },
+	{ "speaker": "candy", "text": "Fine..Lisa really likes him. And she asked me to help." },
+	{ "speaker": "jessie", "text": "Really?!" },
+	{ "speaker": "jessie", "text": "*Wow finally something nice happening to David*" },
+	{ "speaker": "jessie", "text": "*But Jake wont be happy about me going to the dance with Candy*" },
+	{ "speaker": "candy", "text": "Yes, stupid. Why else would I be doing this?" },
+	{ "speaker": "candy", "text": "Personally I dont know what she finds so interesting about a loser loner but I wanna help out my friend." },
+	{ "speaker": "jessie", "text": "Okay hold up. If you want me to help, stop calling him that...and me!" },
+	{ "speaker": "candy", "text": "Jessie, I know youre gonna help just based on that reaction alone. In fact I think youre gonna do it even if I dont go to the dance with you." },
+	],
+	"next_dialog": "candy_boniface_excuse_cond"
+	},
+	
+"candy_boniface_excuse_cond": {
+	"conditions": [
+	{"flags": {"boniface_expelled": 1,}, "dialog": "candy_boniface_expelled"},
+	{"flags": {"boniface_expelled": 0,}, "dialog": "candy_random_excuse"},
+		]
+	},
+	
+"candy_boniface_expelled": {
+	"lines": [
+	{ "speaker": "candy", "text": "But since Boniface is out of the question now. Ill have to look for a replacement." },
+	{ "speaker": "jessie", "text": "Great. Now im stupid AND a replacement." },
+	{ "speaker": "candy", "text": "Dont take it personaly...or you know what? Do." },
+	{ "speaker": "candy", "text": "I could have gone with any boy in school. Ive chosen you." },
+	{ "speaker": "jessie", "text": "Im humbled. But this feels more like a transaction than anything else." },
+	{ "speaker": "candy", "text": "Thats because it is. Dont get any funny ideas." },
+	{ "speaker": "jessie", "text": "Boniface wont beat me up right?" },
+	{ "speaker": "candy", "text": "He knows already." },
+	{ "speaker": "jessie", "text": "And hes okay with it?" },
+	{ "speaker": "candy", "text": "Yes, jessie. Dont worry about it." },
+	{ "speaker": "jessie", "text": "Ehh, fine..Ill do it." },
+	],
+	"next_dialog": "candy_deal2"
+	},
+	
+"candy_random_excuse": {
+	"lines": [
+	{ "speaker": "jessie", "text": "Sure..I thought you would be going with Boniface" },
+	{ "speaker": "candy", "text": "Boniface is..." },
+	{ "speaker": "candy", "text": "He wont be making it to the dance." },
+	{ "speaker": "jessie", "text": "Why?" },
+	{ "speaker": "candy", "text": "Doesnt matter." },
+	{ "speaker": "candy", "text": "Are you goona do it or not?" },
+	{ "speaker": "jessie", "text": "Will Boniface beat me up for going with you?" },
+	{ "speaker": "candy", "text": "Dont worry Ill talk to him." },
+	{ "speaker": "jessie", "text": "Ehh, fine..Ill do it." },
+	],
+	"next_dialog": "candy_deal2"
+	},
+	
+"candy_deal2": {
+	"lines": [
+	{ "speaker": "candy", "text": "Then we have a deal. Tomorrow at school you do your thing and Ill acompany you to the school dance." },
+	{ "speaker": "jessie", "text": "Do I have to wear a suit for that?" },
+	{ "speaker": "candy", "text": "Yes." },
+	{ "speaker": "jessie", "text": "Why?" },
+	{ "speaker": "candy", "text": "If you come wearing something else Ill act like I dont know you." },
+	{ "speaker": "jessie", "text": "Well at least I know where Im standing." },
+	{ "speaker": "candy", "text": "Sure, now you can go." },
+	{ "speaker": "jessie", "text": "Thanks for the permission." },
+	],
+	"on_finish": [
+			{
+				"flag": "candy_promise",
+				"set": 1 
+			},
+			{
+			"menu_entry": {
+				"id": "david_got_a_gf",
+				"path": ["lore", "Journal.txt"],
+				"text": "\nDamn..Candy. is. a. bitch. But I suppose I can do this for David. Hell be happy somebody wants to spend time with him. 
+Better do it with some finess though. But me going to the dance with Candy is gonna piss Jake off majorly. Maybe I just do this for David and let Candy up for grabs in case Jake grows a pair? I dont know what to do.\n"
+				}
+			},
+		]
+	},
+
+"candy_after_deal": {
+	"lines": [
+	{ "speaker": "candy", "text": "Oh and another thing." },
+	{ "speaker": "jessie", "text": "Yeah what?" },
+	{ "speaker": "candy", "text": "I also chose you because youre pretty handsome." },
+	{ "speaker": "jessie", "text": "Damn. Candy giving out free compliments? What is it the opposite day?" },
+	{ "speaker": "candy", "text": "Again I chose you for the dance for a reason. In a different universe where youre not a total dork we would be a power couple." },
+	{ "speaker": "candy", "text": "But since you are, I advise you to shut your mouth at the dance so you dont embarase us both." },
+	{ "speaker": "jessie", "text": "Aaaaand were back to cruelty. Nice. See you around." },
+	],
+	"on_finish": [
+			{
+				"flag": "candy_meeting",
+				"set": 0
+			},
+		]
+	},
+
+
+
+"candy_cond": {
+	"conditions": [
+	{"flags": {"candy_intro": 0}, "dialog": "candy_intro"},
+	
+	{"flags": {"candy_meeting": 0}, "dialog": "candy_default"},
+	{"flags": {"candy_promise": 0}, "dialog": "candy_deal_not_here"},
+	{"flags": {"candy_promise": 1}, "dialog": "candy_descreet"},
+	{"flags": {"candy_promise": 2}, "dialog": "candy_descreet2"},
+		]
+	},
+	
+"candy_intro": {
+	"lines": [
+	{ "speaker": "jessie", "text": "Hey!" },
+	{ "speaker": "lisa", "text": "Hi!" },
+	{ "speaker": "candy", "text": "You havent been to school in so long I think I forgot your name." },
+	{ "speaker": "jessie", "text": "Thats weird. I would think since your family owns every bank in the states that you would have a detailed summary of every family in this town." },
+	{ "speaker": "lisa", "text": "Guys!" },
+	{ "speaker": "candy", "text": "Only the important ones." },
+	{ "speaker": "lisa", "text": "Guys!!!" },
+	{ "speaker": "jessie", "text": "..." },
+	{ "speaker": "lisa", "text": "Can you act like normal people both of you?!" },
+	{ "speaker": "candy", "text": "Fine, im joking Jessie I know who you are obviously. I was just surprised you decided to come to school." },
+	{ "speaker": "candy", "text": "Dont be angry at me now. You just called me an oligarch even though im 15 and Im okay with it." },
+	{ "speaker": "jessie", "text": "Fine" },
+	{ "speaker": "candy", "text": "Lets start over." },
+	{ "speaker": "candy", "text": "Hi, I havent seen you here a while? How are you doing?" },
+	{ "speaker": "neutral", "text": "Candy says in the most pretentious way possible." },
+	{ "speaker": "jessie", "text": "Yeah I think I prefered the first attempt." },
+	{ "speaker": "candy", "text": "See? Life is boring if I dont tease you from time to time." },
+	{ "speaker": "candy", "text": "Now If you excuse us, we are talking about something. " },
+	{ "speaker": "jessie", "text": "Sure, Ill see you around." },
+	{ "speaker": "lisa", "text": "See you, Jessie." },
+	],
+	"on_finish": [
+			{
+				"flag": "candy_intro",
+				"set": 1 
+			},
+			{
+			"menu_entry": {
+				"id": "candy_introduction",
+				"path": ["lore", "Journal.txt"],
+				"text": "\nCandy is witty Ill give her that. Shes also very rich and snobbish. A combo that suits her pretentious smile like a glove.\n"
+				}
+			},
+		]
+	},
+
+"candy_default": {
+	"lines": [
+	{ "speaker": "candy", "text": "Jessie. We dont have time right now. Sorry." },
+	]
+	},
+
+"candy_deal_not_here": {
+	"lines": [
+	{ "speaker": "neutral", "text": "Candy looks you dead in the eyes." },
+	{ "speaker": "candy", "text": "What is it you need Jessie?" },
+	{ "speaker": "jessie", "text": "I..uhh. Its nothing really." },
+	{ "speaker": "candy", "text": "Yeah you look like you have nothing in your head right now." },
+	{ "speaker": "jessie", "text": "FINE! Im going. jesus." },
+	]
+	},
+
+"candy_descreet": {
+	"lines": [
+	{ "speaker": "neutral", "text": "Candy looks you dead in the eyes." },
+	{ "speaker": "candy", "text": "What is it you need Jessie?" },
+	{ "speaker": "jessie", "text": "I..uhh. Its nothing really." },
+	{ "speaker": "candy", "text": "Yeah you look like you have nothing in your head right now." },
+	{ "speaker": "jessie", "text": "FINE! Im goin-" },
+	{ "speaker": "lisa", "text": "Candy!" },
+	{ "speaker": "lisa", "text": "Why are you like this?! You invite him to the dance and then you say this to him?!" },
+	{ "speaker": "candy", "text": "Fine, Im sorry jessie. What did you need?" },
+	{ "speaker": "jessie", "text": "I just wanted to say..that..youre reallyyy....pretty?" },
+	{ "speaker": "lisa", "text": "Oh, thats so sweet." },
+	{ "speaker": "candy", "text": "Thank you jessie. Youre a charmer for sure." },
+	{ "speaker": "jessie", "text": "Yeah, Ill see you around." },
+	]
+	},
+
+"candy_descreet2": {
+	"lines": [
+	{ "speaker": "neutral", "text": "Candy looks you dead in the eyes." },
+	{ "speaker": "candy", "text": "What is it you need Jessie?" },
+	{ "speaker": "jessie", "text": "I..uhh. Its nothing really." },
+	{ "speaker": "candy", "text": "Yeah you look like you have nothing in your head right now." },
+	{ "speaker": "jessie", "text": "FINE! Im goin-" },
+	{ "speaker": "lisa", "text": "Candy!" },
+	{ "speaker": "lisa", "text": "Why are you like this?! You invite him to the dance and then you say this to him?!" },
+	{ "speaker": "candy", "text": "Fine, Im sorry jessie. What did you need?" },
+	{ "speaker": "jessie", "text": "Just that the I talked to THE teacher about your problem." },
+	{ "speaker": "lisa", "text": "What problem?" },
+	{ "speaker": "candy", "text": "Thank you jessie." },
+	{ "speaker": "candy", "text": "And its nothing Lisa. I just had a stomach problem and wanted to apologise myself to the teacher when I was missing last week." },
+	{ "speaker": "lisa", "text": "Oh I see." },
+	{ "speaker": "jessie", "text": "Yeah, Ill see you around girls." },
+	{ "speaker": "lisa", "text": "Wait Jessie.." },
+	{ "speaker": "lisa", "text": "I wanted to ask-" },
+	{ "speaker": "jessie", "text": "Lisa, I really need some help with this exercise here. Help me real quick. And bye Jessie." },
+	{ "speaker": "lisa", "text": "Oh, sure. Bye Jessie." },
+	]
+	},
+	
+	
+
+}

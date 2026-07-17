@@ -1,0 +1,89 @@
+{
+	"boniface_cond": {
+	"conditions": [
+	{"flags": {"time_of_day": "morning", "boniface_expelled": 0, "boniface_intro":0 }, "dialog": "boniface_intro"},
+	{"flags": {"time_of_day": "afternoon", "boniface_expelled": 1, "boniface_intro":0 }, "dialog": "boniface_intro_expelled"},
+	{"flags": {"time_of_day": "morning", "boniface_expelled": 0}, "dialog": "boniface_his_girl"},
+	{"flags": {"time_of_day": "afternoon", "boniface_expelled": 1}, "dialog": "boniface_his_girl"},
+		]
+	},
+	
+	
+	
+"boniface_intro": {
+	"lines": [
+	{ "speaker": "jessie", "text": "Hey Bone." },
+	{ "speaker": "boniface", "text": "Sup dude." },
+	],
+	"on_finish": [
+			{
+				"flag": "boniface_intro",
+				"set": 1 
+			},
+			{
+			"menu_entry": {
+				"id": "boniface_introduction",
+				"path": ["lore", "Journal.txt"],
+				"text": "\nBone is so cool.\n"
+				}
+			},
+		]
+	},
+	
+"boniface_intro_expelled": {
+	"lines": [
+	{ "speaker": "jessie", "text": "Hey Bone." },
+	{ "speaker": "boniface", "text": "Sup dude." },
+	{ "speaker": "jessie", "text": "Miss Carter really-" },
+	{ "speaker": "boniface", "text": "Shes a bitch. A racist. And worst of all a techer." },
+	{ "speaker": "jessie", "text": "What do you mean?" },
+	{ "speaker": "boniface", "text": "You can be all of that when youre a plumber or some shit." },
+	{ "speaker": "boniface", "text": "But she a teacher." },
+	{ "speaker": "jessie", "text": "Oh i get it." },
+	{ "speaker": "jessie", "text": "Well Im sorry about all that." },
+	{ "speaker": "boniface", "text": "It is what it is. Probably gonna skip town now. Move to a different school." },
+	{ "speaker": "jessie", "text": "How did your parents react?" },
+	{ "speaker": "boniface", "text": "They know shes a dumb bitch." },
+	{ "speaker": "jessie", "text": "Yeah. Well, ill catch you later." },
+	{ "speaker": "boniface", "text": "See ya." },
+	],
+	"on_finish": [
+			{
+				"flag": "boniface_intro",
+				"set": 1 
+			},
+			{
+			"menu_entry": {
+				"id": "boniface_introduction",
+				"path": ["lore", "Journal.txt"],
+				"text": "\nBone is so cool.\n"
+				}
+			},
+		]
+	},
+
+
+
+"boniface_his_girl": {
+	"lines": [
+	{ "speaker": "jessie", "text": "Hey Bone." },
+	{ "speaker": "boniface", "text": "Dont get any ideas at the dance. Shes not into you and youre not into her." },
+	{ "speaker": "jessie", "text": "Dont worry about it. Im fully aware of that." },
+	{ "speaker": "boniface", "text": "Im not joking man." },
+	{ "speaker": "jessie", "text": "Me neither. Im not gonna." },
+	{ "speaker": "boniface", "text": "Good." },
+	]
+	},
+
+"boniface_his_girl": {
+	"lines": [
+	{ "speaker": "jessie", "text": "Hey Bone." },
+	{ "speaker": "boniface", "text": "Dont get any ideas at the dance. Shes not into you and youre not into her." },
+	{ "speaker": "jessie", "text": "Dont worry about it. Im fully aware of that." },
+	{ "speaker": "boniface", "text": "Im not joking man." },
+	{ "speaker": "jessie", "text": "Me neither. Im not gonna." },
+	{ "speaker": "boniface", "text": "Good." },
+	]
+	},
+
+}

@@ -53,6 +53,7 @@ const DEFAULT_FLAGS := {
 	"david_there_evening": 1,
 	"david_school_messed_up": 0,
 	"david_woke_up_from_meds": 0,
+	"david_asked_lisa_out": 0,
 	
 	"parents_at_home": 1,
 	"father_story": 0,
@@ -83,7 +84,12 @@ const DEFAULT_FLAGS := {
 	"recap_tribute": 0,
 	
 	"candy_meeting": 0,
+	"candy_promise": 0,
+	"candy_intro": 0,
+	
+	"boniface_intro": 0,
 	"boniface_expelled": 0,
+	
 	"jake_recapped": 0,
 	"jake_intro": 0,
 	"jake_cinema_planned": 0,
