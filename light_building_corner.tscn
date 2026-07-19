@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://dbhhv8hqjv6l3"]
+
+[sub_resource type="Gradient" id="Gradient_e4r2e"]
+offsets = PackedFloat32Array(0.51955307, 0.97206706, 1)
+colors = PackedColorArray(0, 0, 0, 0, 0.91412616, 1, 0.4353902, 0.47500002, 0.93115216, 1, 0.67307144, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_yjyha"]
+gradient = SubResource("Gradient_e4r2e")
+fill_from = Vector2(0, 1)
+
+[node name="LightBuildingCorner" type="Node2D" unique_id=2108053495]
+
+[node name="PointLight2D" type="PointLight2D" parent="." unique_id=2049076958]
+texture = SubResource("GradientTexture2D_yjyha")

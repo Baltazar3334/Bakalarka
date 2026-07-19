@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://dtrmucja37xch"]
+
+[sub_resource type="Gradient" id="Gradient_qfsxc"]
+offsets = PackedFloat32Array(0.73743016, 0.9888268, 1)
+colors = PackedColorArray(0, 0, 0, 0, 0.9142966, 1, 0.7623703, 0.47500002, 0.9309246, 1, 0.8472311, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_4eyum"]
+gradient = SubResource("Gradient_qfsxc")
+
+[node name="LightBuilding" type="Node2D" unique_id=307900618]
+z_index = 3
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=908112073]
+texture = SubResource("GradientTexture2D_4eyum")

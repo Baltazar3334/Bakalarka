@@ -73,6 +73,14 @@ func _finish_loading_game_async() -> void:
 
 	if loaded_data.has("dropped_items"):
 		load_dropped_items(loaded_data["dropped_items"])
+		
+	var player = get_tree().current_scene.get_node("player")
+	if player.flags["time_of_day"] == "morning":
+		for lamp in get_tree().get_nodes_in_group("night_lighting"):
+				lamp.set_light_enabled(false)
+	else:
+		for lamp in get_tree().get_nodes_in_group("night_lighting"):
+				lamp.set_light_enabled(true)
 
 func delete_save(slot: int) -> bool:
 	var path = SAVE_PATH + str(slot) + ".save"
