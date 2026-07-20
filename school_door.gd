@@ -36,7 +36,3 @@ func _on_school_classroom_detection_zone_body_entered(body: Node2D) -> void:
 	if player.flags["school_first_day"] == 1:
 		dialog_ui.open_dialog("school_introduction")
 		player.flags["school_first_day"] = 0
-
-
-func _on_school_classroom_detection_zone_body_exited(body: Node2D) -> void:
-	pass

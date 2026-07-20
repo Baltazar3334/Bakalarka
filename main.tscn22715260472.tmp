@@ -53,14 +53,10 @@
 [ext_resource type="Texture2D" uid="uid://hwrstuqb4w7x" path="res://assets/entity_textures/windowLargeNight.png" id="28_f3y11"]
 [ext_resource type="Texture2D" uid="uid://chb78whry6vhy" path="res://assets/interactible/boxes0.png" id="29_c2n8d"]
 [ext_resource type="Texture2D" uid="uid://d5ldia8nev1x" path="res://assets/NPCs/classmate2/New Piskel (2).png" id="29_gngh3"]
-[ext_resource type="Script" uid="uid://qcjhk7t41x2q" path="res://light_source_window.gd" id="29_vjgyh"]
 [ext_resource type="Texture2D" uid="uid://b3djb20m07jhk" path="res://assets/NPCs/classmate2/New Piskel (1).png" id="30_0n3wm"]
-[ext_resource type="Texture2D" uid="uid://48b1v2yxs7vv" path="res://assets/entity_textures/ChatGPT Image 20. 7. 2026, 11_43_32 (1).png" id="30_d5iia"]
 [ext_resource type="PackedScene" uid="uid://ywygcgtqxmsa" path="res://Managers/AmbientSoundZone.tscn" id="30_kq58d"]
-[ext_resource type="PackedScene" uid="uid://cys7sdwllopu4" path="res://light_source_wall_strip.tscn" id="30_rt5wr"]
 [ext_resource type="Texture2D" uid="uid://6lejk0wrlwrw" path="res://assets/interactible/boxes1.png" id="30_wy5fy"]
 [ext_resource type="Texture2D" uid="uid://cl01faujcsf01" path="res://assets/interactible/boxes2.png" id="31_gx4rg"]
-[ext_resource type="Script" uid="uid://ca4mry2l33dkn" path="res://ligh_source_ceiling.gd" id="31_mnw77"]
 [ext_resource type="Texture2D" uid="uid://c26bnbfre6i5o" path="res://assets/NPCs/classmate2/New Piskel.png" id="31_qnost"]
 [ext_resource type="Texture2D" uid="uid://bkci1wki1nph6" path="res://assets/interactible/boxes3.png" id="32_5dllo"]
 [ext_resource type="Texture2D" uid="uid://delfqdsjevbe2" path="res://assets/NPCs/classmate2/New Piskel (4).png" id="32_wnkbs"]
@@ -401,7 +397,6 @@ func _unhandled_input(event):
 		return
 
 	if event.is_action_pressed(\"interact\"):
-		col_correction_areas.update_color()
 		if dialog_ui.is_open:
 			return
 		if is_carrying:
@@ -830,25 +825,6 @@ size = Vector2(6496, 2992)
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_wu3dc"]
 polygon = PackedVector2Array(0.472, 3.32, 9.107, 0.92, 11.402, -7.08, 8.617, -15.08, -0.063, -15.08, -8.403, -15.08, -10.123, -7.08, -8.458, 0.92)
-
-[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_557es"]
-blend_mode = 1
-light_mode = 2
-particles_animation = true
-particles_anim_h_frames = 1
-particles_anim_v_frames = 1
-particles_anim_loop = false
-
-[sub_resource type="Gradient" id="Gradient_cobqg"]
-offsets = PackedFloat32Array(0, 0.40223464, 0.89944136)
-colors = PackedColorArray(0.98980993, 1, 0.60520077, 1, 0.9545091, 1, 0.51662797, 0.536, 0, 0, 0, 0)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_h8eo6"]
-gradient = SubResource("Gradient_cobqg")
-use_hdr = true
-fill = 1
-fill_from = Vector2(0.50427353, 0.52991456)
-fill_to = Vector2(0.06837607, 0.9017094)
 
 [sub_resource type="Gradient" id="Gradient_wat4s"]
 offsets = PackedFloat32Array(0, 0.40223464, 0.89944136)
@@ -5323,46 +5299,8 @@ scale = Vector2(0.134, 0.049)
 position = Vector2(-1.9073486e-06, -7)
 
 [node name="SpriteWindowNight" parent="LightElements/InteriorLighting/LightingHouse/WindowLightSource3" index="2" unique_id=1143652771]
+visible = false
 texture = ExtResource("28_f3y11")
-
-[node name="WindowLightSource4" type="Node2D" parent="LightElements/InteriorLighting/LightingHouse" unique_id=488794253]
-z_index = 10
-position = Vector2(-73, 3827)
-rotation = 3.1415927
-script = ExtResource("29_vjgyh")
-
-[node name="Sprite2D" type="Sprite2D" parent="LightElements/InteriorLighting/LightingHouse/WindowLightSource4" unique_id=1108822968]
-material = SubResource("CanvasItemMaterial_557es")
-position = Vector2(0, 33)
-scale = Vector2(0.054, 0.049)
-texture = ExtResource("26_8dc3g")
-
-[node name="PointLight2D" type="PointLight2D" parent="LightElements/InteriorLighting/LightingHouse/WindowLightSource4" unique_id=443858538]
-modulate = Color(0.2953924, 0.9999997, 0.9985518, 1)
-position = Vector2(-1.9073486e-06, -7)
-scale = Vector2(2, 2)
-shadow_enabled = true
-texture = SubResource("GradientTexture2D_h8eo6")
-
-[node name="WindowLightSource5" type="Node2D" parent="LightElements/InteriorLighting/LightingHouse" unique_id=243551657]
-z_index = 10
-position = Vector2(150, 3791)
-rotation = 3.1415927
-script = ExtResource("29_vjgyh")
-
-[node name="Sprite2D" type="Sprite2D" parent="LightElements/InteriorLighting/LightingHouse/WindowLightSource5" unique_id=1677780855]
-modulate = Color(0.52156866, 0.50980395, 1, 1)
-material = SubResource("CanvasItemMaterial_557es")
-position = Vector2(1, 19)
-scale = Vector2(0.229, 0.119)
-texture = ExtResource("30_d5iia")
-
-[node name="PointLight2D" type="PointLight2D" parent="LightElements/InteriorLighting/LightingHouse/WindowLightSource5" unique_id=2125700094]
-modulate = Color(0.2953924, 0.9999997, 0.9985518, 1)
-position = Vector2(0.79034424, -19.578125)
-scale = Vector2(2.2253017, 2.2319298)
-shadow_enabled = true
-texture = SubResource("GradientTexture2D_h8eo6")
 
 [node name="ceilingLight" parent="LightElements/InteriorLighting/LightingHouse" unique_id=936449870 groups=["night_lighting"] instance=ExtResource("27_htgcl")]
 position = Vector2(-79, 3652)
@@ -5394,7 +5332,7 @@ position = Vector2(137, 3743)
 z_index = 1
 
 [node name="ceilingLight5" parent="LightElements/InteriorLighting/LightingHouse" unique_id=1382651234 groups=["night_lighting"] instance=ExtResource("27_htgcl")]
-position = Vector2(48, 3598)
+position = Vector2(48, 3602)
 
 [node name="PointLight2D" parent="LightElements/InteriorLighting/LightingHouse/ceilingLight5" index="0" unique_id=368147699]
 position = Vector2(10.999992, -6)
@@ -5405,38 +5343,35 @@ texture = SubResource("GradientTexture2D_htgcl")
 z_index = 1
 
 [node name="ceilingLight6" parent="LightElements/InteriorLighting/LightingHouse" unique_id=149516713 groups=["night_lighting"] instance=ExtResource("27_htgcl")]
-position = Vector2(610, 3719)
+position = Vector2(609, 3662)
 
 [node name="LightDisableArea" parent="LightElements/InteriorLighting/LightingHouse/ceilingLight6" index="1" unique_id=458569393]
 z_index = 1
 
+[node name="ceilingLight7" parent="LightElements/InteriorLighting/LightingHouse" unique_id=1273867818 groups=["night_lighting"] instance=ExtResource("27_htgcl")]
+position = Vector2(609, 3759)
+
+[node name="LightDisableArea" parent="LightElements/InteriorLighting/LightingHouse/ceilingLight7" index="1" unique_id=458569393]
+z_index = 1
+
 [node name="ceilingLight8" parent="LightElements/InteriorLighting/LightingHouse" unique_id=1567094961 groups=["night_lighting"] instance=ExtResource("27_htgcl")]
-position = Vector2(344, 3805)
+position = Vector2(344, 3793)
 
 [node name="LightDisableArea" parent="LightElements/InteriorLighting/LightingHouse/ceilingLight8" index="1" unique_id=458569393]
 z_index = 1
 
 [node name="ceilingLight9" parent="LightElements/InteriorLighting/LightingHouse" unique_id=750251463 groups=["night_lighting"] instance=ExtResource("27_htgcl")]
-position = Vector2(456, 3805)
+position = Vector2(456, 3793)
 
 [node name="LightDisableArea" parent="LightElements/InteriorLighting/LightingHouse/ceilingLight9" index="1" unique_id=458569393]
 z_index = 1
-
-[node name="LightSourceWallStrip" parent="LightElements/InteriorLighting/LightingHouse" unique_id=157990070 groups=["night_lighting"] instance=ExtResource("30_rt5wr")]
-z_index = 4
-position = Vector2(143.00002, 3580.9998)
-scale = Vector2(0.75, 0.34)
-script = ExtResource("31_mnw77")
-
-[node name="Sprite2D" parent="LightElements/InteriorLighting/LightingHouse/LightSourceWallStrip" index="1" unique_id=748855523]
-position = Vector2(1.3336182, -17.648438)
-scale = Vector2(0.23, 0.145)
 
 [node name="LightingSchool" type="Node" parent="LightElements/InteriorLighting" unique_id=2146511576]
 
 [node name="LayerHighTextures" type="TileMapLayer" parent="." unique_id=1980100893]
 z_index = 16
-tile_map_data = PackedByteArray("AACd/2oABQAGAAQAAGCg/2oABQAGAAUAAGCj/2oABQAHAAUAAGCd/2kABQAEAAUAAACg/2kABQAEAAUAAACj/2kABQAEAAUAAACc/2kABQADAAIAAACe/2kABQADAAIAAACf/2kABQADAAIAAACh/2kABQADAAIAAACi/2kABQADAAIAAACk/2kABQADAAIAAACl/2kABQADAAIAAACc/2gABQADAAEAAACd/2gABQADAAEAAACe/2gABQADAAEAAACf/2gABQADAAEAAACg/2gABQADAAEAAACh/2gABQADAAEAAACi/2gABQADAAEAAACj/2gABQADAAEAAACk/2gABQADAAEAAACl/2gABQADAAEAAACl/2oABQAGAAIAAACk/2oABQAGAAIAAACi/2oABQAGAAIAAACh/2oABQAGAAIAAACf/2oABQAGAAIAAACe/2oABQAGAAIAAACc/2oABQAGAAIAAABLAHAABgANAA0AAABLAHEABgANAA4AAABLAHIABgANAA8AAABMAHAABgAOAA0AAABMAHEABgAOAA4AAABMAHIABgAOAA8AAABNAHAABgAPAA0AAABNAHEABgAPAA4AAABNAHIABgAPAA8AAABCAGsAAQAAAAAAAABCAGwAAQAAAAEAAABCAG0AAQAAAAIAAABCAG4AAQAAAAMAAABCAG8AAQAAAAQAAABCAHAAAQAAAAUAAABEAGsAAQABAAAAAABEAGwAAQABAAEAAABEAG0AAQABAAIAAABEAG4AAQABAAMAAABEAG8AAQABAAQAAABEAHAAAQABAAUAAABGAGsAAQACAAAAAABGAGwAAQACAAEAAABGAG0AAQACAAIAAABGAG4AAQACAAMAAABGAG8AAQACAAQAAABGAHAAAQACAAUAAABCAGkAAQAAAAYAAABDAGkAAQABAAYAAAD6/wEAAgACAAcAADAGAHcAAwAGAAUAAAAFAHcAAwAGAAUAAAAEAHcAAwAGAAUAAAADAHcAAwAGAAUAAAACAHcAAwAFAAUAAAAHAHcAAwAGAAUAAAAIAHcAAwAGAAUAAAD8/3cAAwAGAAUAAAD9/3cAAwAGAAUAAAD+/3cAAwAGAAUAAAD//3cAAwAGAAUAAAD7/3cAAwAGAAUAAAAAAHcAAwADAAUAAAA=")
+position = Vector2(0, -2)
+tile_map_data = PackedByteArray("AACd/2oABQAGAAQAAGCg/2oABQAGAAUAAGCj/2oABQAHAAUAAGCd/2kABQAEAAUAAACg/2kABQAEAAUAAACj/2kABQAEAAUAAACc/2kABQADAAIAAACe/2kABQADAAIAAACf/2kABQADAAIAAACh/2kABQADAAIAAACi/2kABQADAAIAAACk/2kABQADAAIAAACl/2kABQADAAIAAACc/2gABQADAAEAAACd/2gABQADAAEAAACe/2gABQADAAEAAACf/2gABQADAAEAAACg/2gABQADAAEAAACh/2gABQADAAEAAACi/2gABQADAAEAAACj/2gABQADAAEAAACk/2gABQADAAEAAACl/2gABQADAAEAAACl/2oABQAGAAIAAACk/2oABQAGAAIAAACi/2oABQAGAAIAAACh/2oABQAGAAIAAACf/2oABQAGAAIAAACe/2oABQAGAAIAAACc/2oABQAGAAIAAABLAHAABgANAA0AAABLAHEABgANAA4AAABLAHIABgANAA8AAABMAHAABgAOAA0AAABMAHEABgAOAA4AAABMAHIABgAOAA8AAABNAHAABgAPAA0AAABNAHEABgAPAA4AAABNAHIABgAPAA8AAABCAGsAAQAAAAAAAABCAGwAAQAAAAEAAABCAG0AAQAAAAIAAABCAG4AAQAAAAMAAABCAG8AAQAAAAQAAABCAHAAAQAAAAUAAABEAGsAAQABAAAAAABEAGwAAQABAAEAAABEAG0AAQABAAIAAABEAG4AAQABAAMAAABEAG8AAQABAAQAAABEAHAAAQABAAUAAABGAGsAAQACAAAAAABGAGwAAQACAAEAAABGAG0AAQACAAIAAABGAG4AAQACAAMAAABGAG8AAQACAAQAAABGAHAAAQACAAUAAABCAGkAAQAAAAYAAABDAGkAAQABAAYAAAD6/wEAAgACAAcAADA=")
 tile_set = SubResource("TileSet_557es")
 
 [node name="LayerColission" type="TileMapLayer" parent="." unique_id=177453866]
@@ -5889,7 +5824,7 @@ collision_layer = 7
 collision_mask = 7
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ColorCorrectionAreas/House" unique_id=530309298]
-position = Vector2(328, 3832)
+position = Vector2(336, 3828)
 shape = SubResource("RectangleShape2D_tl7ij")
 
 [node name="School" type="Area2D" parent="ColorCorrectionAreas" unique_id=904147080]
@@ -5912,13 +5847,16 @@ shape = SubResource("RectangleShape2D_p076h")
 layer = 30
 
 [node name="Transitioner" parent="LoadingScreen" unique_id=1259505775 instance=ExtResource("16_2cqfq")]
+layer = 30
 
-[node name="TransitionerControl" parent="LoadingScreen/Transitioner" index="0" unique_id=1994069862]
-z_index = 40
+[node name="TransitionerControl" parent="LoadingScreen/Transitioner" index="0"]
+visible = false
 
-[node name="ColorRect" parent="LoadingScreen/Transitioner/TransitionerControl" index="0" unique_id=454665694]
+[node name="ColorRect" parent="LoadingScreen/Transitioner/TransitionerControl" index="0"]
 z_index = 32
-y_sort_enabled = true
+
+[node name="TextureRect" parent="LoadingScreen/Transitioner/TransitionerControl" index="1"]
+z_index = 30
 
 [node name="CheckButton" type="CheckButton" parent="LoadingScreen/Transitioner" unique_id=668442194]
 visible = false
@@ -6018,7 +5956,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.03876, 0.09320182, 0.15170373, 1)
+color = Color(0.47058824, 0.17254902, 0.1882353, 1)
 script = ExtResource("115_u81y6")
 
 [node name="InventoryUI" type="CanvasLayer" parent="." unique_id=1296431695]
@@ -6181,9 +6119,9 @@ label_settings = SubResource("LabelSettings_0odxb")
 [editable path="LightElements/InteriorLighting/LightingHouse/ceilingLight4"]
 [editable path="LightElements/InteriorLighting/LightingHouse/ceilingLight5"]
 [editable path="LightElements/InteriorLighting/LightingHouse/ceilingLight6"]
+[editable path="LightElements/InteriorLighting/LightingHouse/ceilingLight7"]
 [editable path="LightElements/InteriorLighting/LightingHouse/ceilingLight8"]
 [editable path="LightElements/InteriorLighting/LightingHouse/ceilingLight9"]
-[editable path="LightElements/InteriorLighting/LightingHouse/LightSourceWallStrip"]
 [editable path="boxes3"]
 [editable path="boxes2"]
 [editable path="boxes1"]

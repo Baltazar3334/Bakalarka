@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://bkmr0qp8wccs8"]
+
+[ext_resource type="Script" uid="uid://ca4mry2l33dkn" path="res://ligh_source_ceiling.gd" id="1_ke635"]
+
+[sub_resource type="Gradient" id="Gradient_wat4s"]
+offsets = PackedFloat32Array(0, 0.40223464, 0.89944136)
+colors = PackedColorArray(1.1177719, 1.1291975, 0.6863823, 0.76500005, 0.95468724, 1, 0.5168811, 0.46400002, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_xqud8"]
+gradient = SubResource("Gradient_wat4s")
+use_hdr = true
+fill = 1
+fill_from = Vector2(0.50427353, 0.52991456)
+fill_to = Vector2(0.123931624, 0.8717949)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_557es"]
+radius = 8.0
+
+[node name="ceilingLight" type="Node2D" unique_id=936449870]
+script = ExtResource("1_ke635")
+
+[node name="PointLight2D" type="PointLight2D" parent="." unique_id=368147699]
+modulate = Color(0.2953924, 0.9999997, 0.9985518, 1)
+position = Vector2(5.722046e-06, -5.722046e-06)
+scale = Vector2(5.9999995, 5.9999995)
+shadow_enabled = true
+texture = SubResource("GradientTexture2D_xqud8")
+
+[node name="LightDisableArea" type="Area2D" parent="." unique_id=458569393]
+scale = Vector2(0.43, 0.43)
+collision_layer = 7
+collision_mask = 7
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LightDisableArea" unique_id=258481816]
+scale = Vector2(1.31, 1.31)
+shape = SubResource("CircleShape2D_557es")
+
+[connection signal="body_entered" from="LightDisableArea" to="." method="_on_light_disable_area_body_entered"]
+[connection signal="body_exited" from="LightDisableArea" to="." method="_on_light_disable_area_body_exited"]

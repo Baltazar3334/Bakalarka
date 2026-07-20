@@ -73,6 +73,9 @@ func _on_body_exited(body):
 [sub_resource type="CircleShape2D" id="CircleShape2D_dj8yh"]
 radius = 16.0
 
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_657i6"]
+polygon = PackedVector2Array(3, 10, -5, 10, -4.28, 16, 5.295, 16, 6.055, 13.13)
+
 [node name="EntityBase" type="CharacterBody2D" unique_id=1241369787]
 z_index = 2
 collision_layer = 4
@@ -97,3 +100,8 @@ script = SubResource("GDScript_fn5cw")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea" unique_id=1820633116]
 shape = SubResource("CircleShape2D_dj8yh")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="." unique_id=634923178]
+z_index = 1
+position = Vector2(0, -7)
+occluder = SubResource("OccluderPolygon2D_657i6")

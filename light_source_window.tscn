@@ -1,0 +1,45 @@
+[gd_scene format=3 uid="uid://gof1lsq2btph"]
+
+[ext_resource type="Texture2D" uid="uid://48b1v2yxs7vv" path="res://assets/entity_textures/ChatGPT Image 20. 7. 2026, 11_43_32 (1).png" id="1_yj28t"]
+[ext_resource type="Script" uid="uid://qcjhk7t41x2q" path="res://light_source_window.gd" id="1_yphf1"]
+[ext_resource type="Texture2D" uid="uid://bi8xl458ih5oi" path="res://assets/entity_textures/windowNight.png" id="3_cobqg"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_557es"]
+blend_mode = 1
+light_mode = 2
+particles_animation = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Gradient" id="Gradient_cobqg"]
+offsets = PackedFloat32Array(0, 0.40223464, 0.89944136)
+colors = PackedColorArray(0.98980993, 1, 0.60520077, 1, 0.9545091, 1, 0.51662797, 0.536, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_h8eo6"]
+gradient = SubResource("Gradient_cobqg")
+use_hdr = true
+fill = 1
+fill_from = Vector2(0.50427353, 0.52991456)
+fill_to = Vector2(0.123931624, 0.8717949)
+
+[node name="lightSource" type="Node2D" unique_id=1661148321]
+z_index = 10
+script = ExtResource("1_yphf1")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1026945929]
+modulate = Color(0.52156866, 0.50980395, 1, 1)
+material = SubResource("CanvasItemMaterial_557es")
+scale = Vector2(0.145, 0.145)
+texture = ExtResource("1_yj28t")
+
+[node name="PointLight2D" type="PointLight2D" parent="." unique_id=1790212973]
+modulate = Color(0.2953924, 0.9999997, 0.9985518, 1)
+position = Vector2(-1.9073486e-06, 1.9073486e-06)
+scale = Vector2(2, 2)
+shadow_enabled = true
+texture = SubResource("GradientTexture2D_h8eo6")
+
+[node name="SpriteWindowNight" type="Sprite2D" parent="." unique_id=1143652771]
+z_index = 1
+texture = ExtResource("3_cobqg")

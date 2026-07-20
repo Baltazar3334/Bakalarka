@@ -9,6 +9,7 @@ enum TransitionType {
 @onready var animation_player : AnimationPlayer = $TransitionerControl/AnimationPlayer
 
 func _ready() -> void:
+	print("transitioner na layer: ", layer)
 	animation_tex.visible = false
 	var color_rect = $TransitionerControl/ColorRect
 	color_rect.modulate.a = 0.0

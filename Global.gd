@@ -74,6 +74,7 @@ const DEFAULT_FLAGS := {
 	
 	"day_of_the_week": 1,
 	"time_of_day": "morning",
+	"col_correction_zone": "house",
 	
 	"money_6_taken": 0,
 	"money_5_taken": 0,
