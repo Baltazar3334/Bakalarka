@@ -9,7 +9,8 @@ extends Node
 
 const HOUSE_DAY_COLOR = Color("ffffff80")
 const HOUSE_NIGHT_COLOR = Color("000000ff")
-const SCHOOL_COLOR = Color(0.90, 0.97, 1.0, 0.08)
+const SCHOOL_DAY_COLOR = Color(0.641, 0.267, 0.093, 0.512)
+const SCHOOL_NIGHT_COLOR = Color(0.051, 0.0, 0.232, 1.0)
 const OUTSIDE_DAY_COLOR = Color(1.001, 0.682, 0.638, 0.5)
 const OUTSIDE_NIGHT_COLOR = Color(0.133, 0.0, 0.991, 0.807)
 
@@ -28,7 +29,10 @@ func update_color():
 				target_color = HOUSE_NIGHT_COLOR
 		
 		elif current_zone == "school":
-			target_color = SCHOOL_COLOR
+			if player.flags["time_of_day"] == "morning":
+				target_color = SCHOOL_DAY_COLOR
+			else:
+				target_color = SCHOOL_NIGHT_COLOR
 		
 		elif current_zone == "outside":
 			if player.flags["time_of_day"] == "morning":

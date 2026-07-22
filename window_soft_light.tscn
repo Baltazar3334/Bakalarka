@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://dpnlst1145hxw"]
+
+[ext_resource type="Script" uid="uid://3gsv66ni7ou2" path="res://window_soft_light.gd" id="1_jbi8g"]
+
+[sub_resource type="Gradient" id="Gradient_bjl4i"]
+colors = PackedColorArray(1.4326924, 1.2520931, 0.5968227, 0.36800003, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_557es"]
+gradient = SubResource("Gradient_bjl4i")
+fill = 1
+fill_from = Vector2(0.517094, 0.4957265)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_557es"]
+polygon = PackedVector2Array(11.745, 0.635, 11.692848, -7.021492, 6.86, -14.9, -6.635, -14.72, -10.985, -7.25, -10.99, 0, -50.499756, 45.511604, -48, 280, -128, 264, -136, -128, 224, -128, 176, 280, 176, 264, 96, 136)
+
+[node name="window_soft_light" type="Node2D" unique_id=310603193]
+script = ExtResource("1_jbi8g")
+
+[node name="PointLight2D" type="PointLight2D" parent="." unique_id=1660080617]
+position = Vector2(2.0980835e-05, 1.66893e-05)
+scale = Vector2(10.750001, 10.750001)
+texture = SubResource("GradientTexture2D_557es")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="." unique_id=249329950]
+z_index = 4
+occluder = SubResource("OccluderPolygon2D_557es")

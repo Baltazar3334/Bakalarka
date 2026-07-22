@@ -23,7 +23,10 @@ script = ExtResource("1_ke635")
 modulate = Color(0.2953924, 0.9999997, 0.9985518, 1)
 position = Vector2(5.722046e-06, -5.722046e-06)
 scale = Vector2(5.9999995, 5.9999995)
+range_item_cull_mask = 3
 shadow_enabled = true
+shadow_filter = 2
+shadow_item_cull_mask = 3
 texture = SubResource("GradientTexture2D_xqud8")
 
 [node name="LightDisableArea" type="Area2D" parent="." unique_id=458569393]
